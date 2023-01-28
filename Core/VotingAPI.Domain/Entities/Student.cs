@@ -12,7 +12,7 @@ namespace VotingAPI.Domain.Entities
 
     public class Student : BaseEntity
     {
-        public int StudentNumber { get; set; }
+        public long StudentNumber { get; set; }
         public string Name { get; set; }
     }
 }

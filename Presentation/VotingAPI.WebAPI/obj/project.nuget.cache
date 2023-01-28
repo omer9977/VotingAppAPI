@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "th8h5vXfe6r0dYAreyzdNVnbDDo4paUdZcFKleXjlR684hGw2KdhIBGAK81YOAJNLJnbwjjftevrhQG3IDmK8Q==",
+  "dgSpecHash": "/H/q5uPx01CJHteabMu51z4BoHjU133BQ+LRGZUGQPHOIWk66JsXDueWNyG5fYjGqLOUXlGBVRGR5nODNIrh5w==",
   "success": true,
-  "projectFilePath": "D:\\WorkSpace\\.Net Core\\VotingApplication\\VotingAPI\\Presentation\\VotingAPI.WebAPI\\VotingAPI.WebAPI.csproj",
+  "projectFilePath": "D:\\WorkSpace\\.Net Core\\VotingAPI\\Presentation\\VotingAPI.WebAPI\\VotingAPI.WebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\omer\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\omer\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

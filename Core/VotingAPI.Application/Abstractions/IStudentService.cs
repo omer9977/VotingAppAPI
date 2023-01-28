@@ -11,5 +11,8 @@ namespace VotingAPI.Application.Abstractions
     public interface IStudentService
     {
         Task<AddStudentResponse> AddStudentAsync(AddStudentRequest student);
+        Task<GetStudentResponse> GetStudentByStudentNumber(long studentNumber);
+        GetStudentListResponse GetStudentList();
+
     }
 }

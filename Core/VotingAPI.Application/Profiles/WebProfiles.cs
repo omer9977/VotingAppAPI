@@ -21,8 +21,10 @@ namespace VotingAPI.Application.Profiles
             CreateMap<Candidate, AddCandidateResponse>();
             CreateMap<AddStudentRequest, Student>();
             CreateMap<Student, AddStudentResponse>();
+            CreateMap<List<Student>, GetStudentListResponse>();
+            CreateMap<Student, GetStudentResponse>();
 
-
+            //todo burayı barışa sor her modelde mapper kullanmaya gerek var mı?
         }
     }
 }

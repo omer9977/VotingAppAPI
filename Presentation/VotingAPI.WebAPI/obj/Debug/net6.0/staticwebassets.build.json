@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "dw0KFVK7ny+ANP2jpChCx8a6Ax+CRsAdeiE8F8qTH5c=",
+  "Hash": "E2j58UVZzuNGa0oQWYBbAbwrRO5LuVDkpImTwxg5RrE=",
   "Source": "VotingAPI.WebAPI",
   "BasePath": "_content/VotingAPI.WebAPI",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "VotingAPI.WebAPI\\wwwroot",
       "Source": "VotingAPI.WebAPI",
-      "ContentRoot": "D:\\WorkSpace\\.Net Core\\VotingApplication\\VotingAPI\\Presentation\\VotingAPI.WebAPI\\wwwroot\\",
+      "ContentRoot": "D:\\WorkSpace\\.Net Core\\VotingAPI\\Presentation\\VotingAPI.WebAPI\\wwwroot\\",
       "BasePath": "_content/VotingAPI.WebAPI",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\WorkSpace\\.Net Core\\VotingApplication\\VotingAPI\\Presentation\\VotingAPI.WebAPI\\wwwroot\\resorce\\candidates\\profilePhotos\\file1.jpg",
+      "Identity": "D:\\WorkSpace\\.Net Core\\VotingAPI\\Presentation\\VotingAPI.WebAPI\\wwwroot\\resorce\\candidates\\profilePhotos\\file1.jpg",
       "SourceId": "VotingAPI.WebAPI",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\WorkSpace\\.Net Core\\VotingApplication\\VotingAPI\\Presentation\\VotingAPI.WebAPI\\wwwroot\\",
+      "ContentRoot": "D:\\WorkSpace\\.Net Core\\VotingAPI\\Presentation\\VotingAPI.WebAPI\\wwwroot\\",
       "BasePath": "_content/VotingAPI.WebAPI",
       "RelativePath": "resorce/candidates/profilePhotos/file1.jpg",
       "AssetKind": "All",
@@ -34,10 +34,10 @@
       "OriginalItemSpec": "wwwroot\\resorce\\candidates\\profilePhotos\\file1.jpg"
     },
     {
-      "Identity": "D:\\WorkSpace\\.Net Core\\VotingApplication\\VotingAPI\\Presentation\\VotingAPI.WebAPI\\wwwroot\\resorce\\candidates\\profilePhotos\\WIN_20221123_21_10_12_Pro.jpg.jpg",
+      "Identity": "D:\\WorkSpace\\.Net Core\\VotingAPI\\Presentation\\VotingAPI.WebAPI\\wwwroot\\resorce\\candidates\\profilePhotos\\WIN_20221123_21_10_12_Pro.jpg.jpg",
       "SourceId": "VotingAPI.WebAPI",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\WorkSpace\\.Net Core\\VotingApplication\\VotingAPI\\Presentation\\VotingAPI.WebAPI\\wwwroot\\",
+      "ContentRoot": "D:\\WorkSpace\\.Net Core\\VotingAPI\\Presentation\\VotingAPI.WebAPI\\wwwroot\\",
       "BasePath": "_content/VotingAPI.WebAPI",
       "RelativePath": "resorce/candidates/profilePhotos/WIN_20221123_21_10_12_Pro.jpg.jpg",
       "AssetKind": "All",

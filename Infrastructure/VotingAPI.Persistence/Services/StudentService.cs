@@ -29,7 +29,22 @@ namespace VotingAPI.Persistence.Services
             var studentMapped = _mapper.Map<Student>(student);//todo Burayı anlamadım Student tipinde neden veriyoz ki
             var studentResponse = await _studentWriteRepo.AddAsync(studentMapped);
             var response = _mapper.Map<AddStudentResponse>(studentResponse);
+            await _studentWriteRepo.SaveChangesAsync();
             return response;
+        }
+
+        public async Task<GetStudentResponse> GetStudentByStudentNumber(long studentNumber) 
+        {
+            var studentDb = await _studentReadRepo.GetSingleAsync(s => s.StudentNumber == studentNumber, false);
+            var getStudentResponse = _mapper.Map<GetStudentResponse>(studentDb);
+            return getStudentResponse;
+        }
+
+        public GetStudentListResponse GetStudentList()
+        {
+            var studentsDb = _studentReadRepo.GetAll(false).AsEnumerable();
+            var studentListResponse = _mapper.Map<GetStudentListResponse>(studentsDb);
+            return studentListResponse;
         }
     }
 }

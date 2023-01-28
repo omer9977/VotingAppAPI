@@ -4828,11 +4828,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\WorkSpace\\.Net Core\\VotingApplication\\VotingAPI\\Infrastructure\\VotingAPI.Infrastructure\\VotingAPI.Infrastructure.csproj",
+      "projectUniqueName": "D:\\WorkSpace\\.Net Core\\VotingAPI\\Infrastructure\\VotingAPI.Infrastructure\\VotingAPI.Infrastructure.csproj",
       "projectName": "VotingAPI.Infrastructure",
-      "projectPath": "D:\\WorkSpace\\.Net Core\\VotingApplication\\VotingAPI\\Infrastructure\\VotingAPI.Infrastructure\\VotingAPI.Infrastructure.csproj",
+      "projectPath": "D:\\WorkSpace\\.Net Core\\VotingAPI\\Infrastructure\\VotingAPI.Infrastructure\\VotingAPI.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\omer\\.nuget\\packages\\",
-      "outputPath": "D:\\WorkSpace\\.Net Core\\VotingApplication\\VotingAPI\\Infrastructure\\VotingAPI.Infrastructure\\obj\\",
+      "outputPath": "D:\\WorkSpace\\.Net Core\\VotingAPI\\Infrastructure\\VotingAPI.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\omer\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4849,8 +4849,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\WorkSpace\\.Net Core\\VotingApplication\\VotingAPI\\Core\\VotingAPI.Application\\VotingAPI.Application.csproj": {
-              "projectPath": "D:\\WorkSpace\\.Net Core\\VotingApplication\\VotingAPI\\Core\\VotingAPI.Application\\VotingAPI.Application.csproj"
+            "D:\\WorkSpace\\.Net Core\\VotingAPI\\Core\\VotingAPI.Application\\VotingAPI.Application.csproj": {
+              "projectPath": "D:\\WorkSpace\\.Net Core\\VotingAPI\\Core\\VotingAPI.Application\\VotingAPI.Application.csproj"
             }
           }
         }
