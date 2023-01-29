@@ -57,6 +57,23 @@ namespace VotingAPI.WebAPI.Controllers
             _configuration = configuration;
             _candidateService = candidateService;
         }
+
+        [Route("GetAllCandidates")]
+        [HttpGet]
+        public IActionResult GetCandidateList()
+        {
+            var response = _candidateService.GetCandidateList();
+            return Ok(response);
+        }
+
+        [Route("GetCandidateById")]
+        [HttpGet]
+        public async Task<IActionResult> GetCandidateById(int id)
+        {
+            var response = await _candidateService.GetCandidateByIdAsync(id);
+            return Ok(response);
+        }
+
         [Route("AddCandidate")]
         [HttpPost]
         public async Task<IActionResult> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
@@ -66,25 +83,11 @@ namespace VotingAPI.WebAPI.Controllers
         }
 
         [Route("GetCandidateImage")]
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> GetCandidateImageAsync(int candidateId)
         {
-            //var photo = await _transcriptFileReadRepo.GetByIdAsync(candidateId);
-
-            //var candidate = await _storageService.GetFiles(photo.Path);
-            //var candidate = await _candidateReadRepo.GetByIdAsync(candidateId);
-            //await _transcriptFileWriteRepo.AddRangeAsync(datas.Select(d => new TranscriptFile()
-            //{
-            //    FileName = d.fileName,
-            //    Path = d.path,
-            //    Candidate = candidate,
-            //    Storage = _storageService.StorageName,
-            //    ApprovedStatus = (short)ApproveEnum.OnHold
-            //}).ToList());
-            //await _transcriptFileWriteRepo.SaveChangesAsync();
-            var photoDb = await _profilePhotoFileReadRepo.GetSingleAsync(p => p.CandidateId == candidateId);
-            string asdf = $"{_configuration["BaseStorageUrlAzure"]}/{photoDb.Path}";
-            return Ok();
+            var candidateImage = await _candidateService.GetCandidateImage(candidateId);
+            return Ok(candidateImage);
         }
         [Route("UploadCandidateImage")]
         [HttpPost]

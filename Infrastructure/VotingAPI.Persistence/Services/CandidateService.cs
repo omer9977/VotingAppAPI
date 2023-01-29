@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -59,25 +60,29 @@ namespace VotingAPI.Persistence.Services
             return candidateResponse;
         }
 
-        //public async Task<> GetCandidateImage(int candidateId)
-        //{
-        //    //var photo = await _transcriptFileReadRepo.GetByIdAsync(candidateId);
+        public async Task<GetCandidateResponse> GetCandidateByIdAsync(int id)
+        {
+            var candidate = await _candidateReadRepo.Table.Include(x => x.Student).FirstOrDefaultAsync(x => x.Id == id);
 
-        //    //var candidate = await _storageService.GetFiles(photo.Path);
-        //    //var candidate = await _candidateReadRepo.GetByIdAsync(candidateId);
-        //    //await _transcriptFileWriteRepo.AddRangeAsync(datas.Select(d => new TranscriptFile()
-        //    //{
-        //    //    FileName = d.fileName,
-        //    //    Path = d.path,
-        //    //    Candidate = candidate,
-        //    //    Storage = _storageService.StorageName,
-        //    //    ApprovedStatus = (short)ApproveEnum.OnHold
-        //    //}).ToList());
-        //    //await _transcriptFileWriteRepo.SaveChangesAsync();
-        //    var photoDb = await _profilePhotoFileReadRepo.GetSingleAsync(p => p.CandidateId == candidateId);
-        //    string asdf = $"{configuration["BaseStorageUrlAzure"]}/{photoDb.Path}";
-        //    return Ok();
-        //}
+            //todo exception yap
+            var candidateResponse = _mapper.Map<GetCandidateResponse>(candidate);
+            return candidateResponse;
+        }
+
+        public List<GetCandidateResponse> GetCandidateList()
+        {
+            var candidates = _candidateReadRepo.Table.Include(x => x.Student).ToList();
+            var candidateList = _mapper.Map<List<GetCandidateResponse>>(candidates);
+            return candidateList;
+        }
+        //todo Student objesi null geliyor
+        public async Task<GetProfilePhotoResponse> GetCandidateImage(int candidateId)
+        {
+            var photoDb = await _profilePhotoFileReadRepo.GetSingleAsync(p => p.CandidateId == candidateId);
+            string fullPath = $"{_configuration["BaseStorageUrl"]}/{photoDb.Path}";
+            GetProfilePhotoResponse response = new() { CandidateId = candidateId, FileName = photoDb.FileName, Path = fullPath };
+            return response;
+        }
         public async Task<AddProfilePhotoResponse> UploadCandidateImageAsync(int candidateId, IFormFileCollection files)
         {
             var datas = await _storageService.UploadAsync("profilephotos", files);

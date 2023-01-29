@@ -15,6 +15,10 @@ namespace VotingAPI.Application.Abstractions
         Task<AddProfilePhotoResponse> UploadCandidateImageAsync(int candidateId, IFormFileCollection files);
         //public async Task<List<>> AddCandidateList();
         Task<AddCandidateResponse> AddCandidateAsync(AddCandidateRequest addCandidateRequest);
+        Task<GetCandidateResponse> GetCandidateByIdAsync(int id);
+        List<GetCandidateResponse> GetCandidateList();
+        Task<GetProfilePhotoResponse> GetCandidateImage(int candidateId);
+
 
 
     }
