@@ -6,6 +6,7 @@ using VotingAPI.Infrastructure.Filters;
 using VotingAPI.Infrastructure;
 using VotingAPI.Infrastructure.Services.Storage.Local;
 using VotingAPI.Infrastructure.Services.Storage.Azure;
+using VotingAPI.WebAPI.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,7 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
 //builder.Services.AddStorage<LocalStorage>();
 builder.Services.AddStorage<AzureStorage>();
-builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
+builder.Services.AddControllers(options => { options.Filters.Add<ValidationFilter>(); options.Filters.Add(typeof(ExceptionFilter)); })
     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<AddDepartmentValidator>())
     .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
 

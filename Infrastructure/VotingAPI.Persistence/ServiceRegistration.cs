@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Repositories.ModelRepos;
+using VotingAPI.Domain.Entities.Identity;
 using VotingAPI.Persistence.Contexts;
 using VotingAPI.Persistence.Extensions;
 using VotingAPI.Persistence.Repos;
@@ -14,6 +15,7 @@ namespace VotingAPI.Persistence
         public static void AddPersistenceDI(this IServiceCollection services) 
         {
             services.AddDbContext<ElectionSystemDbContext>(o => o.UseNpgsql(ConfigurationExtensions.GetConnectionString()));
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<ElectionSystemDbContext>();
             services.AddScoped<IDepartmentReadRepo, DepartmentReadRepo>();
             services.AddScoped<ICandidateReadRepo, CandidateReadRepo>();
             services.AddScoped<IElectionTypeReadRepo, ElectionTypeReadRepo>();

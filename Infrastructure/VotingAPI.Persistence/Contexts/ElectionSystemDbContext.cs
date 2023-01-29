@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,11 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Domain.Entities;
 using VotingAPI.Domain.Entities.FileTypes;
+using VotingAPI.Domain.Entities.Identity;
 using F = VotingAPI.Domain.Entities.FileTypes;
 
 namespace VotingAPI.Persistence.Contexts
 {
-    public class ElectionSystemDbContext : DbContext
+    public class ElectionSystemDbContext : IdentityDbContext<AppUser, AppRole, string>
     {
         public ElectionSystemDbContext(DbContextOptions options) : base(options) 
         { }
@@ -65,6 +67,7 @@ namespace VotingAPI.Persistence.Contexts
             modelBuilder.Entity<VotingPeriod>()
                 .HasIndex(p => new { p.ElectionTypeId })
                 .IsUnique(true);
+            base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<TranscriptFile>()
             //    .HasIndex(x => new { x.Candidate.Id }).IsUnique(true);
             //modelBuilder.Entity<CriminalRecordFile>()

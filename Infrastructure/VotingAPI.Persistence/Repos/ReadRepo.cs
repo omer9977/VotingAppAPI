@@ -8,6 +8,7 @@ using VotingAPI.Domain.Entities.Common;
 using Microsoft.EntityFrameworkCore;
 using VotingAPI.Persistence.Contexts;
 using System.Linq.Expressions;
+using VotingAPI.Application.Exceptions;
 
 namespace VotingAPI.Persistence.Repos
 {
@@ -25,7 +26,11 @@ namespace VotingAPI.Persistence.Repos
             var query = Table.AsQueryable();
             if (!isTracking)
                 query = query.AsNoTracking();
-            return await query.FirstOrDefaultAsync(x => x.Id == id);
+
+            var response = await query.FirstOrDefaultAsync(x => x.Id == id);
+            if (response == null)
+                throw new DataNotFoundException();
+            return response;
         }
 
         public IQueryable<T> GetAll(bool isTracking = true)
@@ -39,15 +44,18 @@ namespace VotingAPI.Persistence.Repos
 
         public async Task<T> GetSingleAsync(Expression<Func<T, bool>> expression, bool isTracking = true)
         {
-            var query = GetAll().Where(expression);
-            if (!isTracking)
-                query = query.AsNoTracking();
-            return await Table.FirstOrDefaultAsync(expression);
+            var query = GetAll(isTracking);
+            var response = await query.FirstOrDefaultAsync(expression);
+            if (response == null)
+                throw new ArgumentNullException();
+            return response;
         }
 
         public IQueryable<T> GetWhere(Expression<Func<T, bool>> expression, bool isTracking = true)
         {
             var query = GetAll().Where(expression);
+            if (query == null)
+                throw new ArgumentNullException();
             if (!isTracking)
                 query = query.AsNoTracking();
             return query;

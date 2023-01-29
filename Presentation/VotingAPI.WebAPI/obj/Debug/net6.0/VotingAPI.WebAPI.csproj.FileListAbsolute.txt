@@ -164,3 +164,9 @@ D:\WorkSpace\.Net Core\VotingAPI\Presentation\VotingAPI.WebAPI\obj\Debug\net6.0\
 D:\WorkSpace\.Net Core\VotingAPI\Presentation\VotingAPI.WebAPI\obj\Debug\net6.0\VotingAPI.WebAPI.pdb
 D:\WorkSpace\.Net Core\VotingAPI\Presentation\VotingAPI.WebAPI\obj\Debug\net6.0\VotingAPI.WebAPI.genruntimeconfig.cache
 D:\WorkSpace\.Net Core\VotingAPI\Presentation\VotingAPI.WebAPI\obj\Debug\net6.0\ref\VotingAPI.WebAPI.dll
+D:\WorkSpace\.Net Core\VotingAPI\Presentation\VotingAPI.WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\WorkSpace\.Net Core\VotingAPI\Presentation\VotingAPI.WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\WorkSpace\.Net Core\VotingAPI\Presentation\VotingAPI.WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\WorkSpace\.Net Core\VotingAPI\Presentation\VotingAPI.WebAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+D:\WorkSpace\.Net Core\VotingAPI\Presentation\VotingAPI.WebAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
+D:\WorkSpace\.Net Core\VotingAPI\Presentation\VotingAPI.WebAPI\bin\Debug\net6.0\System.Security.Permissions.dll
