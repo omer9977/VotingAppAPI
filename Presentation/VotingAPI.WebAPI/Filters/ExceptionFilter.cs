@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using VotingAPI.Application.Exceptions;
 
 namespace VotingAPI.WebAPI.Filters
 {
@@ -36,9 +37,5 @@ namespace VotingAPI.WebAPI.Filters
             });
         }
     }
-    public class DataNotFoundException : Exception
-    {
-        public DataNotFoundException(object id)
-            : base($"{id} id object could not be found.") { }
-    }
+
 }
