@@ -63,7 +63,10 @@ namespace VotingAPI.WebAPI.Controllers
         public IActionResult GetCandidateList()
         {
             var response = _candidateService.GetCandidateList();
-            return Ok(response);
+            if (Result.issuccefful = false)
+            {
+                return BadRequest();//400
+            }
         }
 
         [Route("GetCandidateById")]

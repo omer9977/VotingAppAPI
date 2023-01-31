@@ -22,33 +22,26 @@ namespace VotingAPI.Persistence.Repos
 
         public DbSet<T> Table => dbContext.Set<T>();
 
-        public async Task<T> AddAsync(T entity)
+        public async Task<bool> AddAsync(T entity)
         {
-            EntityEntry entityEntry = await Table.AddAsync(entity); // todo : buraya EntityEntry<T> entity böyle yazabilir miydik?
-            if (entityEntry.State != EntityState.Added)
-                throw new Exception();
-            return (T)entityEntry.Entity;
+            EntityEntry entityEntry = await Table.AddAsync(entity);
+            return entityEntry.State == EntityState.Added;
         }
 
-        public async Task<bool> AddRangeAsync(List<T> entities)
+        public async Task AddRangeAsync(List<T> entities)
         {
             await Table.AddRangeAsync(entities);
-            return true;
         }
 
         public bool Remove(T entity)
         {
             EntityEntry entityEntry = Table.Remove(entity);
-            if (entityEntry.State != EntityState.Deleted)
-                throw new Exception();
             return entityEntry.State == EntityState.Deleted;
         }
 
         public async Task<bool> RemoveByIdAsync(int id)
         {
             T entity = await Table.FirstOrDefaultAsync(x => id == x.Id);
-            if (entity == null)
-                throw new DataNotFoundException(id);
             return Remove(entity);
         }
 
@@ -65,14 +58,11 @@ namespace VotingAPI.Persistence.Repos
             return entity.State == EntityState.Modified;
         }
 
-        public bool UpdateRange(List<T> entities)
+        public void UpdateRange(List<T> entities)
         {
-            throw new NotImplementedException();
+            Table.UpdateRange(entities);
         }
         public async Task<int> SaveChangesAsync()
-        {
-            await dbContext.SaveChangesAsync();
-            return 1; //todo burayı ayarla
-        }
+            =>await dbContext.SaveChangesAsync();
     }
 }

@@ -26,11 +26,7 @@ namespace VotingAPI.Persistence.Repos
             var query = Table.AsQueryable();
             if (!isTracking)
                 query = query.AsNoTracking();
-
-            var response = await query.FirstOrDefaultAsync(x => x.Id == id);
-            if (response == null)
-                throw new ArgumentNullException();
-            return response;
+            return await query.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public IQueryable<T> GetAll(bool isTracking = true)
@@ -45,17 +41,14 @@ namespace VotingAPI.Persistence.Repos
         public async Task<T> GetSingleAsync(Expression<Func<T, bool>> expression, bool isTracking = true)
         {
             var query = GetAll(isTracking);
-            var response = await query.FirstOrDefaultAsync(expression);
-            if (response == null)
-                throw new ArgumentNullException();
-            return response;
+            if (!isTracking)
+                query = Table.AsNoTracking();
+            return await query.FirstOrDefaultAsync(expression);
         }
 
         public IQueryable<T> GetWhere(Expression<Func<T, bool>> expression, bool isTracking = true)
         {
             var query = GetAll().Where(expression);
-            if (query == null)
-                throw new ArgumentNullException();
             if (!isTracking)
                 query = query.AsNoTracking();
             return query;

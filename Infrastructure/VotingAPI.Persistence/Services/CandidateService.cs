@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Abstractions.Storage;
 using VotingAPI.Application.Dto.Request.Candidate;
+using VotingAPI.Application.Dto.Response;
 using VotingAPI.Application.Dto.Response.Candidate;
 using VotingAPI.Application.Dto.Response.ProfilePhoto;
 using VotingAPI.Application.Repositories.ModelRepos;
@@ -50,19 +51,39 @@ namespace VotingAPI.Persistence.Services
             _mapper = mapper;
         }
 
-        public async Task<AddCandidateResponse> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
+        public async Task<Result> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
         {
             var student = await _studentReadRepo.GetSingleAsync(c => c.StudentNumber == addCandidateRequest.StudentNumber);
-            var candidate = await _candidateWriteRepo.AddAsync(new() { Student= student, ApplicationDate = DateOnly.FromDateTime(DateTime.Now),ApproveStatus=0});
-
-            //todo exception yap
-            var candidateResponse = _mapper.Map<AddCandidateResponse>(candidate);
-            return candidateResponse;
+            if (student == null) 
+                return new Result()
+                {
+                    IsSuccessful = false,
+                    Message = "Student number that you want to add was not found!"
+                };
+            bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { Student= student, ApplicationDate = DateOnly.FromDateTime(DateTime.Now),ApproveStatus=0});
+            if (!candidateAdded)
+                return new Result()
+                {
+                    IsSuccessful = false,
+                    Message = "Candidate could not be added!"
+                };
+            else
+                return new Result()
+                {
+                    IsSuccessful = true,
+                    Message = "Candidate added successfully!"
+                };
         }
 
-        public async Task<GetCandidateResponse> GetCandidateByIdAsync(int id)
+        public async Task<ResultData<GetCandidateResponse>> GetCandidateByIdAsync(int id)
         {
             var candidate = await _candidateReadRepo.Table.Include(x => x.Student).FirstOrDefaultAsync(x => x.Id == id);
+            if (candidate == null)
+                return new ResultData<GetCandidateResponse>()
+                {
+                    IsSuccessful = false,
+                    Message 
+                };
 
             //todo exception yap
             var candidateResponse = _mapper.Map<GetCandidateResponse>(candidate);
