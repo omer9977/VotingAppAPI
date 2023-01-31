@@ -29,7 +29,7 @@ namespace VotingAPI.Persistence.Repos
 
             var response = await query.FirstOrDefaultAsync(x => x.Id == id);
             if (response == null)
-                throw new DataNotFoundException();
+                throw new ArgumentNullException();
             return response;
         }
 

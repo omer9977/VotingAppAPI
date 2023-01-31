@@ -71,15 +71,8 @@ namespace VotingAPI.Persistence.Repos
         }
         public async Task<int> SaveChangesAsync()
         {
-            try
-            {
-                await dbContext.SaveChangesAsync();
-
-            }
-            catch (Exception ex)
-            {
-                throw new DbUpdateException();
-            }
+            await dbContext.SaveChangesAsync();
+            return 1; //todo burayı ayarla
         }
     }
 }

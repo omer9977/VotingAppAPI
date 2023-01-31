@@ -17,6 +17,7 @@ namespace VotingAPI.Infrastructure
         {
             //services.AddScoped<IFileService, FileService>();
             services.AddScoped<IStorageService, StorageService>();
+            services.AddScoped<IUserService, UserService>();
         }
         public static void AddStorage<T>(this IServiceCollection services) where T : class, IStorage
         {
