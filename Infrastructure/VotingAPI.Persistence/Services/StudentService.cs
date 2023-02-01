@@ -27,10 +27,12 @@ namespace VotingAPI.Persistence.Services
         public async Task<AddStudentResponse> AddStudentAsync(AddStudentRequest student)
         {
             var studentMapped = _mapper.Map<Student>(student);//todo Burayı anlamadım Student tipinde neden veriyoz ki
-            var studentResponse = await _studentWriteRepo.AddAsync(studentMapped);
-            var response = _mapper.Map<AddStudentResponse>(studentResponse);
+            bool studentAdded = await _studentWriteRepo.AddAsync(studentMapped);
             await _studentWriteRepo.SaveChangesAsync();
-            return response;
+
+            var response = await _studentReadRepo.GetSingleAsync(x => x.StudentNumber == student.StudentNumber);
+            var responseMapped = _mapper.Map<AddStudentResponse>(response);
+            return responseMapped;
         }
 
         public async Task<GetStudentResponse> GetStudentByStudentNumber(long studentNumber) 

@@ -10,5 +10,6 @@ namespace VotingAPI.Application.Dto.Request.Student
     {
         public int StudentNumber { get; set; }
         public string Name { get; set; }
+        public int DepartmentId { get; set; }
     }
 }

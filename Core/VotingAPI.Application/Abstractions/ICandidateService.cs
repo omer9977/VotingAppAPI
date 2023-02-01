@@ -13,14 +13,12 @@ namespace VotingAPI.Application.Abstractions
 {
     public interface ICandidateService
     {
-        Task<AddProfilePhotoResponse> UploadCandidateImageAsync(int candidateId, IFormFileCollection files);
+        Task<Result> UploadCandidateImageAsync(int candidateId, IFormFileCollection files);
         //public async Task<List<>> AddCandidateList();
         Task<Result> AddCandidateAsync(AddCandidateRequest addCandidateRequest);
         Task<Result> GetCandidateByIdAsync(int id);
-        List<GetCandidateResponse> GetCandidateList();
-        Task<GetProfilePhotoResponse> GetCandidateImage(int candidateId);
-
-
-
+        Result GetCandidateList();
+        Task<Result> GetCandidateImage(int candidateId);
+        Task<Result> DeleteCandidateProfilePhotoAsync(int candidateId);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -15,46 +16,10 @@ namespace VotingAPI.WebAPI.Controllers
     [ApiController]
     public class CandidateController : ControllerBase
     {
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly ICriminalRecordFileReadRepo _criminalRecordFileReadRepo;
-        private readonly ICriminalRecordFileWriteRepo _criminalRecordFileWriteRepo;
-        private readonly ITranscriptFileReadRepo _transcriptFileReadRepo;
-        private readonly ITranscriptFileWriteRepo _transcriptFileWriteRepo;
-        private readonly ICandidateReadRepo _candidateReadRepo;
-        private readonly ICandidateWriteRepo _candidateWriteRepo;
-        private readonly IStudentReadRepo _studentReadRepo;
-        private readonly IStorageService _storageService;
-        private readonly IProfilePhotoFileWriteRepo _profilePhotoFileWriteRepo;
-        private readonly IProfilePhotoFileReadRepo _profilePhotoFileReadRepo;
-        private readonly IConfiguration _configuration;
         private readonly ICandidateService _candidateService;
 
-
-
-        public CandidateController(IWebHostEnvironment webHostEnvironment,
-            //IFileReadRepo fileReadRepo, IFileWriteRepo fileWriteRepo,
-            ICriminalRecordFileReadRepo criminalRecordFileReadRepo,
-            ICriminalRecordFileWriteRepo criminalRecordFileWriteRepo,
-            ITranscriptFileReadRepo transcriptFileReadRepo,
-            ITranscriptFileWriteRepo transcriptFileWriteRepo,
-            ICandidateWriteRepo candidateWriteRepo,
-            ICandidateReadRepo candidateReadRepo, IStudentReadRepo studentReadRepo, IStorageService storageService,
-            IProfilePhotoFileReadRepo profilePhotoFileReadRepo, IProfilePhotoFileWriteRepo profilePhotoFileWriteRepo, IConfiguration configuration, ICandidateService candidateService)
+        public CandidateController(ICandidateService candidateService)
         {
-            _webHostEnvironment = webHostEnvironment;
-            //_fileReadRepo = fileReadRepo;
-            //_fileWriteRepo = fileWriteRepo;
-            _criminalRecordFileReadRepo = criminalRecordFileReadRepo;
-            _criminalRecordFileWriteRepo = criminalRecordFileWriteRepo;
-            _transcriptFileReadRepo = transcriptFileReadRepo;
-            _transcriptFileWriteRepo = transcriptFileWriteRepo;
-            _candidateWriteRepo = candidateWriteRepo;
-            _candidateReadRepo = candidateReadRepo;
-            _studentReadRepo = studentReadRepo;
-            _storageService = storageService;
-            _profilePhotoFileReadRepo = profilePhotoFileReadRepo;
-            _profilePhotoFileWriteRepo = profilePhotoFileWriteRepo;
-            _configuration = configuration;
             _candidateService = candidateService;
         }
 
@@ -63,10 +28,9 @@ namespace VotingAPI.WebAPI.Controllers
         public IActionResult GetCandidateList()
         {
             var response = _candidateService.GetCandidateList();
-            if (Result.issuccefful = false)
-            {
-                return BadRequest();//400
-            }
+            if (!response.IsSuccessful)
+                return BadRequest(response);
+            return Ok(response);
         }
 
         [Route("GetCandidateById")]
@@ -74,6 +38,8 @@ namespace VotingAPI.WebAPI.Controllers
         public async Task<IActionResult> GetCandidateById(int id)
         {
             var response = await _candidateService.GetCandidateByIdAsync(id);
+            if (!response.IsSuccessful)
+                return BadRequest(response);
             return Ok(response);
         }
 
@@ -81,8 +47,10 @@ namespace VotingAPI.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
         {
-            var response = _candidateService.AddCandidateAsync(addCandidateRequest);
-            return Ok(response);
+            var response = await _candidateService.AddCandidateAsync(addCandidateRequest);
+            if (!response.IsSuccessful)
+                return BadRequest(response);
+            return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
         }
 
         [Route("GetCandidateImage")]
@@ -90,25 +58,27 @@ namespace VotingAPI.WebAPI.Controllers
         public async Task<IActionResult> GetCandidateImageAsync(int candidateId)
         {
             var candidateImage = await _candidateService.GetCandidateImage(candidateId);
+            if (!candidateImage.IsSuccessful)
+                return BadRequest(candidateImage);
             return Ok(candidateImage);
         }
         [Route("UploadCandidateImage")]
         [HttpPost]
-        public async Task<IActionResult> UploadCandidateImageAsync(int candidateId)
+        public async Task<IActionResult> UploadCandidateImageAsync(/*int candidateId*/)
         {
-            var photoResponse =  await _candidateService.UploadCandidateImageAsync(candidateId, Request.Form.Files);
-            return Ok(photoResponse);
+            var photoResponse =  await _candidateService.UploadCandidateImageAsync(4, Request.Form.Files);
+            if (!photoResponse.IsSuccessful)
+                return BadRequest(photoResponse);
+            return new ObjectResult(photoResponse) { StatusCode = StatusCodes.Status201Created };
         }
         [Route("DeleteCandidateProfilePhoto")]
         [HttpDelete]
         public async Task<IActionResult> DeleteCandidateProfilePhotoAsync(int candidateId)
         {
-            var profilePhoto = await _profilePhotoFileReadRepo.GetSingleAsync(c => c.CandidateId == candidateId);
-            _profilePhotoFileWriteRepo.Remove(profilePhoto);
-            _profilePhotoFileWriteRepo.SaveChangesAsync();
-            //string fullPath = $"{configuration["BaseStorageUrlAzure"]}/{profilePhoto.Path}";
-            await _storageService.DeleteFileAsync(profilePhoto.Path, profilePhoto.FileName);
-            return Ok();
+            var profilePhoto = await _candidateService.DeleteCandidateProfilePhotoAsync(candidateId);
+            if (!profilePhoto.IsSuccessful)
+                return BadRequest(profilePhoto);
+            return Ok(profilePhoto);
         }
     }
 }
