@@ -86,6 +86,8 @@ namespace VotingAPI.Persistence.Services
                     IsSuccessful = false,
                     Message = ResultMessages.NotFoundRecord
                 };
+
+            //todo exception yap
             var candidateResponse = _mapper.Map<GetCandidateResponse>(candidate);
             return new ResultData<GetCandidateResponse>()
             {
