@@ -32,12 +32,12 @@ namespace VotingAPI.Persistence.Services
         private readonly IProfilePhotoFileReadRepo _profilePhotoFileReadRepo;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        public CandidateService(ICandidateReadRepo candidateReadRepo, 
-            ICandidateWriteRepo candidateWriteRepo, 
-            IStudentReadRepo studentReadRepo, 
-            IStorageService storageService, 
-            IProfilePhotoFileWriteRepo profilePhotoFileWriteRepo, 
-            IProfilePhotoFileReadRepo profilePhotoFileReadRepo, 
+        public CandidateService(ICandidateReadRepo candidateReadRepo,
+            ICandidateWriteRepo candidateWriteRepo,
+            IStudentReadRepo studentReadRepo,
+            IStorageService storageService,
+            IProfilePhotoFileWriteRepo profilePhotoFileWriteRepo,
+            IProfilePhotoFileReadRepo profilePhotoFileReadRepo,
             IConfiguration configuration,
             IMapper mapper
             )
@@ -52,96 +52,53 @@ namespace VotingAPI.Persistence.Services
             _mapper = mapper;
         }
 
-        public async Task<Result> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
+        public async Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
         {
             var student = await _studentReadRepo.GetSingleAsync(c => c.StudentNumber == addCandidateRequest.StudentNumber);
             if (student == null)
-                return new Result()
-                {
-                    IsSuccessful = false,
-                    Message = ResultMessages.PropertyNotFound(nameof(addCandidateRequest.StudentNumber))
-                };
-            bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { Student= student, ApplicationDate = DateOnly.FromDateTime(DateTime.Now),ApproveStatus=0});
-            await _candidateWriteRepo.SaveChangesAsync();
+                throw new DataNotFoundException(addCandidateRequest.StudentNumber);
+            bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { Student = student, ApplicationDate = DateOnly.FromDateTime(DateTime.Now), ApproveStatus = 0 });
             if (!candidateAdded)
-                return new Result()
-                {
-                    IsSuccessful = false,
-                    Message = ResultMessages.NotAddedRecord
-                };
-            else
-                return new Result()
-                {
-                    IsSuccessful = true,
-                    Message = ResultMessages.AddedRecord
-                };
+                throw new DataAddedException();
+            await _candidateWriteRepo.SaveChangesAsync();
+            return true;
         }
 
-        public async Task<Result> GetCandidateByIdAsync(int id)
+        public async Task<GetCandidateResponse> GetCandidateByIdAsync(int id)
         {
             var candidate = await _candidateReadRepo.Table.Include(x => x.Student).FirstOrDefaultAsync(x => x.Id == id);
             if (candidate == null)
-                return new Result()
-                {
-                    IsSuccessful = false,
-                    Message = ResultMessages.NotFoundRecord
-                };
-
+                throw new DataNotFoundException(id);
             //todo exception yap
             var candidateResponse = _mapper.Map<GetCandidateResponse>(candidate);
-            return new ResultData<GetCandidateResponse>()
-            {
-                Data = candidateResponse,
-                IsSuccessful = true,
-                Message = ResultMessages.FoundRecord
-            };
+            return candidateResponse;
         }
 
-        public Result GetCandidateList()
+        public List<GetCandidateResponse> GetCandidateList()
         {
             var candidates = _candidateReadRepo.Table.Include(x => x.Student).ToList();
             var candidateList = _mapper.Map<List<GetCandidateResponse>>(candidates);
-            return new ResultData<List<GetCandidateResponse>>()
-            {
-                Data = candidateList,
-                IsSuccessful = true,
-            };
+            return candidateList;
         }
         //todo Student objesi null geliyor
-        public async Task<Result> GetCandidateImage(int candidateId)
+        public async Task<GetProfilePhotoResponse> GetCandidateImageAsync(int candidateId)
         {
             var photoDb = await _profilePhotoFileReadRepo.GetSingleAsync(p => p.CandidateId == candidateId);
             if (photoDb == null)
-                return new()
-                {
-                    IsSuccessful = false,
-                    Message = ResultMessages.NotFoundRecord
-                };
+                throw new DataNotFoundException(candidateId);
+
             string fullPath = $"{_configuration["BaseStorageUrl"]}/{photoDb.Path}";
             GetProfilePhotoResponse response = new() { CandidateId = candidateId, FileName = photoDb.FileName, Path = fullPath };
-            return new ResultData<GetProfilePhotoResponse>()
-            {
-                Data = response,
-                IsSuccessful = true,
-                Message = ResultMessages.FoundRecord
-            };
+            return response;
         }
-        public async Task<Result> UploadCandidateImageAsync(int candidateId, IFormFileCollection files)
+        public async Task<bool> UploadCandidateImageAsync(int candidateId, IFormFileCollection files)
         {
             var datas = await _storageService.UploadAsync("profilephotos", files);
             if (datas == null)
-                return new()
-                {
-                    IsSuccessful = false,
-                    Message = ResultMessages.NotAddedRecord
-                };
+                throw new DataNotFoundException("Files could not found!");
             var candidate = await _candidateReadRepo.GetByIdAsync(candidateId);
             if (candidate == null)
-                return new()
-                {
-                    IsSuccessful = false,
-                    Message = ResultMessages.NotFoundRecord
-                };
+                throw new DataNotFoundException(candidateId);
             await _profilePhotoFileWriteRepo.AddRangeAsync(datas.Select(d => new ProfilePhotoFile()
             {
                 FileName = d.fileName,
@@ -151,30 +108,18 @@ namespace VotingAPI.Persistence.Services
                 ApprovedStatus = (short)ApproveEnum.OnHold
             }).ToList());
             await _profilePhotoFileWriteRepo.SaveChangesAsync();
-            return new() 
-            {
-                IsSuccessful = true,
-                Message = ResultMessages.AddedRecord
-            };
+            return true;
         }
 
-        public async Task<Result> DeleteCandidateProfilePhotoAsync(int candidateId)
+        public async Task<bool> DeleteCandidateProfilePhotoAsync(int candidateId)
         {
             var profilePhoto = await _profilePhotoFileReadRepo.GetSingleAsync(c => c.CandidateId == candidateId);
             if (profilePhoto == null)
-                return new()
-                {
-                    IsSuccessful = false,
-                    Message = ResultMessages.NotFoundRecord
-                };
+                throw new DataNotFoundException(candidateId);
             _profilePhotoFileWriteRepo.Remove(profilePhoto);
             _profilePhotoFileWriteRepo.SaveChangesAsync();
             await _storageService.DeleteFileAsync(profilePhoto.Path, profilePhoto.FileName);
-            return new()
-            {
-                IsSuccessful = true,
-                Message = ResultMessages.DeleteRecord
-            };
+            return true;
         }//todo burada null kontrolleri çok oldu, kısa yöntemi yok mu
     }
 }

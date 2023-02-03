@@ -7,21 +7,46 @@ using VotingAPI.Infrastructure;
 using VotingAPI.Infrastructure.Services.Storage.Local;
 using VotingAPI.Infrastructure.Services.Storage.Azure;
 using VotingAPI.WebAPI.Filters;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPersistenceDI();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
-//builder.Services.AddStorage<LocalStorage>();
+
 builder.Services.AddStorage<AzureStorage>();
-builder.Services.AddControllers(options => { options.Filters.Add<ValidationFilter>(); options.Filters.Add(typeof(ExceptionFilter)); })
+builder.Services.AddApiVersioning(_ =>
+{
+    _.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+    _.AssumeDefaultVersionWhenUnspecified = true;
+});
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidationFilter>();
+})
     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<AddDepartmentValidator>())
     .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
+
+builder.Services.AddAuthentication("Admin")
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new()
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidAudience = builder.Configuration["Token:Audience"],
+            ValidIssuer = builder.Configuration["Token:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
+        };
+    });
 
 var app = builder.Build();
 
@@ -34,6 +59,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
+
+app.UseMiddleware<ResponseWrapperAndGlobalExceptionHandlerMiddleware>();
 
 app.UseStaticFiles();
 

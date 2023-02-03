@@ -15,7 +15,13 @@ namespace VotingAPI.Persistence
         public static void AddPersistenceDI(this IServiceCollection services) 
         {
             services.AddDbContext<ElectionSystemDbContext>(o => o.UseNpgsql(ConfigurationExtensions.GetConnectionString()));
-            services.AddIdentity<AppUser, AppRole>(options => { options.Password.RequireNonAlphanumeric = false; }).AddEntityFrameworkStores<ElectionSystemDbContext>();
+            services.AddIdentity<AppUser, AppRole>(options => 
+            { 
+                options.Password.RequireNonAlphanumeric = false;
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireUppercase = false;
+            })
+                .AddEntityFrameworkStores<ElectionSystemDbContext>();
             services.AddScoped<IDepartmentReadRepo, DepartmentReadRepo>();
             services.AddScoped<ICandidateReadRepo, CandidateReadRepo>();
             services.AddScoped<IElectionTypeReadRepo, ElectionTypeReadRepo>();

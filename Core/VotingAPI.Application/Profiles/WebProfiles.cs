@@ -23,12 +23,13 @@ namespace VotingAPI.Application.Profiles
             CreateMap<Candidate, AddCandidateResponse>();
             CreateMap<AddStudentRequest, Student>();
             CreateMap<Student, AddStudentResponse>();
-            CreateMap<List<Student>, GetStudentListResponse>();
+            //CreateMap<Student, GetStudentListResponse>();
             CreateMap<Student, GetStudentResponse>();
             CreateMap<Candidate, GetCandidateResponse>()
                 .ForMember(c => c.StudentNumber, g => g.MapFrom(x => x.Student.StudentNumber))
                 .ForMember(c => c.Name, g => g.MapFrom(x => x.Student.Name));
-            CreateMap<CreateUserRequest, AppUser>();
+            CreateMap<CreateUserRequest, AppUser>()
+                .ForMember(c => c.UserName, g => g.MapFrom(x => x.Email));
 
             //todo burayı barışa sor her modelde mapper kullanmaya gerek var mı?
         }

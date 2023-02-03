@@ -5,7 +5,7 @@ using VotingAPI.Application.Dto.Request.User;
 
 namespace VotingAPI.WebAPI.Controllers
 {
-    [Route("api/Users")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -14,12 +14,20 @@ namespace VotingAPI.WebAPI.Controllers
         {
             _userService = userService;
         }
-        [Route("CreateUser")]
+        [Route("")]
         [HttpPost]
         public async Task<IActionResult> CreateUser(CreateUserRequest createUserRequest)
         {
             var response = await _userService.CreateUser(createUserRequest);
             return Ok(response);
+        }
+
+        [Route("login")]
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginUserRequest loginUserRequest)
+        {
+            var user = await _userService.Login(loginUserRequest);
+            return Ok(user);
         }
     }
 }

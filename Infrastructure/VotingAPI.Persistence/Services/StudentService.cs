@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Dto.Request.Student;
 using VotingAPI.Application.Dto.Response.Student;
+using VotingAPI.Application.Exceptions;
 using VotingAPI.Application.Repositories.ModelRepos;
 using VotingAPI.Domain.Entities;
 
@@ -24,29 +25,42 @@ namespace VotingAPI.Persistence.Services
             _studentReadRepo = studentReadRepo;
             _studentWriteRepo = studentWriteRepo;
         }
-        public async Task<AddStudentResponse> AddStudentAsync(AddStudentRequest student)
+        public List<GetStudentResponse> GetStudentList()
         {
-            var studentMapped = _mapper.Map<Student>(student);//todo Burayı anlamadım Student tipinde neden veriyoz ki
-            bool studentAdded = await _studentWriteRepo.AddAsync(studentMapped);
-            await _studentWriteRepo.SaveChangesAsync();
-
-            var response = await _studentReadRepo.GetSingleAsync(x => x.StudentNumber == student.StudentNumber);
-            var responseMapped = _mapper.Map<AddStudentResponse>(response);
-            return responseMapped;
+            var studentsDb = _studentReadRepo.GetAll(false).ToList();
+            var studentListResponse = _mapper.Map<List<GetStudentResponse>>(studentsDb);
+            return studentListResponse;
         }
 
-        public async Task<GetStudentResponse> GetStudentByStudentNumber(long studentNumber) 
+        public async Task<GetStudentResponse> GetStudentByIdAsync(int id)
+        {
+            var studentDb = await _studentReadRepo.GetByIdAsync(id);
+            if (studentDb == null)
+                throw new DataNotFoundException(id);
+
+            var response = _mapper.Map<GetStudentResponse>(studentDb);
+            return response;
+        }
+
+        public async Task<GetStudentResponse> GetStudentByStudentNumberAsync(long studentNumber)
         {
             var studentDb = await _studentReadRepo.GetSingleAsync(s => s.StudentNumber == studentNumber, false);
+            if (studentDb == null)
+                throw new DataNotFoundException(studentNumber);
             var getStudentResponse = _mapper.Map<GetStudentResponse>(studentDb);
             return getStudentResponse;
         }
 
-        public GetStudentListResponse GetStudentList()
+        public async Task AddStudentAsync(AddStudentRequest student)
         {
-            var studentsDb = _studentReadRepo.GetAll(false).AsEnumerable();
-            var studentListResponse = _mapper.Map<GetStudentListResponse>(studentsDb);
-            return studentListResponse;
+            var studentMapped = _mapper.Map<Student>(student);//todo : 1 Burayı anlamadım Student tipinde neden veriyoz ki
+            bool addedStatus = await _studentWriteRepo.AddAsync(studentMapped);
+            if (!addedStatus)
+                throw new DataAddedException();
+
+            await _studentWriteRepo.SaveChangesAsync();
         }
+        //todo : 5 buralarda null dönmesi sonucu çok fazla throw atma yapıyorum, ben repolarda bu işlemin yapılmasını daha uygun görüyorum fakat single responsibility ilkesine ters imiş. Fakat 
+        //bu şekilde de kod tekrarı yaşanıyor
     }
 }

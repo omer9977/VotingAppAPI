@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace VotingAPI.Application.Dto.Request.User
 {
-    public class CreateUserRequest
+    public class LoginUserRequest
     {
-        public long StudentNumber { get; set; }
-        //public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
     }

@@ -9,7 +9,7 @@ namespace VotingAPI.Application.Exceptions
     public class DataNotFoundException : Exception
     {
         public DataNotFoundException(object id)
-            : base($"{id} id object could not be found.") { }
+            : base(ResultMessages.PropertyNotFound(nameof(id))) { }
 
         public DataNotFoundException(string? message) : base(message)
         {

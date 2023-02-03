@@ -13,6 +13,7 @@ namespace VotingAPI.Application.Exceptions
         public const string NotFoundRecord = "The data you were looking for was not found!";
         public const string FoundRecord = "The record found successfully!";
         public const string DeleteRecord = "The record deleted successfully!";
+        public const string UserNotFound = "User not found in our database. Please register first!";
 
         public static string PropertyNotFound(string nameOfProperty)
         {

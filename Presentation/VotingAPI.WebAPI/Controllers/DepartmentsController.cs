@@ -16,6 +16,7 @@ namespace VotingAPI.WebAPI.Controllers
         private readonly IDepartmentReadRepo _departmentReadRepo;
         private readonly IDepartmentWriteRepo _departmentWriteRepo;
         private readonly IMediator _mediator;
+        //private readonly IDepartmentService _departmentService;
         public DepartmentsController(IDepartmentReadRepo departmentReadRepo, IDepartmentWriteRepo departmentWriteRepo, IMediator mediator = null)
         {
             _departmentReadRepo = departmentReadRepo;
@@ -51,13 +52,13 @@ namespace VotingAPI.WebAPI.Controllers
             await _departmentWriteRepo.SaveChangesAsync();
         }
 
-        [Route("AddDepartment")]
-        [HttpPost]
-        public async Task<IActionResult> AddDepartment(AddDepartmentRequest addDepartmentRequest)
-        {
-
-            return Ok();
-        }
+        //[Route("AddDepartment")]
+        //[HttpPost]
+        //public async Task<IActionResult> AddDepartment(AddDepartmentRequest addDepartmentRequest)
+        //{
+        //    var response = await _.AddStudentAsync(addStudentRequest);
+        //    return Ok(response);
+        //}
 
     }
 }
