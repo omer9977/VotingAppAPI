@@ -12,7 +12,7 @@ using F = VotingAPI.Domain.Entities.FileTypes;
 
 namespace VotingAPI.Persistence.Contexts
 {
-    public class ElectionSystemDbContext : IdentityDbContext<AppUser, AppRole, string>
+    public class ElectionSystemDbContext : IdentityDbContext<AppUser, AppRole, int>
     {
         public ElectionSystemDbContext(DbContextOptions options) : base(options) 
         { }

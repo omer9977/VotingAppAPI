@@ -44,6 +44,8 @@ namespace VotingAPI.Persistence
             services.AddScoped<IProfilePhotoFileWriteRepo, ProfilePhotoFileWriteRepo>();
             services.AddScoped<ICandidateService, CandidateService>();
             services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IUserService, UserService>();
+
 
         }
     }

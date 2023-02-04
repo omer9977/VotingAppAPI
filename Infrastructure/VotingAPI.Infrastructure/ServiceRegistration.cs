@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Abstractions.Storage;
+using VotingAPI.Application.Abstractions.Token;
 using VotingAPI.Infrastructure.Services;
 using VotingAPI.Infrastructure.Services.Storage;
 
@@ -17,7 +18,9 @@ namespace VotingAPI.Infrastructure
         {
             //services.AddScoped<IFileService, FileService>();
             services.AddScoped<IStorageService, StorageService>();
-            services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IMailService, MailService>();
         }
         public static void AddStorage<T>(this IServiceCollection services) where T : class, IStorage
         {

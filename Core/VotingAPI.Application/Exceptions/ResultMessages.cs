@@ -14,6 +14,8 @@ namespace VotingAPI.Application.Exceptions
         public const string FoundRecord = "The record found successfully!";
         public const string DeleteRecord = "The record deleted successfully!";
         public const string UserNotFound = "User not found in our database. Please register first!";
+        public const string AuthenticationFailed = "Authentication failed!";
+
 
         public static string PropertyNotFound(string nameOfProperty)
         {

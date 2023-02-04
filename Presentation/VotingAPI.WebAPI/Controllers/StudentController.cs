@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Dto.Request.Student;
@@ -10,6 +11,7 @@ namespace VotingAPI.WebAPI.Controllers
 {
     [Route("api/v1/student")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class StudentController : ControllerBase
     {
         private readonly IStudentService _studentService;

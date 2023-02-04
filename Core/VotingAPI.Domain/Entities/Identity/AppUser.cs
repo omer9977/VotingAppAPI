@@ -9,10 +9,12 @@ using VotingAPI.Domain.Entities.Common;
 
 namespace VotingAPI.Domain.Entities.Identity
 {
-    public class AppUser : IdentityUser<string>
+    public class AppUser : IdentityUser<int>
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public override int Id { get; set; }
         public long StudentNumber { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenEndDate { get; set; }
     }
 }

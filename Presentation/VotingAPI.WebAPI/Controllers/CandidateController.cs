@@ -1,4 +1,5 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace VotingAPI.WebAPI.Controllers
 {
     [Route("api/candidate")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class CandidateController : ControllerBase
     {
         private readonly ICandidateService _candidateService;

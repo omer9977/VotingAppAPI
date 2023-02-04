@@ -8,6 +8,6 @@ namespace VotingAPI.Application.Dto.Response.User
 {
     public class LoginUserResponse
     {
-
+        public TokenResponse Token { get; set; }
     }
 }
