@@ -9,7 +9,7 @@ using VotingAPI.Domain.Entities;
 
 namespace VotingAPI.WebAPI.Controllers
 {
-    [Route("api/Departments")]
+    [Route("api/department")]
     [ApiController]
     public class DepartmentsController : ControllerBase
     {
@@ -24,14 +24,14 @@ namespace VotingAPI.WebAPI.Controllers
             _mediator = mediator;
         }
 
-        [Route("GetAll")]
+        [Route("")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             GetAllDepartmentsQueryResponse response = await _mediator.Send(new GetAllDepartmentsQueryRequest());
             return Ok(response);
         }
-        [Route("GetById")]
+        [Route("{id}")]
         [HttpGet]
         public async Task GetById()
         {
@@ -40,9 +40,9 @@ namespace VotingAPI.WebAPI.Controllers
             await _departmentWriteRepo.SaveChangesAsync();
 
         }
-        [Route("AddRange")]
+        [Route("list")]
         [HttpPost]
-        public async Task AddRange()
+        public async Task AddDepartmentList()
         {
             _departmentWriteRepo.AddRangeAsync(new() {
             new(){Id = 1, Name = "Computer Engineering"},
@@ -52,13 +52,13 @@ namespace VotingAPI.WebAPI.Controllers
             await _departmentWriteRepo.SaveChangesAsync();
         }
 
-        //[Route("AddDepartment")]
-        //[HttpPost]
-        //public async Task<IActionResult> AddDepartment(AddDepartmentRequest addDepartmentRequest)
-        //{
-        //    var response = await _.AddStudentAsync(addStudentRequest);
-        //    return Ok(response);
-        //}
+        [Route("")]
+        [HttpPost]
+        public async Task<IActionResult> AddDepartment(AddDepartmentRequest addDepartmentRequest)
+        {
+
+            return Ok();
+        }
 
     }
 }

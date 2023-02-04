@@ -9,6 +9,7 @@ using VotingAPI.Persistence.Repos;
 
 namespace VotingAPI.WebAPI.Controllers
 {
+    [Route("api/student")]
     [Route("api/v1/student")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Admin")]
