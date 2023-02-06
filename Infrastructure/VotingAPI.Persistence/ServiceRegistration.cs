@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Repositories.ModelRepos;
@@ -21,7 +22,9 @@ namespace VotingAPI.Persistence
                 options.User.RequireUniqueEmail = true;
                 options.Password.RequireUppercase = false;
             })
-                .AddEntityFrameworkStores<ElectionSystemDbContext>();
+                .AddRoles<AppRole>()
+                .AddEntityFrameworkStores<ElectionSystemDbContext>()
+                 .AddDefaultTokenProviders(); //todo bunu araştır
             services.AddScoped<IDepartmentReadRepo, DepartmentReadRepo>();
             services.AddScoped<ICandidateReadRepo, CandidateReadRepo>();
             services.AddScoped<IElectionTypeReadRepo, ElectionTypeReadRepo>();
@@ -45,8 +48,6 @@ namespace VotingAPI.Persistence
             services.AddScoped<ICandidateService, CandidateService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IUserService, UserService>();
-
-
         }
     }
 }

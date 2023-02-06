@@ -18,6 +18,7 @@ namespace VotingAPI.Persistence.Services
     public class UserService : IUserService
     {//todo bu servisin persistence içerisinde olması lazım
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
@@ -25,12 +26,14 @@ namespace VotingAPI.Persistence.Services
             UserManager<AppUser> userManager,
             IMapper mapper,
             SignInManager<AppUser> signInManager,
-            ITokenService tokenService)
+            ITokenService tokenService,
+            RoleManager<AppRole> roleManager)
         {
             _userManager = userManager;
             _mapper = mapper;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _roleManager = roleManager;
         }
         public async Task<bool> CreateUser(CreateUserRequest createUserRequest)
         {
@@ -55,12 +58,12 @@ namespace VotingAPI.Persistence.Services
             var user = await _userManager.FindByEmailAsync(loginUserRequest.Email);
             if (user == null)
                 throw new UserNotFoundException();
-
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginUserRequest.Password, false);
             if (result.Succeeded)
             {
-                TokenResponse tokenResponse = _tokenService.CreateAccessToken(5);//todo access token 5
-                UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.ExpirationDate, 5);//todo access token 5
+                List<string>  userRole = (List<string>)await _userManager.GetRolesAsync(user);
+                TokenResponse tokenResponse = _tokenService.CreateAccessToken(userRole, 5);//todo access token 5
+                await UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.ExpirationDate, 5);//todo access token 5
 
                 return new ()
                 {
@@ -74,7 +77,8 @@ namespace VotingAPI.Persistence.Services
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
             if (user != null && user?.RefreshTokenEndDate > DateTime.UtcNow)
             {
-                TokenResponse tokenResponse = _tokenService.CreateAccessToken(5);//todo access token 5
+                List<string> userRole = (List<string>)await _userManager.GetRolesAsync(user);
+                TokenResponse tokenResponse = _tokenService.CreateAccessToken(userRole, 5);//todo access token 5
                 await UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.ExpirationDate, 5);
                 return tokenResponse;
             }

@@ -12,7 +12,7 @@ namespace VotingAPI.WebAPI.Controllers
 {
     [Route("api/department")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Admin")]
+    [Authorize]
     public class DepartmentController : ControllerBase
     {
         private readonly IDepartmentReadRepo _departmentReadRepo;

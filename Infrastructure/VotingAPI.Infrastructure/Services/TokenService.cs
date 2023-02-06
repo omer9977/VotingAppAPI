@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,9 +29,15 @@ namespace VotingAPI.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public TokenResponse CreateAccessToken(int minute)
+        public TokenResponse CreateAccessToken(List<string> userRole, int minute)
         {
             TokenResponse tokenResponse = new();
+
+            List<Claim> claims = new();
+            foreach (string role in userRole)
+            {
+                claims.Add(new("role", role));
+            }
 
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
 
@@ -39,11 +46,12 @@ namespace VotingAPI.Infrastructure.Services
             tokenResponse.ExpirationDate = DateTime.UtcNow.AddMinutes(minute);
 
             JwtSecurityToken securityToken = new(
+                claims: claims,
+                expires: tokenResponse.ExpirationDate,
+                signingCredentials: signingCredentials,
                 audience: _configuration["Token:Audience"],
                 issuer: _configuration["Token:Issuer"],
-                expires: tokenResponse.ExpirationDate,
-                notBefore: DateTime.UtcNow,
-                signingCredentials: signingCredentials
+                notBefore: DateTime.UtcNow
                 );
             JwtSecurityTokenHandler tokenHandler = new();
                 tokenResponse.AccessToken = tokenHandler.WriteToken(securityToken);
