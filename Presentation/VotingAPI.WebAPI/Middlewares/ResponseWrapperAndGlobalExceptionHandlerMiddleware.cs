@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using VotingAPI.Application.Exceptions;
 
-namespace VotingAPI.WebAPI.Filters
+namespace VotingAPI.WebAPI.Middlewares
 {
 
     public class ResponseWrapperAndGlobalExceptionHandlerMiddleware
@@ -25,9 +25,11 @@ namespace VotingAPI.WebAPI.Filters
         public async Task Invoke(HttpContext context)
         {
             var originalBodyStream = context.Response.Body;
-            var jsonSerializerSettings = new JsonSerializerSettings { 
-                NullValueHandling = NullValueHandling.Ignore, 
-                ContractResolver = new CamelCasePropertyNamesContractResolver()};
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
             try
             {
                 using var responseBody = new MemoryStream();

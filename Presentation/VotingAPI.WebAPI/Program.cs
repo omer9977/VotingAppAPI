@@ -6,11 +6,11 @@ using VotingAPI.Infrastructure.Filters;
 using VotingAPI.Infrastructure;
 using VotingAPI.Infrastructure.Services.Storage.Local;
 using VotingAPI.Infrastructure.Services.Storage.Azure;
-using VotingAPI.WebAPI.Filters;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
+using VotingAPI.WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
