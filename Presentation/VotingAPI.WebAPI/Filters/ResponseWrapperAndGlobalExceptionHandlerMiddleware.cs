@@ -15,7 +15,7 @@ namespace VotingAPI.WebAPI.Filters
     {
         { typeof(ValidationException), HttpStatusCode.BadRequest },
         { typeof(DataNotFoundException), HttpStatusCode.NotFound },
-        { typeof(DataAddedException), HttpStatusCode.BadRequest},
+        { typeof(DataNotAddedException), HttpStatusCode.BadRequest},
 
     };
         public ResponseWrapperAndGlobalExceptionHandlerMiddleware(RequestDelegate next)

@@ -1,17 +1,10 @@
 ﻿using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Abstractions.Storage;
 using VotingAPI.Application.Dto.Request.Candidate;
-using VotingAPI.Application.Dto.Response;
 using VotingAPI.Application.Dto.Response.Candidate;
 using VotingAPI.Application.Dto.Response.ProfilePhoto;
 using VotingAPI.Application.Exceptions;
@@ -59,7 +52,7 @@ namespace VotingAPI.Persistence.Services
                 throw new DataNotFoundException(addCandidateRequest.StudentNumber);
             bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { Student = student, ApplicationDate = DateOnly.FromDateTime(DateTime.Now), ApproveStatus = 0 });
             if (!candidateAdded)
-                throw new DataAddedException();
+                throw new DataNotAddedException();
             await _candidateWriteRepo.SaveChangesAsync();
             return true;
         }

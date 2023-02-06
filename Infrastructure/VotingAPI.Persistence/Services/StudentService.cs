@@ -56,7 +56,7 @@ namespace VotingAPI.Persistence.Services
             var studentMapped = _mapper.Map<Student>(student);//todo : 1 Burayı anlamadım Student tipinde neden veriyoz ki
             bool addedStatus = await _studentWriteRepo.AddAsync(studentMapped);
             if (!addedStatus)
-                throw new DataAddedException();
+                throw new DataNotAddedException();
 
             await _studentWriteRepo.SaveChangesAsync();
         }

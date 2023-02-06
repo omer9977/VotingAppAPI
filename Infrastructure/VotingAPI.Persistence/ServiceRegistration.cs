@@ -48,6 +48,7 @@ namespace VotingAPI.Persistence
             services.AddScoped<ICandidateService, CandidateService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDepartmentService, DepartmentService>();
         }
     }
 }

@@ -43,18 +43,22 @@ namespace VotingAPI.Persistence.Contexts
             modelBuilder.Entity<TranscriptFile>()
                 .HasIndex(p => new { p.CandidateId })
                 .IsUnique(true);
+
             modelBuilder.Entity<CriminalRecordFile>()
                 .HasIndex(p => new { p.Path })
                 .IsUnique(true);
             modelBuilder.Entity<CriminalRecordFile>()
                 .HasIndex(p => new { p.CandidateId })
                 .IsUnique(true);
+
             modelBuilder.Entity<Student>()
                 .HasIndex(p => new { p.StudentNumber })
                 .IsUnique(true);
+
             modelBuilder.Entity<Candidate>()
                 .HasIndex(p => new { p.StudentId })
                 .IsUnique(true);
+
             modelBuilder.Entity<Vote>()
                 .HasIndex(p => new { p.VoterId })
                 .IsUnique(true);
@@ -64,10 +68,19 @@ namespace VotingAPI.Persistence.Contexts
             modelBuilder.Entity<Vote>()
                 .HasIndex(p => new { p.VotingPeriodId })
                 .IsUnique(true);
+
             modelBuilder.Entity<VotingPeriod>()
                 .HasIndex(p => new { p.ElectionTypeId })
                 .IsUnique(true);
+
+            modelBuilder.Entity<Department>()
+                .HasIndex(p => new { p.Name })
+                .IsUnique(true);
+
             base.OnModelCreating(modelBuilder);
+
+
+
             //modelBuilder.Entity<TranscriptFile>()
             //    .HasIndex(x => new { x.Candidate.Id }).IsUnique(true);
             //modelBuilder.Entity<CriminalRecordFile>()

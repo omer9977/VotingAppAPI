@@ -9,7 +9,6 @@ namespace VotingAPI.Application.Abstractions
         List<GetDepartmentResponse> GetDepartmentList();
         Task<GetDepartmentResponse> GetDepartmentByIdAsync(int id);
         Task<bool> AddDepartmentAsync(AddDepartmentRequest addDepartmentRequest);
-        Task<bool> UpdateDepartmentAsync(UpdateDepartmentRequest addDepartmentRequest);
         Task<bool> DeleteDepartmentAsync(int id);
     }
 }

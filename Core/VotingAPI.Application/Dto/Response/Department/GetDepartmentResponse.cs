@@ -8,5 +8,7 @@ namespace VotingAPI.Application.Dto.Response.Department
 {
     public class GetDepartmentResponse
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

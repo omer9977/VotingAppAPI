@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace VotingAPI.Application.Exceptions
 {
-    public class DataAddedException : Exception
+    public class DataNotAddedException : Exception
     {
-        public DataAddedException()
+        public DataNotAddedException()
             : base(ResultMessages.NotAddedRecord) { }
 
-        public DataAddedException(string? message) : base(message)
+        public DataNotAddedException(string? message) : base(message)
         {
         }
     }

@@ -1,12 +1,14 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
+using VotingAPI.Application.Dto.Request.Department;
 using VotingAPI.Application.Dto.Request.Student;
 using VotingAPI.Application.Dto.Request.User;
 using VotingAPI.Application.Dto.Response.Candidate;
+using VotingAPI.Application.Dto.Response.Department;
 using VotingAPI.Application.Dto.Response.ProfilePhoto;
 using VotingAPI.Application.Dto.Response.Student;
 using VotingAPI.Domain.Entities;
@@ -31,6 +33,8 @@ namespace VotingAPI.Application.Profiles
             CreateMap<CreateUserRequest, AppUser>()
                 .ForMember(c => c.UserName, g => g.MapFrom(x => x.Email));
 
+            CreateMap<AddDepartmentRequest, Department>();
+            CreateMap<Department, GetDepartmentResponse>();
             //todo burayı barışa sor her modelde mapper kullanmaya gerek var mı?
         }
     }
