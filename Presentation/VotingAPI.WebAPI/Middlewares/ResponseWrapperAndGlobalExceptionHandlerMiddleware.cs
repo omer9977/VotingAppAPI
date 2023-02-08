@@ -53,6 +53,7 @@ namespace VotingAPI.WebAPI.Middlewares
                 await responseBody.CopyToAsync(originalBodyStream);
             }
             //todo burada hata alıyorum arada : too many bytes are written 72 of 0 -> response null olduğunda hata veriyor
+            //todo 400 hata koşulu için if verilmemiş.
             catch (Exception ex)
             {
                 HttpStatusCode code = GetHttpStatusCode(ex) ?? HttpStatusCode.InternalServerError;

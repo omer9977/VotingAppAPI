@@ -12,9 +12,10 @@ namespace VotingAPI.Domain.Entities
 
     public class Student : BaseEntity
     {
-        public long StudentNumber { get; set; }
-        public string Name { get; set; }
-        public int DepartmentId { get; set; }
+        //public long StudentNumber { get; set; }
+        //public string Name { get; set; }
+        public int? DepartmentId { get; set; }
         public Department Department { get; set; }
+        public int UserId { get; set; }
     }
 }

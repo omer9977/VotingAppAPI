@@ -45,15 +45,15 @@ namespace VotingAPI.WebAPI.Controllers
             return Ok(response);
         }
 
-        [Route("")]
-        [HttpPost]
-        public async Task<IActionResult> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
-        {
-            var response = await _candidateService.AddCandidateAsync(addCandidateRequest);
-            //if (!response.IsSuccessful)
-            //    return BadRequest(response);
-            return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
-        }
+        //[Route("")]
+        //[HttpPost]
+        //public async Task<IActionResult> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
+        //{
+        //    var response = await _candidateService.AddCandidateAsync(addCandidateRequest);
+        //    //if (!response.IsSuccessful)
+        //    //    return BadRequest(response);
+        //    return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
+        //}
 
         [Route("{candidateId}/image")]
         [HttpGet]

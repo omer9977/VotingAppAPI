@@ -17,7 +17,7 @@ namespace VotingAPI.Application.Exceptions
         public const string AuthenticationFailed = "Authentication failed!";
         public const string DataNotDeleted = "Data not deleted!";
         public const string DataNotUpdated = "Data not updated!";
-
+        public const string TokenExpired = "Token has expired. Please verify again!";
 
 
         public static string PropertyNotFound(string nameOfProperty)

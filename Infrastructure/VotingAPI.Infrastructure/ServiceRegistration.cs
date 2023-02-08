@@ -20,7 +20,7 @@ namespace VotingAPI.Infrastructure
             services.AddScoped<IStorageService, StorageService>();
             //services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IMailService, MailService>();
+            services.AddTransient<IMailService, MailService>();
         }
         public static void AddStorage<T>(this IServiceCollection services) where T : class, IStorage
         {

@@ -13,7 +13,9 @@ namespace VotingAPI.Domain.Entities.Identity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override int Id { get; set; }
-        public long StudentNumber { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int SchoolId { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenEndDate { get; set; }
     }

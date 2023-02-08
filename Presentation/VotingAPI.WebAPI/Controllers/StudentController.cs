@@ -39,13 +39,13 @@ namespace VotingAPI.WebAPI.Controllers
 
         //todo where koşulu gerektiği durumda isimlendirme doğru mu (filter yapabilirsin)
         //todo bu şekilde kullanım çok hoşuma gitmedi
-        [Route("student-number/{studentNumber}")]
-        [HttpGet]
-        public async Task<IActionResult> GetStudentByStudentNumberAsync([FromRoute] long studentNumber)
-        {
-            var response = await _studentService.GetStudentByStudentNumberAsync(studentNumber);
-            return Ok(response);
-        }
+        //[Route("student-number/{studentNumber}")]
+        //[HttpGet]
+        //public async Task<IActionResult> GetStudentByStudentNumberAsync([FromRoute] long studentNumber)
+        //{
+        //    var response = await _studentService.GetStudentByStudentNumberAsync(studentNumber);
+        //    return Ok(response);
+        //}
 
         [Route("")]
         [HttpPost]

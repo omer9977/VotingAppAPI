@@ -42,14 +42,14 @@ namespace VotingAPI.Persistence.Services
             return response;
         }
 
-        public async Task<GetStudentResponse> GetStudentByStudentNumberAsync(long studentNumber)
-        {
-            var studentDb = await _studentReadRepo.GetSingleAsync(s => s.StudentNumber == studentNumber, false);
-            if (studentDb == null)
-                throw new DataNotFoundException(studentNumber);
-            var getStudentResponse = _mapper.Map<GetStudentResponse>(studentDb);
-            return getStudentResponse;
-        }
+        //public async Task<GetStudentResponse> GetStudentByStudentNumberAsync(long studentNumber)
+        //{
+        //    var studentDb = await _studentReadRepo.GetSingleAsync(s => s.StudentNumber == studentNumber, false);
+        //    if (studentDb == null)
+        //        throw new DataNotFoundException(studentNumber);
+        //    var getStudentResponse = _mapper.Map<GetStudentResponse>(studentDb);
+        //    return getStudentResponse;
+        //}
 
         public async Task AddStudentAsync(AddStudentRequest student)
         {

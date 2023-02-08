@@ -45,17 +45,17 @@ namespace VotingAPI.Persistence.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
-        {
-            var student = await _studentReadRepo.GetSingleAsync(c => c.StudentNumber == addCandidateRequest.StudentNumber);
-            if (student == null)
-                throw new DataNotFoundException(addCandidateRequest.StudentNumber);
-            bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { Student = student, ApplicationDate = DateOnly.FromDateTime(DateTime.Now), ApproveStatus = 0 });
-            if (!candidateAdded)
-                throw new DataNotAddedException();
-            await _candidateWriteRepo.SaveChangesAsync();
-            return true;
-        }
+        //public async Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
+        //{
+        //    var student = await _studentReadRepo.GetSingleAsync(c => c.StudentNumber == addCandidateRequest.StudentNumber);
+        //    if (student == null)
+        //        throw new DataNotFoundException(addCandidateRequest.StudentNumber);
+        //    bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { Student = student, ApplicationDate = DateOnly.FromDateTime(DateTime.Now), ApproveStatus = 0 });
+        //    if (!candidateAdded)
+        //        throw new DataNotAddedException();
+        //    await _candidateWriteRepo.SaveChangesAsync();
+        //    return true;
+        //}
 
         public async Task<GetCandidateResponse> GetCandidateByIdAsync(int id)
         {

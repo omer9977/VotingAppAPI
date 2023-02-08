@@ -51,9 +51,13 @@ namespace VotingAPI.Persistence.Contexts
                 .HasIndex(p => new { p.CandidateId })
                 .IsUnique(true);
 
-            modelBuilder.Entity<Student>()
-                .HasIndex(p => new { p.StudentNumber })
+            modelBuilder.Entity<AppUser>()
+                .HasIndex(p => new { p.SchoolId })
                 .IsUnique(true);
+
+            modelBuilder.Entity<AppUser>()
+            .HasIndex(p => new { p.RefreshToken })
+            .IsUnique(true);
 
             modelBuilder.Entity<Candidate>()
                 .HasIndex(p => new { p.StudentId })
@@ -75,6 +79,10 @@ namespace VotingAPI.Persistence.Contexts
 
             modelBuilder.Entity<Department>()
                 .HasIndex(p => new { p.Name })
+                .IsUnique(true);
+
+            modelBuilder.Entity<ElectionType>()
+                .HasIndex(p => new { p.TypeName })
                 .IsUnique(true);
 
             base.OnModelCreating(modelBuilder);

@@ -13,16 +13,14 @@ namespace VotingAPI.Application.Validators
     {
         public AddStudentValidator()
         {
-            RuleFor(s => s.StudentNumber).NotNull().NotEmpty().Must(s => s > 0).WithMessage("Please enter a valid student number!");
-            RuleFor(s => s.Name).NotNull().NotEmpty().WithMessage("Please enter a valid student name!");
         }
     }
     public class UpdateStudentValidator : AbstractValidator<UpdateStudentRequest>
     {
         public UpdateStudentValidator()
         {
-            RuleFor(s => s.StudentNumber).NotNull().NotEmpty().Must(s => s > 0).WithMessage("Please enter a valid student number!");
-            RuleFor(s => s.Name).NotNull().NotEmpty().WithMessage("Please enter a valid student name!");
+            //RuleFor(s => s.StudentNumber).NotNull().NotEmpty().Must(s => s > 0).WithMessage("Please enter a valid student number!");
+            //RuleFor(s => s.Name).NotNull().NotEmpty().WithMessage("Please enter a valid student name!");
         }
     }
 }

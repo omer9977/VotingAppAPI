@@ -22,14 +22,19 @@ namespace VotingAPI.Application.Profiles
         public WebProfiles() 
         {
             CreateMap<ProfilePhotoFile, AddProfilePhotoResponse>();
-            CreateMap<Candidate, AddCandidateResponse>();
+            //CreateMap<AddStudentRequest, AppUser>()
+            //.ForMember(x => x.);
+            CreateMap<AppUser, AddStudentRequest>()
+                .ForMember(s => s.UserId, x => x.MapFrom(t => t.Id));
+
             CreateMap<AddStudentRequest, Student>();
+            CreateMap<Student, AddStudentResponse>();
             CreateMap<Student, AddStudentResponse>();
             //CreateMap<Student, GetStudentListResponse>();
             CreateMap<Student, GetStudentResponse>();
-            CreateMap<Candidate, GetCandidateResponse>()
-                .ForMember(c => c.StudentNumber, g => g.MapFrom(x => x.Student.StudentNumber))
-                .ForMember(c => c.Name, g => g.MapFrom(x => x.Student.Name));
+            CreateMap<Candidate, GetCandidateResponse>();
+                //.ForMember(c => c.StudentNumber, g => g.MapFrom(x => x.Student.StudentNumber))
+                //.ForMember(c => c.Name, g => g.MapFrom(x => x.Student.Name));
             CreateMap<CreateUserRequest, AppUser>()
                 .ForMember(c => c.UserName, g => g.MapFrom(x => x.Email));
 

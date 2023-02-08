@@ -12,7 +12,7 @@ namespace VotingAPI.Application.Abstractions
     {
         List<GetStudentResponse> GetStudentList();
         Task<GetStudentResponse> GetStudentByIdAsync(int id);
-        Task<GetStudentResponse> GetStudentByStudentNumberAsync(long studentNumber);
+        //Task<GetStudentResponse> GetStudentByStudentNumberAsync(long studentNumber);
         Task AddStudentAsync(AddStudentRequest addStudentRequest);
         Task UpdateStudentAsync(UpdateStudentRequest updateStudentRequest);
         Task DeleteStudentAsync(int id);

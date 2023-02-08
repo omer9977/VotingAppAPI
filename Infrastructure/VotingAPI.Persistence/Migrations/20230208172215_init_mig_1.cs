@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace VotingAPI.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class initmig : Migration
+    public partial class initmig1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,7 +36,9 @@ namespace VotingAPI.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    StudentNumber = table.Column<long>(type: "bigint", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    SchoolId = table.Column<int>(type: "integer", nullable: false),
                     RefreshToken = table.Column<string>(type: "text", nullable: true),
                     RefreshTokenEndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -200,9 +202,8 @@ namespace VotingAPI.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    StudentNumber = table.Column<long>(type: "bigint", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    DepartmentId = table.Column<int>(type: "integer", nullable: false)
+                    DepartmentId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -436,6 +437,18 @@ namespace VotingAPI.Persistence.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_RefreshToken",
+                table: "AspNetUsers",
+                column: "RefreshToken",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_SchoolId",
+                table: "AspNetUsers",
+                column: "SchoolId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -463,6 +476,20 @@ namespace VotingAPI.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Departments_Name",
+                schema: "dbo",
+                table: "Departments",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ElectionTypes_TypeName",
+                schema: "dbo",
+                table: "ElectionTypes",
+                column: "TypeName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProfilePhotos_CandidateId",
                 schema: "dbo",
                 table: "ProfilePhotos",
@@ -473,13 +500,6 @@ namespace VotingAPI.Persistence.Migrations
                 schema: "dbo",
                 table: "Students",
                 column: "DepartmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Students_StudentNumber",
-                schema: "dbo",
-                table: "Students",
-                column: "StudentNumber",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TranscriptFiles_CandidateId",

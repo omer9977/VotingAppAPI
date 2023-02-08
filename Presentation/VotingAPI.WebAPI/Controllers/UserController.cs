@@ -18,7 +18,7 @@ namespace VotingAPI.WebAPI.Controllers
         }
         [Route("")]
         [HttpPost]
-        public async Task<IActionResult> CreateUser(CreateUserRequest createUserRequest)
+        public async Task<IActionResult> CreateUserAsync(CreateUserRequest createUserRequest)
         {
             var response = await _userService.CreateUser(createUserRequest);
             return Ok(response);
@@ -26,7 +26,7 @@ namespace VotingAPI.WebAPI.Controllers
 
         [Route("login")]
         [HttpPost]
-        public async Task<IActionResult> Login(LoginUserRequest loginUserRequest)
+        public async Task<IActionResult> LoginAsync(LoginUserRequest loginUserRequest)
         {
             var user = await _userService.Login(loginUserRequest);
             return Ok(user);
@@ -34,17 +34,33 @@ namespace VotingAPI.WebAPI.Controllers
 
         [Route("refresh-token-login")]
         [HttpPost]
-        public async Task<IActionResult> RefreshTokenLogin([FromForm]string refreshToken)
+        public async Task<IActionResult> RefreshTokenLoginAsync([FromForm]string refreshToken)
         {
-            var user = await _userService.RefreshTokenLoginAsync(refreshToken);
+            var user = await _userService.MailVerificationLoginAsync(refreshToken);
             return Ok(user);
+        }
+
+        [Route("mail-verification-login")]
+        [HttpPost]
+        public async Task<IActionResult> MailVerificationLoginAsync([FromForm]string refreshToken)
+        {
+            var user = await _userService.MailVerificationLoginAsync(refreshToken);
+            return Ok(user);
+        }
+
+        [Route("resend-mail-verification-login")]
+        [HttpPost]
+        public async Task<IActionResult> ResendMailVerificationLogin([FromForm] string refreshToken)
+        {
+            await _userService.ResendVerificationByMailAsync(refreshToken);
+            return Ok();
         }
 
         [Route("mail")]
         [HttpPost]
         public async Task<IActionResult> Mail()
         {
-            await _mailService.SendMessageAsync("omerbilgin1999@gmail.com", "Örnek Email", "Bu bir örnek maildir", false);
+            //await _mailService.SendEmailAsync("omerbilgin1999@gmail.com", "Örnek Email", "Bu bir örnek maildir", false);
             return Ok();
         }
     }

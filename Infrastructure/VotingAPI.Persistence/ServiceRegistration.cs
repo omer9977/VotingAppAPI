@@ -21,6 +21,7 @@ namespace VotingAPI.Persistence
                 options.Password.RequireNonAlphanumeric = false;
                 options.User.RequireUniqueEmail = true;
                 options.Password.RequireUppercase = false;
+                options.SignIn.RequireConfirmedEmail = true;
             })
                 .AddRoles<AppRole>()
                 .AddEntityFrameworkStores<ElectionSystemDbContext>()

@@ -11,25 +11,20 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
 using VotingAPI.WebAPI.Middlewares;
 using VotingAPI.Application.Validators;
+using VotingAPI.Application.Settings;
+using VotingAPI.WebAPI.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddPersistenceDI();
-builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructureServices();
+builder.Services.ConfigureService();
 
-builder.Services.AddStorage<AzureStorage>();
-builder.Services.AddApiVersioning(_ =>
-{
-    _.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
-    _.AssumeDefaultVersionWhenUnspecified = true;
-});
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidationFilter>();
 })
     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<AddDepartmentValidator>())
     .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

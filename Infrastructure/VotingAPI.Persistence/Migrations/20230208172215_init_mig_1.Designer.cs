@@ -12,8 +12,8 @@ using VotingAPI.Persistence.Contexts;
 namespace VotingAPI.Persistence.Migrations
 {
     [DbContext(typeof(ElectionSystemDbContext))]
-    [Migration("20230204185617_init_mig")]
-    partial class initmig
+    [Migration("20230208172215_init_mig_1")]
+    partial class initmig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -167,6 +167,9 @@ namespace VotingAPI.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Departments", "dbo");
                 });
 
@@ -183,6 +186,9 @@ namespace VotingAPI.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TypeName")
+                        .IsUnique();
 
                     b.ToTable("ElectionTypes", "dbo");
                 });
@@ -342,6 +348,14 @@ namespace VotingAPI.Persistence.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
@@ -371,11 +385,11 @@ namespace VotingAPI.Persistence.Migrations
                     b.Property<DateTime?>("RefreshTokenEndDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("SchoolId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
-
-                    b.Property<long>("StudentNumber")
-                        .HasColumnType("bigint");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
@@ -393,6 +407,12 @@ namespace VotingAPI.Persistence.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
+                    b.HasIndex("RefreshToken")
+                        .IsUnique();
+
+                    b.HasIndex("SchoolId")
+                        .IsUnique();
+
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
@@ -407,19 +427,12 @@ namespace VotingAPI.Persistence.Migrations
                     b.Property<int>("DepartmentId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long>("StudentNumber")
-                        .HasColumnType("bigint");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
-
-                    b.HasIndex("StudentNumber")
-                        .IsUnique();
 
                     b.ToTable("Students", "dbo");
                 });

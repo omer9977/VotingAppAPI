@@ -35,7 +35,7 @@ namespace VotingAPI.WebAPI.Controllers
         }
         [Route("{id}")]
         [HttpGet]
-        public async Task<IActionResult> GetDepartmentById(int id)
+        public async Task<IActionResult> GetDepartmentByIdAsync(int id)
         {
             var response = await _departmentService.GetDepartmentByIdAsync(id);
             return Ok(response);
@@ -43,7 +43,7 @@ namespace VotingAPI.WebAPI.Controllers
 
         [Route("")]
         [HttpPost]
-        public async Task<IActionResult> AddDepartment(AddDepartmentRequest addDepartmentRequest)
+        public async Task<IActionResult> AddDepartmentAsync(AddDepartmentRequest addDepartmentRequest)
         {
             bool isAdded = await _departmentService.AddDepartmentAsync(addDepartmentRequest);
             return StatusCode(201);
@@ -51,7 +51,7 @@ namespace VotingAPI.WebAPI.Controllers
 
         [Route("")]
         [HttpPut]
-        public async Task<IActionResult> UpdateDepartment(UpdateDepartmentRequest updateDepartmentRequest)
+        public async Task<IActionResult> UpdateDepartmentAsync(UpdateDepartmentRequest updateDepartmentRequest)
         {
             bool isUpdated = await _departmentService.UpdateDepartmentAsync(updateDepartmentRequest);
             return Ok();
@@ -59,7 +59,7 @@ namespace VotingAPI.WebAPI.Controllers
 
         [Route("{id}")]
         [HttpDelete]
-        public async Task<IActionResult> DeleteDepartmentById([FromRoute]int id)
+        public async Task<IActionResult> DeleteDepartmentByIdAsync([FromRoute]int id)
         {
             bool isDeleted = await _departmentService.DeleteDepartmentAsync(id);
             return Ok();

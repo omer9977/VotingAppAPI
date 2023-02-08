@@ -8,8 +8,9 @@ namespace VotingAPI.Application.Dto.Request.User
 {
     public class CreateUserRequest
     {
-        public long StudentNumber { get; set; }
-        //public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int SchoolId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
     }
