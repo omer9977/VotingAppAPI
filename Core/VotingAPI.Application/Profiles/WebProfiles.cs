@@ -35,6 +35,8 @@ namespace VotingAPI.Application.Profiles
 
             CreateMap<AddDepartmentRequest, Department>();
             CreateMap<Department, GetDepartmentResponse>();
+            CreateMap<UpdateDepartmentRequest, Department>();
+            CreateMap<UpdateStudentRequest, Student>();
             //todo burayı barışa sor her modelde mapper kullanmaya gerek var mı?
         }
     }

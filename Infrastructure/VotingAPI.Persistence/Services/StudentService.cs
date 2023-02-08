@@ -60,6 +60,26 @@ namespace VotingAPI.Persistence.Services
 
             await _studentWriteRepo.SaveChangesAsync();
         }
+
+        public async Task UpdateStudentAsync(UpdateStudentRequest updateStudentRequest)
+        {
+            var student = await _studentReadRepo.GetByIdAsync(updateStudentRequest.Id);
+            if (student == null)
+                throw new DataNotFoundException(updateStudentRequest.Id);
+            var studentMapped = _mapper.Map<Student>(updateStudentRequest);
+            bool isUpdated = _studentWriteRepo.Update(studentMapped);
+            if (!isUpdated)
+                throw new DataNotUpdatedException();
+            await _studentWriteRepo.SaveChangesAsync();
+        }
+
+        public async Task DeleteStudentAsync(int id)
+        {
+            bool isDeleted = await _studentWriteRepo.RemoveByIdAsync(id);
+            if (!isDeleted)
+                throw new DataNotDeletedException();
+            await _studentWriteRepo.SaveChangesAsync();
+        }
         //todo : 5 buralarda null dönmesi sonucu çok fazla throw atma yapıyorum, ben repolarda bu işlemin yapılmasını daha uygun görüyorum fakat single responsibility ilkesine ters imiş. Fakat 
         //bu şekilde de kod tekrarı yaşanıyor
     }

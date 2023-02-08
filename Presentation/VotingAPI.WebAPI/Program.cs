@@ -1,7 +1,6 @@
 ﻿using VotingAPI.Application;
 using VotingAPI.Persistence;
 using FluentValidation.AspNetCore;
-using VotingAPI.Application.Validators.Departments;
 using VotingAPI.Infrastructure.Filters;
 using VotingAPI.Infrastructure;
 using VotingAPI.Infrastructure.Services.Storage.Local;
@@ -11,6 +10,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
 using VotingAPI.WebAPI.Middlewares;
+using VotingAPI.Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 

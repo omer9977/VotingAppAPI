@@ -52,6 +52,18 @@ namespace VotingAPI.Persistence.Services
             var response = _mapper.Map<GetDepartmentResponse>(department);
             return response;
         }
+        public async Task<bool> UpdateDepartmentAsync(UpdateDepartmentRequest updateDepartmentRequest)
+        {
+            var department = await _departmentReadRepo.GetByIdAsync(updateDepartmentRequest.Id, false);
+            if (department == null)
+                throw new DataNotFoundException(updateDepartmentRequest.Id);
+            var departmentMapped = _mapper.Map<Department>(updateDepartmentRequest);
+            bool isUpdated =  _departmentWriteRepo.Update(departmentMapped);
+            if (!isUpdated)
+                throw new DataNotUpdatedException();
+            await _departmentWriteRepo.SaveChangesAsync();
+            return isUpdated;
+        }
 
         public async Task<bool> DeleteDepartmentAsync(int id)
         {

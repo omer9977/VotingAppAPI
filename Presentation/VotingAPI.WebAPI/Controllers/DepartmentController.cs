@@ -46,6 +46,14 @@ namespace VotingAPI.WebAPI.Controllers
         public async Task<IActionResult> AddDepartment(AddDepartmentRequest addDepartmentRequest)
         {
             bool isAdded = await _departmentService.AddDepartmentAsync(addDepartmentRequest);
+            return StatusCode(201);
+        }
+
+        [Route("")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateDepartment(UpdateDepartmentRequest updateDepartmentRequest)
+        {
+            bool isUpdated = await _departmentService.UpdateDepartmentAsync(updateDepartmentRequest);
             return Ok();
         }
 

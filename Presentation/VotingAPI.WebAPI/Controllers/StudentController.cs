@@ -10,9 +10,8 @@ using VotingAPI.Persistence.Repos;
 namespace VotingAPI.WebAPI.Controllers
 {
     [Route("api/student")]
-    [Route("api/v1/student")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Admin")]
+    //[Authorize(AuthenticationSchemes = "Admin")]
     public class StudentController : ControllerBase
     {
         private readonly IStudentService _studentService;
@@ -56,23 +55,20 @@ namespace VotingAPI.WebAPI.Controllers
             return StatusCode(201);
         }
 
-        //[Route("")]
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateStudentAsync(AddStudentRequest addStudentRequest)
-        //{
-        //    await _studentService.AddStudentAsync(addStudentRequest);
-        //    return StatusCode(201);
-        //}
+        [Route("{id}")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteStudentAsync(int id)
+        {
+            await _studentService.DeleteStudentAsync(id);
+            return Ok();
+        }
 
-        //[Route("")]
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteStudentAsync(AddStudentRequest addStudentRequest)
-        //{
-        //    await _studentService.AddStudentAsync(addStudentRequest);
-        //    return StatusCode(201);
-        //}
-
-
-
+        [Route("")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateStudentAsync(UpdateStudentRequest updateStudentRequest)
+        {
+            await _studentService.UpdateStudentAsync(updateStudentRequest);
+            return Ok();
+        }
     }
 }
