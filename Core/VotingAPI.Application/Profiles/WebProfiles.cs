@@ -21,7 +21,7 @@ namespace VotingAPI.Application.Profiles
     {
         public WebProfiles() 
         {
-            CreateMap<ProfilePhotoFile, AddProfilePhotoResponse>();
+            CreateMap<ProfilePhotoFile, AddFileResponse>();
             //CreateMap<AddStudentRequest, AppUser>()
             //.ForMember(x => x.);
             CreateMap<AppUser, AddStudentRequest>()

@@ -15,6 +15,7 @@ using VotingAPI.Application.Dto.Request.User;
 using VotingAPI.Application.Dto.Response.User;
 using VotingAPI.Application.Exceptions;
 using VotingAPI.Domain.Entities.Identity;
+using VotingAPI.Persistence.Enums;
 
 namespace VotingAPI.Persistence.Services
 {
@@ -79,7 +80,7 @@ namespace VotingAPI.Persistence.Services
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginUserRequest.Password, false);
             if (result.Succeeded)
             {
-                List<string>  userRole = (List<string>)await _userManager.GetRolesAsync(user);
+                List<string> userRole = (List<string>)await _userManager.GetRolesAsync(user);
                 TokenResponse tokenResponse = _tokenService.CreateAccessToken(userRole, 5);//todo access token 5
                 await UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.ExpirationDate, 5);//todo access token 5
 
@@ -98,17 +99,27 @@ namespace VotingAPI.Persistence.Services
                 throw new UserNotFoundException();
             if (user?.RefreshTokenEndDate > DateTime.UtcNow)
             {
+                try
+                {
                 user.EmailConfirmed = true;//user manager save change yok kaydediliyormu kontrol et
                 if (user.Email.EndsWith(_configuration[SchoolDomainStudent])) //todo string kontrolünün olması çok iyi değil, başka bir fikir bul
                 {
                     var student = _mapper.Map<AddStudentRequest>(user);
                     await _userManager.UpdateAsync(user);
                     await _studentService.AddStudentAsync(student);
+                    await _userManager.AddToRoleAsync(user, UserRoles.Student.ToString());
                     return true;
                 }
                 else if (user.Email.EndsWith(_configuration[SchoolDomainEmployee]))
                 {
                     //employee logic
+                }
+
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
                 }
                 //eğer email domain i std içeriyorsa student servise bu user i ekle, eğer pers içeriyor ise bunu personel tablosuna ekle
             }

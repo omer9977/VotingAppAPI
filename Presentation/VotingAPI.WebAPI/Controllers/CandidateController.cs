@@ -45,25 +45,25 @@ namespace VotingAPI.WebAPI.Controllers
             return Ok(response);
         }
 
-        //[Route("")]
-        //[HttpPost]
-        //public async Task<IActionResult> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
-        //{
-        //    var response = await _candidateService.AddCandidateAsync(addCandidateRequest);
-        //    //if (!response.IsSuccessful)
-        //    //    return BadRequest(response);
-        //    return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
-        //}
-
-        [Route("{candidateId}/image")]
-        [HttpGet]
-        public async Task<IActionResult> GetCandidateImageAsync(int candidateId)
+        [Route("")]
+        [HttpPost]
+        public async Task<IActionResult> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
         {
-            var candidateImage = await _candidateService.GetCandidateImageAsync(candidateId);
-            //if (!candidateImage.IsSuccessful)
-            //    return BadRequest(candidateImage);
-            return Ok(candidateImage);
+            var response = await _candidateService.AddCandidateAsync(addCandidateRequest);
+            //if (!response.IsSuccessful)
+            //    return BadRequest(response);
+            return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
         }
+
+        //[Route("{candidateId}/image/{fileTypeId}")]
+        //[HttpGet]
+        //public async Task<IActionResult> GetCandidateImageAsync(int candidateId, short fileTypeId)
+        //{
+        //    var candidateImage = await _candidateService.GetCandidateImageAsync(candidateId);
+        //    //if (!candidateImage.IsSuccessful)
+        //    //    return BadRequest(candidateImage);
+        //    return Ok(candidateImage);
+        //}
         [Route("{candidateId}/image")]
         [HttpPost]
         public async Task<IActionResult> UploadCandidateImageAsync(int candidateId)

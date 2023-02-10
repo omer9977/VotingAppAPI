@@ -23,6 +23,8 @@ namespace VotingAPI.Persistence.Services
         private readonly IStorageService _storageService;
         private readonly IProfilePhotoFileWriteRepo _profilePhotoFileWriteRepo;
         private readonly IProfilePhotoFileReadRepo _profilePhotoFileReadRepo;
+        private readonly IFileReadRepo _fileReadRepo;
+        private readonly IFileWriteRepo _fileWriteRepo;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         public CandidateService(ICandidateReadRepo candidateReadRepo,
@@ -45,24 +47,23 @@ namespace VotingAPI.Persistence.Services
             _mapper = mapper;
         }
 
-        //public async Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
-        //{
-        //    var student = await _studentReadRepo.GetSingleAsync(c => c.StudentNumber == addCandidateRequest.StudentNumber);
-        //    if (student == null)
-        //        throw new DataNotFoundException(addCandidateRequest.StudentNumber);
-        //    bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { Student = student, ApplicationDate = DateOnly.FromDateTime(DateTime.Now), ApproveStatus = 0 });
-        //    if (!candidateAdded)
-        //        throw new DataNotAddedException();
-        //    await _candidateWriteRepo.SaveChangesAsync();
-        //    return true;
-        //}
+        public async Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
+        {
+            //var student = await _studentReadRepo.GetSingleAsync(c => c.Id == addCandidateRequest.StudentNumber);
+            //if (student == null)
+            //    throw new DataNotFoundException(addCandidateRequest.StudentNumber);
+            bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { StudentId = addCandidateRequest.StudentId, ApplicationDate = DateOnly.FromDateTime(DateTime.Now), ApproveStatus = 0 });
+            if (!candidateAdded)
+                throw new DataNotAddedException();
+            await _candidateWriteRepo.SaveChangesAsync();
+            return true;
+        }
 
         public async Task<GetCandidateResponse> GetCandidateByIdAsync(int id)
         {
             var candidate = await _candidateReadRepo.Table.Include(x => x.Student).FirstOrDefaultAsync(x => x.Id == id);
             if (candidate == null)
                 throw new DataNotFoundException(id);
-            //todo exception yap
             var candidateResponse = _mapper.Map<GetCandidateResponse>(candidate);
             return candidateResponse;
         }
@@ -74,16 +75,16 @@ namespace VotingAPI.Persistence.Services
             return candidateList;
         }
         //todo Student objesi null geliyor
-        public async Task<GetProfilePhotoResponse> GetCandidateImageAsync(int candidateId)
-        {
-            var photoDb = await _profilePhotoFileReadRepo.GetSingleAsync(p => p.CandidateId == candidateId);
-            if (photoDb == null)
-                throw new DataNotFoundException(candidateId);
+        //public async Task<GetProfilePhotoResponse> GetCandidateImageAsync(int candidateId, short fileTypeId)
+        //{
+        //    var photoDb = await _fileReadRepo.GetSingleAsync(p => p.CandidateId == candidateId );
+        //    if (photoDb == null)
+        //        throw new DataNotFoundException(candidateId);
 
-            string fullPath = $"{_configuration["BaseStorageUrl"]}/{photoDb.Path}";
-            GetProfilePhotoResponse response = new() { CandidateId = candidateId, FileName = photoDb.FileName, Path = fullPath };
-            return response;
-        }
+        //    string fullPath = $"{_configuration["BaseStorageUrl"]}/{photoDb.Path}";
+        //    GetProfilePhotoResponse response = new() { CandidateId = candidateId, FileName = photoDb.FileName, Path = fullPath };
+        //    return response;
+        //}
         public async Task<bool> UploadCandidateImageAsync(int candidateId, IFormFileCollection files)
         {
             var datas = await _storageService.UploadAsync("profilephotos", files);
@@ -106,11 +107,11 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<bool> DeleteCandidateProfilePhotoAsync(int candidateId)
         {
-            var profilePhoto = await _profilePhotoFileReadRepo.GetSingleAsync(c => c.CandidateId == candidateId);
+            var profilePhoto = await _profilePhotoFileReadRepo.GetSingleAsync(c => c.Id == candidateId);
             if (profilePhoto == null)
                 throw new DataNotFoundException(candidateId);
             _profilePhotoFileWriteRepo.Remove(profilePhoto);
-            _profilePhotoFileWriteRepo.SaveChangesAsync();
+            await _profilePhotoFileWriteRepo.SaveChangesAsync();
             await _storageService.DeleteFileAsync(profilePhoto.Path, profilePhoto.FileName);
             return true;
         }//todo burada null kontrolleri çok oldu, kısa yöntemi yok mu

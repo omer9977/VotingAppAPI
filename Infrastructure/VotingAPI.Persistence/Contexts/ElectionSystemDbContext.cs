@@ -23,12 +23,14 @@ namespace VotingAPI.Persistence.Contexts
         public DbSet<VotingPeriod> VotingPeriods { get; set; }
         public DbSet<ElectionType> ElectionTypes { get; set; }
         public DbSet<Student> Students { get; set; }
-        public DbSet<ProfilePhotoFile> ProfilePhotoFiles { get; set; }
+        //public DbSet<ProfilePhotoFile> ProfilePhotoFiles { get; set; }
 
-        //public DbSet<Domain.Entities.Common.File> Files { get; set; }
+        public DbSet<Domain.Entities.Common.File> Files { get; set; }
+        public DbSet<FileType> FileType { get; set; }
 
-        public DbSet<F.TranscriptFile> TranscriptFiles { get; set; }
-        public DbSet<F.CriminalRecordFile> CriminalRecordFiles { get; set; }
+
+        //public DbSet<F.TranscriptFile> TranscriptFiles { get; set; }
+        //public DbSet<F.CriminalRecordFile> CriminalRecordFiles { get; set; }
 
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -83,6 +85,14 @@ namespace VotingAPI.Persistence.Contexts
 
             modelBuilder.Entity<ElectionType>()
                 .HasIndex(p => new { p.TypeName })
+                .IsUnique(true);
+
+            modelBuilder.Entity<Student>()
+                .HasIndex(p => new { p.UserId })
+                .IsUnique(true);
+
+            modelBuilder.Entity<FileType>()
+                .HasIndex(p => new { p.Name })
                 .IsUnique(true);
 
             base.OnModelCreating(modelBuilder);

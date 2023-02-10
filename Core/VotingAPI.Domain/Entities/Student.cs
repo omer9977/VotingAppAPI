@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Domain.Entities.Common;
+using VotingAPI.Domain.Entities.Identity;
 
 namespace VotingAPI.Domain.Entities
 {
@@ -16,6 +17,8 @@ namespace VotingAPI.Domain.Entities
         //public string Name { get; set; }
         public int? DepartmentId { get; set; }
         public Department Department { get; set; }
+        [ForeignKey("AspNetUsers")]
         public int UserId { get; set; }
+        public AppUser User { get; set; }
     }
 }

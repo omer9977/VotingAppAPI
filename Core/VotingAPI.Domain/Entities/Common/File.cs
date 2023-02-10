@@ -8,13 +8,17 @@ using System.Threading.Tasks;
 
 namespace VotingAPI.Domain.Entities.Common
 {
+    [Table("Files", Schema = "dbo")]
     public class File : BaseEntity
     {
         public string FileName { get; set; }
         public string Path { get; set; }
         public Candidate Candidate { get; set; }
         public string Storage { get; set; }
-        public int CandidateId { get; set; }
+        [ForeignKey("AspNetUsers")]
+        public int UserId { get; set; }
+        [ForeignKey("FileTypes")]
+        public int FileTypeId { get; set; }
         //[ForeignKey("TranscriptFiles")]
         //[Column("TranscriptFileId")]
         //public int TranscriptFileId { get; set; }

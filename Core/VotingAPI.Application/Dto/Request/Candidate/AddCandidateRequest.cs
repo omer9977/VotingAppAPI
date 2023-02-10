@@ -8,6 +8,6 @@ namespace VotingAPI.Application.Dto.Request.Candidate
 {
     public class AddCandidateRequest
     {
-        public int StudentNumber { get; set; }
+        public int StudentId { get; set; }
     }
 }

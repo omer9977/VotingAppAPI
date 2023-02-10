@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace VotingAPI.Application.Dto.Response.ProfilePhoto
 {
-    public class GetProfilePhotoResponse
+    public class AddFileResponse
     {
-        public int CandidateId { get; set; }
         public string FileName { get; set; }
         public string Path { get; set; }
     }

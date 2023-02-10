@@ -55,13 +55,5 @@ namespace VotingAPI.WebAPI.Controllers
             await _userService.ResendVerificationByMailAsync(refreshToken);
             return Ok();
         }
-
-        [Route("mail")]
-        [HttpPost]
-        public async Task<IActionResult> Mail()
-        {
-            //await _mailService.SendEmailAsync("omerbilgin1999@gmail.com", "Örnek Email", "Bu bir örnek maildir", false);
-            return Ok();
-        }
     }
 }

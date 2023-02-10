@@ -58,7 +58,7 @@ namespace VotingAPI.Persistence.Services
             if (!addedStatus)
                 throw new DataNotAddedException();
 
-            await _studentWriteRepo.SaveChangesAsync();
+            await _studentWriteRepo.SaveChangesAsync();//todo arada foreign key kaynaklı hata çözümü var ama çok fazka try catch geleceek: https://stackoverflow.com/questions/2403348/how-can-i-know-if-an-sqlexception-was-thrown-because-of-foreign-key-violation
         }
 
         public async Task UpdateStudentAsync(UpdateStudentRequest updateStudentRequest)

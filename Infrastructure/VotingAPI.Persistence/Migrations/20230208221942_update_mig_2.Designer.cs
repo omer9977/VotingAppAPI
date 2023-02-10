@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VotingAPI.Persistence.Contexts;
@@ -11,9 +12,11 @@ using VotingAPI.Persistence.Contexts;
 namespace VotingAPI.Persistence.Migrations
 {
     [DbContext(typeof(ElectionSystemDbContext))]
-    partial class ElectionSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230208221942_update_mig_2")]
+    partial class updatemig2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,45 +153,6 @@ namespace VotingAPI.Persistence.Migrations
                     b.ToTable("Candidates", "dbo");
                 });
 
-            modelBuilder.Entity("VotingAPI.Domain.Entities.Common.File", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<short>("ApprovedStatus")
-                        .HasColumnType("smallint");
-
-                    b.Property<int>("CandidateId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("FileTypeId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Storage")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CandidateId")
-                        .IsUnique();
-
-                    b.ToTable("Files", "dbo");
-
-                    b.UseTptMappingStrategy();
-                });
-
             modelBuilder.Entity("VotingAPI.Domain.Entities.Department", b =>
                 {
                     b.Property<int>("Id")
@@ -229,7 +193,7 @@ namespace VotingAPI.Persistence.Migrations
                     b.ToTable("ElectionTypes", "dbo");
                 });
 
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileType", b =>
+            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.CriminalRecordFile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -237,16 +201,100 @@ namespace VotingAPI.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<short>("ApprovedStatus")
+                        .HasColumnType("smallint");
+
+                    b.Property<int>("CandidateId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Storage")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
+                    b.HasIndex("CandidateId")
                         .IsUnique();
 
-                    b.ToTable("FileTypes", "dbo");
+                    b.HasIndex("Path")
+                        .IsUnique();
+
+                    b.ToTable("CriminalRecordFiles", "dbo");
+                });
+
+            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.ProfilePhotoFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CandidateId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Storage")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidateId");
+
+                    b.ToTable("ProfilePhotos", "dbo");
+                });
+
+            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.TranscriptFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<short>("ApprovedStatus")
+                        .HasColumnType("smallint");
+
+                    b.Property<int>("CandidateId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Storage")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidateId")
+                        .IsUnique();
+
+                    b.HasIndex("Path")
+                        .IsUnique();
+
+                    b.ToTable("TranscriptFiles", "dbo");
                 });
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Identity.AppRole", b =>
@@ -479,26 +527,6 @@ namespace VotingAPI.Persistence.Migrations
                     b.ToTable("VotingPeriods", "dbo");
                 });
 
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.CriminalRecordFile", b =>
-                {
-                    b.HasBaseType("VotingAPI.Domain.Entities.Common.File");
-
-                    b.HasIndex("Path")
-                        .IsUnique();
-
-                    b.ToTable("CriminalRecordFiles", "dbo");
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.TranscriptFile", b =>
-                {
-                    b.HasBaseType("VotingAPI.Domain.Entities.Common.File");
-
-                    b.HasIndex("Path")
-                        .IsUnique();
-
-                    b.ToTable("TranscriptFiles", "dbo");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("VotingAPI.Domain.Entities.Identity.AppRole", null)
@@ -561,7 +589,29 @@ namespace VotingAPI.Persistence.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("VotingAPI.Domain.Entities.Common.File", b =>
+            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.CriminalRecordFile", b =>
+                {
+                    b.HasOne("VotingAPI.Domain.Entities.Candidate", "Candidate")
+                        .WithMany()
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Candidate");
+                });
+
+            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.ProfilePhotoFile", b =>
+                {
+                    b.HasOne("VotingAPI.Domain.Entities.Candidate", "Candidate")
+                        .WithMany()
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Candidate");
+                });
+
+            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.TranscriptFile", b =>
                 {
                     b.HasOne("VotingAPI.Domain.Entities.Candidate", "Candidate")
                         .WithMany()
@@ -644,24 +694,6 @@ namespace VotingAPI.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("ElectionType");
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.CriminalRecordFile", b =>
-                {
-                    b.HasOne("VotingAPI.Domain.Entities.Common.File", null)
-                        .WithOne()
-                        .HasForeignKey("VotingAPI.Domain.Entities.FileTypes.CriminalRecordFile", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.TranscriptFile", b =>
-                {
-                    b.HasOne("VotingAPI.Domain.Entities.Common.File", null)
-                        .WithOne()
-                        .HasForeignKey("VotingAPI.Domain.Entities.FileTypes.TranscriptFile", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

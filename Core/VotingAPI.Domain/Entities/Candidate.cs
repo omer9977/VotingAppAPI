@@ -14,6 +14,7 @@ namespace VotingAPI.Domain.Entities
     {
         public DateOnly ApplicationDate { get; set; }
         public short ApproveStatus { get; set; }
+        [ForeignKey("Students")]
         public int StudentId { get; set; }
         public Student Student { get; set; }
     }
