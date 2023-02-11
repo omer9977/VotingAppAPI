@@ -55,8 +55,6 @@ namespace VotingAPI.Persistence.Services
         }
         public async Task<bool> CreateUser(CreateUserRequest createUserRequest)
         {
-            try
-            {
                 var user = _mapper.Map<AppUser>(createUserRequest);
                 user.RefreshToken = _tokenService.CreateRefreshToken();
                 user.RefreshTokenEndDate = DateTime.UtcNow.AddMinutes(5);
@@ -65,14 +63,9 @@ namespace VotingAPI.Persistence.Services
                     throw new Exception();// burada throw at
                 await SendVerificationMailAsync(user.Email, user.RefreshToken);
                 return result.Succeeded;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
 
-        public async Task<LoginUserResponse> Login(LoginUserRequest loginUserRequest)
+        public async Task<LoginUserResponse> LoginAsync(LoginUserRequest loginUserRequest)
         {
             var user = await _userManager.FindByEmailAsync(loginUserRequest.Email);
             if (user == null)
@@ -91,6 +84,15 @@ namespace VotingAPI.Persistence.Services
             }
             throw new AuthenticationFailedException();
         }
+
+        //public async Task<GetUserResponse> GetAllStudents()
+        //{
+        //    var users = await _userManager.GetUsersInRoleAsync(UserRoles.Student.ToString());
+        //    if (users == null)
+        //        throw new UserNotFoundException();
+        //    var usersMapped = _mapper.Map<GetUserResponse>(users);
+        //    return usersMapped;
+        //}
 
         public async Task<bool> MailVerificationLoginAsync(string refreshToken)
         {
@@ -134,7 +136,7 @@ namespace VotingAPI.Persistence.Services
         public async Task<TokenResponse> RefreshTokenLoginAsync(string refreshToken)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
-            if (user != null && user?.RefreshTokenEndDate > DateTime.UtcNow)
+            if (user != null && user?.RefreshTokenEndDate > DateTime.UtcNow && user.EmailConfirmed)
             {
                 List<string> userRole = (List<string>)await _userManager.GetRolesAsync(user);
                 TokenResponse tokenResponse = _tokenService.CreateAccessToken(userRole, 5);//todo access token 5

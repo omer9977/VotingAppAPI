@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 using VotingAPI.Application.Dto.Request.Department;
 using VotingAPI.Application.Dto.Request.Student;
 using VotingAPI.Application.Dto.Request.User;
+using VotingAPI.Application.Dto.Request.Votes;
 using VotingAPI.Application.Dto.Response.Candidate;
 using VotingAPI.Application.Dto.Response.Department;
 using VotingAPI.Application.Dto.Response.ProfilePhoto;
 using VotingAPI.Application.Dto.Response.Student;
+using VotingAPI.Application.Dto.Response.User;
 using VotingAPI.Domain.Entities;
-using VotingAPI.Domain.Entities.FileTypes;
+//using VotingAPI.Domain.Entities.FileTypes;
 using VotingAPI.Domain.Entities.Identity;
+using C = VotingAPI.Domain.Entities.Common;
 
 namespace VotingAPI.Application.Profiles
 {
@@ -21,7 +24,7 @@ namespace VotingAPI.Application.Profiles
     {
         public WebProfiles() 
         {
-            CreateMap<ProfilePhotoFile, AddFileResponse>();
+            CreateMap<C.File, AddFileResponse>();
             //CreateMap<AddStudentRequest, AppUser>()
             //.ForMember(x => x.);
             CreateMap<AppUser, AddStudentRequest>()
@@ -37,11 +40,15 @@ namespace VotingAPI.Application.Profiles
                 //.ForMember(c => c.Name, g => g.MapFrom(x => x.Student.Name));
             CreateMap<CreateUserRequest, AppUser>()
                 .ForMember(c => c.UserName, g => g.MapFrom(x => x.Email));
+            CreateMap<AppUser, GetUserResponse>();
+
 
             CreateMap<AddDepartmentRequest, Department>();
             CreateMap<Department, GetDepartmentResponse>();
             CreateMap<UpdateDepartmentRequest, Department>();
             CreateMap<UpdateStudentRequest, Student>();
+            CreateMap<AddVoteRequest, Vote>();
+
             //todo burayı barışa sor her modelde mapper kullanmaya gerek var mı?
         }
     }

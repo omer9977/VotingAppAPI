@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace VotingAPI.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class initmig1 : Migration
+    public partial class initmig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -87,6 +87,20 @@ namespace VotingAPI.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ElectionTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FileTypes",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,19 +216,24 @@ namespace VotingAPI.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DepartmentId = table.Column<int>(type: "integer", nullable: false),
+                    DepartmentId = table.Column<int>(type: "integer", nullable: true),
                     UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Students", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Students_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Students_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalSchema: "dbo",
                         principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -303,7 +322,7 @@ namespace VotingAPI.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CriminalRecordFiles",
+                name: "Files",
                 schema: "dbo",
                 columns: table => new
                 {
@@ -311,64 +330,17 @@ namespace VotingAPI.Persistence.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     FileName = table.Column<string>(type: "text", nullable: false),
                     Path = table.Column<string>(type: "text", nullable: false),
-                    Storage = table.Column<string>(type: "text", nullable: false),
                     CandidateId = table.Column<int>(type: "integer", nullable: false),
+                    Storage = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    FileTypeId = table.Column<int>(type: "integer", nullable: false),
                     ApprovedStatus = table.Column<short>(type: "smallint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CriminalRecordFiles", x => x.Id);
+                    table.PrimaryKey("PK_Files", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CriminalRecordFiles_Candidates_CandidateId",
-                        column: x => x.CandidateId,
-                        principalSchema: "dbo",
-                        principalTable: "Candidates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProfilePhotos",
-                schema: "dbo",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FileName = table.Column<string>(type: "text", nullable: false),
-                    Path = table.Column<string>(type: "text", nullable: false),
-                    Storage = table.Column<string>(type: "text", nullable: false),
-                    CandidateId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProfilePhotos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProfilePhotos_Candidates_CandidateId",
-                        column: x => x.CandidateId,
-                        principalSchema: "dbo",
-                        principalTable: "Candidates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TranscriptFiles",
-                schema: "dbo",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FileName = table.Column<string>(type: "text", nullable: false),
-                    Path = table.Column<string>(type: "text", nullable: false),
-                    Storage = table.Column<string>(type: "text", nullable: false),
-                    CandidateId = table.Column<int>(type: "integer", nullable: false),
-                    ApprovedStatus = table.Column<short>(type: "smallint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TranscriptFiles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TranscriptFiles_Candidates_CandidateId",
+                        name: "FK_Files_Candidates_CandidateId",
                         column: x => x.CandidateId,
                         principalSchema: "dbo",
                         principalTable: "Candidates",
@@ -462,20 +434,6 @@ namespace VotingAPI.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CriminalRecordFiles_CandidateId",
-                schema: "dbo",
-                table: "CriminalRecordFiles",
-                column: "CandidateId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CriminalRecordFiles_Path",
-                schema: "dbo",
-                table: "CriminalRecordFiles",
-                column: "Path",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Departments_Name",
                 schema: "dbo",
                 table: "Departments",
@@ -490,10 +448,17 @@ namespace VotingAPI.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProfilePhotos_CandidateId",
+                name: "IX_Files_CandidateId",
                 schema: "dbo",
-                table: "ProfilePhotos",
+                table: "Files",
                 column: "CandidateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FileTypes_Name",
+                schema: "dbo",
+                table: "FileTypes",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_DepartmentId",
@@ -502,17 +467,10 @@ namespace VotingAPI.Persistence.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TranscriptFiles_CandidateId",
+                name: "IX_Students_UserId",
                 schema: "dbo",
-                table: "TranscriptFiles",
-                column: "CandidateId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TranscriptFiles_Path",
-                schema: "dbo",
-                table: "TranscriptFiles",
-                column: "Path",
+                table: "Students",
+                column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -581,15 +539,11 @@ namespace VotingAPI.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CriminalRecordFiles",
+                name: "Files",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "ProfilePhotos",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "TranscriptFiles",
+                name: "FileTypes",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -602,9 +556,6 @@ namespace VotingAPI.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Candidates",
@@ -621,6 +572,9 @@ namespace VotingAPI.Persistence.Migrations
             migrationBuilder.DropTable(
                 name: "ElectionTypes",
                 schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Departments",

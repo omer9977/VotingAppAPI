@@ -1,17 +1,21 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Abstractions.Storage;
 using VotingAPI.Application.Dto.Request.Candidate;
+using VotingAPI.Application.Dto.Request.File;
 using VotingAPI.Application.Dto.Response.Candidate;
 using VotingAPI.Application.Dto.Response.ProfilePhoto;
 using VotingAPI.Application.Exceptions;
 using VotingAPI.Application.Repositories.ModelRepos;
 using VotingAPI.Domain.Entities;
-using VotingAPI.Domain.Entities.FileTypes;
+using VotingAPI.Domain.Entities.Identity;
+//using VotingAPI.Domain.Entities.FileTypes;
 using VotingAPI.Persistence.Enums;
+using C = VotingAPI.Domain.Entities.Common;
 
 namespace VotingAPI.Persistence.Services
 {
@@ -21,30 +25,37 @@ namespace VotingAPI.Persistence.Services
         private readonly ICandidateWriteRepo _candidateWriteRepo;
         private readonly IStudentReadRepo _studentReadRepo;
         private readonly IStorageService _storageService;
-        private readonly IProfilePhotoFileWriteRepo _profilePhotoFileWriteRepo;
-        private readonly IProfilePhotoFileReadRepo _profilePhotoFileReadRepo;
+        //private readonly IProfilePhotoFileWriteRepo _profilePhotoFileWriteRepo;
+        //private readonly IProfilePhotoFileReadRepo _profilePhotoFileReadRepo;
         private readonly IFileReadRepo _fileReadRepo;
         private readonly IFileWriteRepo _fileWriteRepo;
         private readonly IConfiguration _configuration;
+        private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
         public CandidateService(ICandidateReadRepo candidateReadRepo,
             ICandidateWriteRepo candidateWriteRepo,
             IStudentReadRepo studentReadRepo,
             IStorageService storageService,
-            IProfilePhotoFileWriteRepo profilePhotoFileWriteRepo,
-            IProfilePhotoFileReadRepo profilePhotoFileReadRepo,
+            //IProfilePhotoFileWriteRepo profilePhotoFileWriteRepo,
+            //IProfilePhotoFileReadRepo profilePhotoFileReadRepo,
             IConfiguration configuration,
-            IMapper mapper
+            IMapper mapper,
+            IFileReadRepo fileReadRepo,
+            IFileWriteRepo fileWriteRepo,
+            UserManager<AppUser> userManager
             )
         {
             _candidateReadRepo = candidateReadRepo;
             _candidateWriteRepo = candidateWriteRepo;
             _studentReadRepo = studentReadRepo;
             _storageService = storageService;
-            _profilePhotoFileWriteRepo = profilePhotoFileWriteRepo;
-            _profilePhotoFileReadRepo = profilePhotoFileReadRepo;
+            //_profilePhotoFileWriteRepo = profilePhotoFileWriteRepo;
+            //_profilePhotoFileReadRepo = profilePhotoFileReadRepo;
             _configuration = configuration;
             _mapper = mapper;
+            _fileReadRepo = fileReadRepo;
+            _fileWriteRepo = fileWriteRepo;
+            _userManager = userManager;
         }
 
         public async Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
@@ -59,6 +70,11 @@ namespace VotingAPI.Persistence.Services
             return true;
         }
 
+        public Task<bool> DeleteCandidateProfilePhotoAsync(int candidateId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<GetCandidateResponse> GetCandidateByIdAsync(int id)
         {
             var candidate = await _candidateReadRepo.Table.Include(x => x.Student).FirstOrDefaultAsync(x => x.Id == id);
@@ -70,49 +86,69 @@ namespace VotingAPI.Persistence.Services
 
         public List<GetCandidateResponse> GetCandidateList()
         {
-            var candidates = _candidateReadRepo.Table.Include(x => x.Student).ToList();
+            var candidates = _candidateReadRepo.Table.Include(x => x.Student).AsNoTracking().ToList();
             var candidateList = _mapper.Map<List<GetCandidateResponse>>(candidates);
             return candidateList;
         }
-        //todo Student objesi null geliyor
-        //public async Task<GetProfilePhotoResponse> GetCandidateImageAsync(int candidateId, short fileTypeId)
-        //{
-        //    var photoDb = await _fileReadRepo.GetSingleAsync(p => p.CandidateId == candidateId );
-        //    if (photoDb == null)
-        //        throw new DataNotFoundException(candidateId);
 
-        //    string fullPath = $"{_configuration["BaseStorageUrl"]}/{photoDb.Path}";
-        //    GetProfilePhotoResponse response = new() { CandidateId = candidateId, FileName = photoDb.FileName, Path = fullPath };
-        //    return response;
-        //}
-        public async Task<bool> UploadCandidateImageAsync(int candidateId, IFormFileCollection files)
+        //todo Student objesi null geliyor
+        public async Task<GetFileResponse> GetCandidateFileAsync(int candidateId, short fileTypeId)
         {
-            var datas = await _storageService.UploadAsync("profilephotos", files);
+            var candidate = await _candidateReadRepo.GetByIdAsync(candidateId);
+            var student = await _studentReadRepo.GetByIdAsync(candidate.StudentId);//todo burası çok kötü olmuş, çok fazla db ye istek gidiyor
+            var user = await _userManager.FindByIdAsync(student.UserId.ToString());//todo buralarda gerçekten nullexception kontrolü yapmaya gerek var mı
+            var photoDb = await _fileReadRepo.GetSingleAsync(p => p.UserId == user.Id);
+            if (photoDb == null)
+                throw new DataNotFoundException(candidateId);
+
+            string fullPath = $"{_configuration["BaseStorageUrl"]}/{photoDb.Path}";
+            GetFileResponse response = new() { UserId = user.Id, FileName = photoDb.FileName, Path = fullPath };//todo buraları kontrol et çok kötü kod
+            return response;
+        }
+        public async Task<bool> UploadCandidateFileAsync(AddCandidateFileRequest addFileRequest)
+        {
+            var datas = await _storageService.UploadAsync(addFileRequest.FileTypeId.ToString().ToLower(), addFileRequest.Files);
+            var candidate = await _candidateReadRepo.GetByIdAsync(addFileRequest.CandidateId);
+            var student = await _studentReadRepo.GetByIdAsync(candidate.StudentId);//todo burası çok kötü olmuş, çok fazla db ye istek gidiyor
+            var user = await _userManager.FindByIdAsync(student.UserId.ToString());
             if (datas == null)
                 throw new DataNotFoundException("Files could not found!");
-            var candidate = await _candidateReadRepo.GetByIdAsync(candidateId);
-            if (candidate == null)
-                throw new DataNotFoundException(candidateId);
-            await _profilePhotoFileWriteRepo.AddRangeAsync(datas.Select(d => new ProfilePhotoFile()
+            //var user = await _userManager.FindByIdAsync(addFileRequest.UserId.ToString());
+            if (user == null)
+                throw new DataNotFoundException(user.Id);
+            await _fileWriteRepo.AddRangeAsync(datas.Select(d => new C.File() //todo burada mapper kullan
             {
                 FileName = d.fileName,
                 Path = d.path,
-                Candidate = candidate,
+                User = user,
                 Storage = _storageService.StorageName,
-                ApprovedStatus = (short)ApproveEnum.OnHold
+                ApprovedStatus = (short)ApproveEnum.OnHold,
+                FileTypeId = (short)addFileRequest.FileTypeId,
+                UserId = user.Id
             }).ToList());
-            await _profilePhotoFileWriteRepo.SaveChangesAsync();
+            try
+            {
+            await _fileWriteRepo.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
             return true;
         }
 
-        public async Task<bool> DeleteCandidateProfilePhotoAsync(int candidateId)
+        public async Task<bool> DeleteCandidateFileAsync(int candidateId, short fileTypeId)
         {
-            var profilePhoto = await _profilePhotoFileReadRepo.GetSingleAsync(c => c.Id == candidateId);
-            if (profilePhoto == null)
+            var candidate = await _candidateReadRepo.GetByIdAsync(candidateId);
+            var student = await _studentReadRepo.GetByIdAsync(candidate.StudentId);//todo burası çok kötü olmuş, çok fazla db ye istek gidiyor
+            var file = await _fileReadRepo.GetSingleAsync(c => c.UserId == student.UserId && c.FileTypeId == fileTypeId);
+            if (file == null)
                 throw new DataNotFoundException(candidateId);
-            _profilePhotoFileWriteRepo.Remove(profilePhoto);
-            await _profilePhotoFileWriteRepo.SaveChangesAsync();
-            await _storageService.DeleteFileAsync(profilePhoto.Path, profilePhoto.FileName);
+            _fileWriteRepo.Remove(file);
+            await _fileWriteRepo.SaveChangesAsync();
+            await _storageService.DeleteFileAsync(file.Path, file.FileName);
             return true;
         }//todo burada null kontrolleri çok oldu, kısa yöntemi yok mu
     }

@@ -11,18 +11,18 @@ namespace VotingAPI.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateIndex(
-                name: "IX_Students_UserId",
+                name: "IX_Files_FileTypeId",
                 schema: "dbo",
-                table: "Students",
-                column: "UserId",
-                unique: true);
+                table: "Files",
+                column: "FileTypeId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Students_AspNetUsers_UserId",
+                name: "FK_Files_FileTypes_FileTypeId",
                 schema: "dbo",
-                table: "Students",
-                column: "UserId",
-                principalTable: "AspNetUsers",
+                table: "Files",
+                column: "FileTypeId",
+                principalSchema: "dbo",
+                principalTable: "FileTypes",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -31,14 +31,14 @@ namespace VotingAPI.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Students_AspNetUsers_UserId",
+                name: "FK_Files_FileTypes_FileTypeId",
                 schema: "dbo",
-                table: "Students");
+                table: "Files");
 
             migrationBuilder.DropIndex(
-                name: "IX_Students_UserId",
+                name: "IX_Files_FileTypeId",
                 schema: "dbo",
-                table: "Students");
+                table: "Files");
         }
     }
 }

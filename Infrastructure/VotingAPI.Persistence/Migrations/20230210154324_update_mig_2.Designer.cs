@@ -12,8 +12,8 @@ using VotingAPI.Persistence.Contexts;
 namespace VotingAPI.Persistence.Migrations
 {
     [DbContext(typeof(ElectionSystemDbContext))]
-    [Migration("20230208182356_update_mig_1")]
-    partial class updatemig1
+    [Migration("20230210154324_update_mig_2")]
+    partial class updatemig2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -153,6 +153,44 @@ namespace VotingAPI.Persistence.Migrations
                     b.ToTable("Candidates", "dbo");
                 });
 
+            modelBuilder.Entity("VotingAPI.Domain.Entities.Common.File", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<short>("ApprovedStatus")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("FileTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Storage")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Files", "dbo");
+                });
+
             modelBuilder.Entity("VotingAPI.Domain.Entities.Department", b =>
                 {
                     b.Property<int>("Id")
@@ -193,7 +231,7 @@ namespace VotingAPI.Persistence.Migrations
                     b.ToTable("ElectionTypes", "dbo");
                 });
 
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.CriminalRecordFile", b =>
+            modelBuilder.Entity("VotingAPI.Domain.Entities.FileType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -201,100 +239,16 @@ namespace VotingAPI.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<short>("ApprovedStatus")
-                        .HasColumnType("smallint");
-
-                    b.Property<int>("CandidateId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Storage")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CandidateId")
+                    b.HasIndex("Name")
                         .IsUnique();
 
-                    b.HasIndex("Path")
-                        .IsUnique();
-
-                    b.ToTable("CriminalRecordFiles", "dbo");
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.ProfilePhotoFile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CandidateId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Storage")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CandidateId");
-
-                    b.ToTable("ProfilePhotos", "dbo");
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.TranscriptFile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<short>("ApprovedStatus")
-                        .HasColumnType("smallint");
-
-                    b.Property<int>("CandidateId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Storage")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CandidateId")
-                        .IsUnique();
-
-                    b.HasIndex("Path")
-                        .IsUnique();
-
-                    b.ToTable("TranscriptFiles", "dbo");
+                    b.ToTable("FileTypes", "dbo");
                 });
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Identity.AppRole", b =>
@@ -433,6 +387,9 @@ namespace VotingAPI.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Students", "dbo");
                 });
@@ -586,37 +543,23 @@ namespace VotingAPI.Persistence.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.CriminalRecordFile", b =>
+            modelBuilder.Entity("VotingAPI.Domain.Entities.Common.File", b =>
                 {
-                    b.HasOne("VotingAPI.Domain.Entities.Candidate", "Candidate")
+                    b.HasOne("VotingAPI.Domain.Entities.FileType", "FileType")
                         .WithMany()
-                        .HasForeignKey("CandidateId")
+                        .HasForeignKey("FileTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Candidate");
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.ProfilePhotoFile", b =>
-                {
-                    b.HasOne("VotingAPI.Domain.Entities.Candidate", "Candidate")
+                    b.HasOne("VotingAPI.Domain.Entities.Identity.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("CandidateId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Candidate");
-                });
+                    b.Navigation("FileType");
 
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.TranscriptFile", b =>
-                {
-                    b.HasOne("VotingAPI.Domain.Entities.Candidate", "Candidate")
-                        .WithMany()
-                        .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Candidate");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Student", b =>
@@ -625,7 +568,15 @@ namespace VotingAPI.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("DepartmentId");
 
+                    b.HasOne("VotingAPI.Domain.Entities.Identity.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Department");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Vote", b =>

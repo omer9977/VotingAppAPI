@@ -8,14 +8,16 @@ using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Abstractions.Storage;
 using VotingAPI.Application.Dto.Request.Candidate;
 using VotingAPI.Application.Dto.Request.Department;
+using VotingAPI.Application.Dto.Request.File;
+using VotingAPI.Application.Enums;
 using VotingAPI.Application.Repositories.ModelRepos;
-using VotingAPI.Domain.Entities.FileTypes;
+//using VotingAPI.Domain.Entities.FileTypes;
 
 namespace VotingAPI.WebAPI.Controllers
 {
     [Route("api/candidate")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Admin")]
+    //[Authorize(AuthenticationSchemes = "Admin")]
     public class CandidateController : ControllerBase
     {
         private readonly ICandidateService _candidateService;
@@ -55,29 +57,30 @@ namespace VotingAPI.WebAPI.Controllers
             return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
         }
 
-        //[Route("{candidateId}/image/{fileTypeId}")]
-        //[HttpGet]
-        //public async Task<IActionResult> GetCandidateImageAsync(int candidateId, short fileTypeId)
-        //{
-        //    var candidateImage = await _candidateService.GetCandidateImageAsync(candidateId);
-        //    //if (!candidateImage.IsSuccessful)
-        //    //    return BadRequest(candidateImage);
-        //    return Ok(candidateImage);
-        //}
-        [Route("{candidateId}/image")]
-        [HttpPost]
-        public async Task<IActionResult> UploadCandidateImageAsync(int candidateId)
+        [Route("{candidateId}/image/{fileTypeId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetCandidateFileAsync(int candidateId, short fileTypeId)
         {
-            var photoResponse = await _candidateService.UploadCandidateImageAsync(candidateId, Request.Form.Files);
+            var candidateImage = await _candidateService.GetCandidateFileAsync(candidateId, fileTypeId);
+            //if (!candidateImage.IsSuccessful)
+            //    return BadRequest(candidateImage);
+            return Ok(candidateImage);
+        }
+        [Route("{candidateId}/image/{fileType}")]
+        [HttpPost]
+        public async Task<IActionResult> UploadCandidateFileAsync([FromRoute]int candidateId, short fileType)
+        {
+            AddCandidateFileRequest addFileRequest = new() { CandidateId = candidateId, FileTypeId = (FileTypes)fileType, Files = Request.Form.Files };
+            var photoResponse = await _candidateService.UploadCandidateFileAsync(addFileRequest);
             //if (!photoResponse.IsSuccessful)
             //    return BadRequest(photoResponse);
             return new ObjectResult(photoResponse) { StatusCode = StatusCodes.Status201Created };
         }
-        [Route("{candidateId}/image")]
+        [Route("{candidateId}/image/{fileTypeId}")]
         [HttpDelete]
-        public async Task<IActionResult> DeleteCandidateProfilePhotoAsync(int candidateId)
+        public async Task<IActionResult> DeleteCandidateProfilePhotoAsync(int candidateId, short fileTypeId)
         {
-            var profilePhoto = await _candidateService.DeleteCandidateProfilePhotoAsync(candidateId);
+            var profilePhoto = await _candidateService.DeleteCandidateFileAsync(candidateId, fileTypeId);
             //if (!profilePhoto.IsSuccessful)
             //    return BadRequest(profilePhoto);
             return Ok(profilePhoto);

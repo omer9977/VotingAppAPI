@@ -40,7 +40,7 @@ namespace VotingAPI.Persistence.Repos
 
         public async Task<T> GetSingleAsync(Expression<Func<T, bool>> expression, bool isTracking = true)
         {
-            var query = GetAll(isTracking);
+            var query = GetAll(isTracking);//todo asqueryable olsa daha iyi olmaz mı?
             if (!isTracking)
                 query = Table.AsNoTracking();
             return await query.FirstOrDefaultAsync(expression);

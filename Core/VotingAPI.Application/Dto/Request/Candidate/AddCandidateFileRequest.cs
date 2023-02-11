@@ -6,11 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Application.Enums;
 
-namespace VotingAPI.Application.Dto.Request.File
+namespace VotingAPI.Application.Dto.Request.Candidate
 {
-    public class AddFileRequest
+    public class AddCandidateFileRequest
     {
-        public int UserId { get; set; }
+        public int CandidateId { get; set; }
         public FileTypes FileTypeId { get; set; }
         public IFormFileCollection Files { get; set; }
     }

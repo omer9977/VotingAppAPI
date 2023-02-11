@@ -12,8 +12,8 @@ using VotingAPI.Persistence.Contexts;
 namespace VotingAPI.Persistence.Migrations
 {
     [DbContext(typeof(ElectionSystemDbContext))]
-    [Migration("20230210121525_update_mig_4")]
-    partial class updatemig4
+    [Migration("20230210213051_update_mig_5")]
+    partial class updatemig5
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,15 +164,12 @@ namespace VotingAPI.Persistence.Migrations
                     b.Property<short>("ApprovedStatus")
                         .HasColumnType("smallint");
 
-                    b.Property<int>("CandidateId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("FileTypeId")
-                        .HasColumnType("integer");
+                    b.Property<short>("FileTypeId")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Path")
                         .IsRequired()
@@ -182,14 +179,14 @@ namespace VotingAPI.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CandidateId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("Files", "dbo");
-
-                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Department", b =>
@@ -482,26 +479,6 @@ namespace VotingAPI.Persistence.Migrations
                     b.ToTable("VotingPeriods", "dbo");
                 });
 
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.CriminalRecordFile", b =>
-                {
-                    b.HasBaseType("VotingAPI.Domain.Entities.Common.File");
-
-                    b.HasIndex("Path")
-                        .IsUnique();
-
-                    b.ToTable("CriminalRecordFiles", "dbo");
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.TranscriptFile", b =>
-                {
-                    b.HasBaseType("VotingAPI.Domain.Entities.Common.File");
-
-                    b.HasIndex("Path")
-                        .IsUnique();
-
-                    b.ToTable("TranscriptFiles", "dbo");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("VotingAPI.Domain.Entities.Identity.AppRole", null)
@@ -566,13 +543,13 @@ namespace VotingAPI.Persistence.Migrations
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Common.File", b =>
                 {
-                    b.HasOne("VotingAPI.Domain.Entities.Candidate", "Candidate")
+                    b.HasOne("VotingAPI.Domain.Entities.Identity.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("CandidateId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Candidate");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Student", b =>
@@ -647,24 +624,6 @@ namespace VotingAPI.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("ElectionType");
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.CriminalRecordFile", b =>
-                {
-                    b.HasOne("VotingAPI.Domain.Entities.Common.File", null)
-                        .WithOne()
-                        .HasForeignKey("VotingAPI.Domain.Entities.FileTypes.CriminalRecordFile", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.FileTypes.TranscriptFile", b =>
-                {
-                    b.HasOne("VotingAPI.Domain.Entities.Common.File", null)
-                        .WithOne()
-                        .HasForeignKey("VotingAPI.Domain.Entities.FileTypes.TranscriptFile", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

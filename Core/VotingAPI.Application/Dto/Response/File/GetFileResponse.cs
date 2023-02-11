@@ -8,7 +8,7 @@ namespace VotingAPI.Application.Dto.Response.ProfilePhoto
 {
     public class GetFileResponse
     {
-        public int CandidateId { get; set; }
+        public int UserId { get; set; }
         public string FileName { get; set; }
         public string Path { get; set; }
     }

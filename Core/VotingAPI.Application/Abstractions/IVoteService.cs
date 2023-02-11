@@ -8,7 +8,7 @@ using VotingAPI.Application.Dto.Response.Votes;
 
 namespace VotingAPI.Application.Abstractions
 {
-    public interface IVotingService
+    public interface IVoteService
     {
         ICollection<GetVotesResponse> GetVoteList();
         Task<bool> AddVote(AddVoteRequest addVoteRequest);

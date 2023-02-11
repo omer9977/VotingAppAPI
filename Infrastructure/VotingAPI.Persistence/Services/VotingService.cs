@@ -9,7 +9,7 @@ using VotingAPI.Application.Dto.Response.Votes;
 
 namespace VotingAPI.Persistence.Services
 {
-    public class VotingService : IVotingService
+    public class VotingService 
     {
         public Task<bool> AddVote(AddVoteRequest addVoteRequest)
         {

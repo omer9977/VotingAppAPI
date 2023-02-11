@@ -60,7 +60,7 @@ namespace VotingAPI.WebAPI.Middlewares
 
                 context.Response.StatusCode = (int)code;
                 context.Response.ContentType = "application/json";
-                var error = new ApiResponseWrapper { Error = ex.Message, MetaData = new { version = "1.0" }, HasError = true };
+                var error = new ApiResponseWrapper { Error = ex.Message, MetaData = new { version = "1.0" }, HasError = true, StackTrace = ex.StackTrace};
                 var json = JsonConvert.SerializeObject(error, jsonSerializerSettings);
                 using var errorResponseBody = new MemoryStream();
                 await errorResponseBody.WriteAsync(Encoding.UTF8.GetBytes(json));
@@ -82,6 +82,7 @@ namespace VotingAPI.WebAPI.Middlewares
         public object? Data { get; set; }
         public bool HasError { get; set; } = false;
         public string? Error { get; set; }
+        public string? StackTrace { get; set; }
         public object? MetaData { get; set; } //todo bunun ne olduğunu öğren intten
     }
 }

@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Domain.Entities;
-using VotingAPI.Domain.Entities.FileTypes;
+//using VotingAPI.Domain.Entities.FileTypes;
 using VotingAPI.Domain.Entities.Identity;
-using F = VotingAPI.Domain.Entities.FileTypes;
+//using F = VotingAPI.Domain.Entities.FileTypes;
 
 namespace VotingAPI.Persistence.Contexts
 {
@@ -26,7 +26,7 @@ namespace VotingAPI.Persistence.Contexts
         //public DbSet<ProfilePhotoFile> ProfilePhotoFiles { get; set; }
 
         public DbSet<Domain.Entities.Common.File> Files { get; set; }
-        public DbSet<FileType> FileType { get; set; }
+        public DbSet<FileType> FileTypes { get; set; }
 
 
         //public DbSet<F.TranscriptFile> TranscriptFiles { get; set; }
@@ -39,19 +39,19 @@ namespace VotingAPI.Persistence.Contexts
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TranscriptFile>()
-                .HasIndex(p => new { p.Path})
-                .IsUnique(true);
-            modelBuilder.Entity<TranscriptFile>()
-                .HasIndex(p => new { p.CandidateId })
-                .IsUnique(true);
+            //modelBuilder.Entity<TranscriptFile>()
+            //    .HasIndex(p => new { p.Path})
+            //    .IsUnique(true);
+            //modelBuilder.Entity<TranscriptFile>()
+            //    .HasIndex(p => new { p.CandidateId })
+            //    .IsUnique(true);
 
-            modelBuilder.Entity<CriminalRecordFile>()
-                .HasIndex(p => new { p.Path })
-                .IsUnique(true);
-            modelBuilder.Entity<CriminalRecordFile>()
-                .HasIndex(p => new { p.CandidateId })
-                .IsUnique(true);
+            //modelBuilder.Entity<CriminalRecordFile>()
+            //    .HasIndex(p => new { p.Path })
+            //    .IsUnique(true);
+            //modelBuilder.Entity<CriminalRecordFile>()
+            //    .HasIndex(p => new { p.CandidateId })
+            //    .IsUnique(true);
 
             modelBuilder.Entity<AppUser>()
                 .HasIndex(p => new { p.SchoolId })

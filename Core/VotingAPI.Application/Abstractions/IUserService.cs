@@ -13,10 +13,11 @@ namespace VotingAPI.Application.Abstractions
     {
         Task<bool> CreateUser(CreateUserRequest createUserRequest);
         Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDate, int refreshTokenLifeTimeMinute);
-        Task<LoginUserResponse> Login(LoginUserRequest loginUserRequest);
+        Task<LoginUserResponse> LoginAsync(LoginUserRequest loginUserRequest);
         Task<TokenResponse> RefreshTokenLoginAsync(string refreshToken);
         Task<bool> MailVerificationLoginAsync(string refreshToken);
         Task ResendVerificationByMailAsync(string refreshToken);//todo çok güzel bir logic olmadı
+        //public Task<GetUserResponse> GetAllStudents();
 
 
     }

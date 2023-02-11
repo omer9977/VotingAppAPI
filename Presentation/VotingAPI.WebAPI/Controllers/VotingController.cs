@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VotingAPI.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/voting")]
     [ApiController]
     public class VotingController : ControllerBase
     {
