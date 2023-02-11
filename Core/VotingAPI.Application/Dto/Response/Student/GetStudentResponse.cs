@@ -10,6 +10,9 @@ namespace VotingAPI.Application.Dto.Response.Student
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public long StudentNumber { get; set; }
+        public string Surname { get; set; }
+        public string DepartmentName { get; set; }
+        public long SchoolNumber { get; set; }
+        public string Email { get; set; }
     }
 }

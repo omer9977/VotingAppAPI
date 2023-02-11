@@ -32,9 +32,12 @@ namespace VotingAPI.Application.Profiles
 
             CreateMap<AddStudentRequest, Student>();
             CreateMap<Student, AddStudentResponse>();
-            CreateMap<Student, AddStudentResponse>();
             //CreateMap<Student, GetStudentListResponse>();
-            CreateMap<Student, GetStudentResponse>();
+            CreateMap<Student, GetStudentResponse>()
+                .ForMember(x => x.Name, y => y.MapFrom(z => z.User.FirstName))
+                .ForMember(x => x.Surname, y => y.MapFrom(z => z.User.LastName))
+                .ForMember(x => x.SchoolNumber, y => y.MapFrom(z => z.User.SchoolId))
+                .ForMember(x => x.Email, y => y.MapFrom(z => z.User.Email));
             CreateMap<Candidate, GetCandidateResponse>();
                 //.ForMember(c => c.StudentNumber, g => g.MapFrom(x => x.Student.StudentNumber))
                 //.ForMember(c => c.Name, g => g.MapFrom(x => x.Student.Name));

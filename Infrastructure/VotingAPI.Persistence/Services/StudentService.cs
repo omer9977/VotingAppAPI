@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,14 +28,14 @@ namespace VotingAPI.Persistence.Services
         }
         public List<GetStudentResponse> GetStudentList()
         {
-            var studentsDb = _studentReadRepo.GetAll(false).ToList();
+            var studentsDb = _studentReadRepo.GetAll().Include(s => s.User).Include(s => s.Department).ToList();
             var studentListResponse = _mapper.Map<List<GetStudentResponse>>(studentsDb);
             return studentListResponse;
         }
 
         public async Task<GetStudentResponse> GetStudentByIdAsync(int id)
         {
-            var studentDb = await _studentReadRepo.GetByIdAsync(id);
+            var studentDb = await _studentReadRepo.GetByIdAsync(id); ;
             if (studentDb == null)
                 throw new DataNotFoundException(id);
 

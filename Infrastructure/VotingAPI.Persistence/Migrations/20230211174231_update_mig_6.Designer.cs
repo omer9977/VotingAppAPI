@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VotingAPI.Persistence.Contexts;
@@ -11,9 +12,11 @@ using VotingAPI.Persistence.Contexts;
 namespace VotingAPI.Persistence.Migrations
 {
     [DbContext(typeof(ElectionSystemDbContext))]
-    partial class ElectionSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230211174231_update_mig_6")]
+    partial class updatemig6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -381,7 +384,8 @@ namespace VotingAPI.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId");
+                    b.HasIndex("DepartmentId")
+                        .IsUnique();
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -552,8 +556,8 @@ namespace VotingAPI.Persistence.Migrations
             modelBuilder.Entity("VotingAPI.Domain.Entities.Student", b =>
                 {
                     b.HasOne("VotingAPI.Domain.Entities.Department", "Department")
-                        .WithMany("Students")
-                        .HasForeignKey("DepartmentId");
+                        .WithOne("Students")
+                        .HasForeignKey("VotingAPI.Domain.Entities.Student", "DepartmentId");
 
                     b.HasOne("VotingAPI.Domain.Entities.Identity.AppUser", "User")
                         .WithMany()
@@ -625,7 +629,8 @@ namespace VotingAPI.Persistence.Migrations
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Department", b =>
                 {
-                    b.Navigation("Students");
+                    b.Navigation("Students")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
