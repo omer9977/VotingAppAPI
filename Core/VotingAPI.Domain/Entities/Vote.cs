@@ -12,11 +12,11 @@ namespace VotingAPI.Domain.Entities
     public class Vote : BaseEntity
     {
         public DateTime VotingDate { get; set; }
-        public int VoterId { get; set; }
         [ForeignKey("Students")]
+        public int VoterId { get; set; }
         [Column("VoterId")]
         public Student Voter { get; set; }
-        public Student Candidate { get; set; }
+        public Candidate Candidate { get; set; }
         public int CandidateId { get; set; }
         public VotingPeriod VotingPeriod { get; set; }
         public int VotingPeriodId { get; set; }

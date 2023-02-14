@@ -35,7 +35,7 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<GetStudentResponse> GetStudentByIdAsync(int id)
         {
-            var studentDb = await _studentReadRepo.GetByIdAsync(id); ;
+            var studentDb = await _studentReadRepo.GetByIdAsync(id);
             if (studentDb == null)
                 throw new DataNotFoundException(id);
 

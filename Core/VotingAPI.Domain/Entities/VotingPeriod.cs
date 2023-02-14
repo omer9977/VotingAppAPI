@@ -12,8 +12,8 @@ namespace VotingAPI.Domain.Entities
 
     public class VotingPeriod : BaseEntity
     {
-        public DateOnly StartDate { get; set; }
-        public DateOnly EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public int ElectionTypeId { get; set; }
         public ElectionType ElectionType { get; set; }
     }

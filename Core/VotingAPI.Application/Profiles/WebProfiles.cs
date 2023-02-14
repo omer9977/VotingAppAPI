@@ -8,11 +8,13 @@ using VotingAPI.Application.Dto.Request.Department;
 using VotingAPI.Application.Dto.Request.Student;
 using VotingAPI.Application.Dto.Request.User;
 using VotingAPI.Application.Dto.Request.Votes;
+using VotingAPI.Application.Dto.Request.VotingPeriod;
 using VotingAPI.Application.Dto.Response.Candidate;
 using VotingAPI.Application.Dto.Response.Department;
 using VotingAPI.Application.Dto.Response.ProfilePhoto;
 using VotingAPI.Application.Dto.Response.Student;
 using VotingAPI.Application.Dto.Response.User;
+using VotingAPI.Application.Dto.Response.VotingPeriod;
 using VotingAPI.Domain.Entities;
 //using VotingAPI.Domain.Entities.FileTypes;
 using VotingAPI.Domain.Entities.Identity;
@@ -38,7 +40,14 @@ namespace VotingAPI.Application.Profiles
                 .ForMember(x => x.Surname, y => y.MapFrom(z => z.User.LastName))
                 .ForMember(x => x.SchoolNumber, y => y.MapFrom(z => z.User.SchoolId))
                 .ForMember(x => x.Email, y => y.MapFrom(z => z.User.Email));
-            CreateMap<Candidate, GetCandidateResponse>();
+            CreateMap<Candidate, GetCandidateResponse>()
+                .ForMember(x => x.FirstName, y => y.MapFrom(z => z.Student.User.FirstName))
+                .ForMember(x => x.LastName, y => y.MapFrom(z => z.Student.User.LastName))
+                .ForMember(x => x.SchoolNumber, y => y.MapFrom(z => z.Student.User.SchoolId))
+                .ForMember(x => x.DepartmentName, y => y.MapFrom(z => z.Student.Department.Name))
+                .ForMember(x => x.Email, y => y.MapFrom(z => z.Student.User.Email));
+
+
                 //.ForMember(c => c.StudentNumber, g => g.MapFrom(x => x.Student.StudentNumber))
                 //.ForMember(c => c.Name, g => g.MapFrom(x => x.Student.Name));
             CreateMap<CreateUserRequest, AppUser>()
@@ -50,7 +59,16 @@ namespace VotingAPI.Application.Profiles
             CreateMap<Department, GetDepartmentResponse>();
             CreateMap<UpdateDepartmentRequest, Department>();
             CreateMap<UpdateStudentRequest, Student>();
-            CreateMap<AddVoteRequest, Vote>();
+            CreateMap<AddVoteRequest, Vote>()
+                .ForMember(x => x.VoterId, y => y.MapFrom(z => z.StudentId))
+                .ForMember(x => x.VotingPeriodId, y => y.MapFrom(z => z.VotingPeriodId))
+                .ForMember(x => x.CandidateId, y => y.MapFrom(z => z.CandidateId));
+
+            CreateMap<VotingPeriod, GetVotingPeriodResponse>()
+                .ForMember(x => x.ElectionTypeName, y => y.MapFrom(z => z.ElectionType.TypeName));
+
+            CreateMap<AddVotingPeriodRequest, VotingPeriod>();
+
 
             //todo burayı barışa sor her modelde mapper kullanmaya gerek var mı?
         }

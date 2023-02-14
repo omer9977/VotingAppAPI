@@ -60,9 +60,12 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
         {
-            //var student = await _studentReadRepo.GetSingleAsync(c => c.Id == addCandidateRequest.StudentNumber);
-            //if (student == null)
-            //    throw new DataNotFoundException(addCandidateRequest.StudentNumber);
+            var student = await _studentReadRepo.GetSingleAsync(c => c.Id == addCandidateRequest.StudentId);
+            if (student?.DepartmentId == null)
+            {
+                throw new DataNotFoundException("Candidate does not have a department!");
+            }
+
             bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { StudentId = addCandidateRequest.StudentId, ApplicationDate = DateOnly.FromDateTime(DateTime.Now), ApproveStatus = 0 });
             if (!candidateAdded)
                 throw new DataNotAddedException();
@@ -77,7 +80,7 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<GetCandidateResponse> GetCandidateByIdAsync(int id)
         {
-            var candidate = await _candidateReadRepo.Table.Include(x => x.Student).FirstOrDefaultAsync(x => x.Id == id);
+            var candidate = await _candidateReadRepo.GetByIdAsync(id);
             if (candidate == null)
                 throw new DataNotFoundException(id);
             var candidateResponse = _mapper.Map<GetCandidateResponse>(candidate);
@@ -86,7 +89,8 @@ namespace VotingAPI.Persistence.Services
 
         public List<GetCandidateResponse> GetCandidateList()
         {
-            var candidates = _candidateReadRepo.Table.Include(x => x.Student).AsNoTracking().ToList();
+            var candidates = _candidateReadRepo.Table.Include(x => x.Student.Department).Include(x => x.Student.User).AsNoTracking().ToList();
+            //var candidates = _candidateReadRepo.GetByIdAsync();
             var candidateList = _mapper.Map<List<GetCandidateResponse>>(candidates);
             return candidateList;
         }
@@ -95,22 +99,19 @@ namespace VotingAPI.Persistence.Services
         public async Task<GetFileResponse> GetCandidateFileAsync(int candidateId, short fileTypeId)
         {
             var candidate = await _candidateReadRepo.GetByIdAsync(candidateId);
-            var student = await _studentReadRepo.GetByIdAsync(candidate.StudentId);//todo burası çok kötü olmuş, çok fazla db ye istek gidiyor
-            var user = await _userManager.FindByIdAsync(student.UserId.ToString());//todo buralarda gerçekten nullexception kontrolü yapmaya gerek var mı
-            var photoDb = await _fileReadRepo.GetSingleAsync(p => p.UserId == user.Id);
+            var photoDb = await _fileReadRepo.GetSingleAsync(p => p.UserId == candidate.Student.UserId);
             if (photoDb == null)
                 throw new DataNotFoundException(candidateId);
 
             string fullPath = $"{_configuration["BaseStorageUrl"]}/{photoDb.Path}";
-            GetFileResponse response = new() { UserId = user.Id, FileName = photoDb.FileName, Path = fullPath };//todo buraları kontrol et çok kötü kod
+            GetFileResponse response = new() { UserId = candidate.Student.UserId, FileName = photoDb.FileName, Path = fullPath };//todo buraları kontrol et çok kötü kod
             return response;
         }
         public async Task<bool> UploadCandidateFileAsync(AddCandidateFileRequest addFileRequest)
         {
             var datas = await _storageService.UploadAsync(addFileRequest.FileTypeId.ToString().ToLower(), addFileRequest.Files);
             var candidate = await _candidateReadRepo.GetByIdAsync(addFileRequest.CandidateId);
-            var student = await _studentReadRepo.GetByIdAsync(candidate.StudentId);//todo burası çok kötü olmuş, çok fazla db ye istek gidiyor
-            var user = await _userManager.FindByIdAsync(student.UserId.ToString());
+            var user = await _userManager.FindByIdAsync(candidate.Student.UserId.ToString());
             if (datas == null)
                 throw new DataNotFoundException("Files could not found!");
             //var user = await _userManager.FindByIdAsync(addFileRequest.UserId.ToString());
@@ -126,16 +127,8 @@ namespace VotingAPI.Persistence.Services
                 FileTypeId = (short)addFileRequest.FileTypeId,
                 UserId = user.Id
             }).ToList());
-            try
-            {
             await _fileWriteRepo.SaveChangesAsync();
 
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
             return true;
         }
 

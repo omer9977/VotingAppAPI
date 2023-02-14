@@ -10,7 +10,7 @@ namespace VotingAPI.Application.Abstractions
 {
     public interface IVoteService
     {
-        ICollection<GetVotesResponse> GetVoteList();
+        ICollection<GetVoteResponse> GetVoteList();
         Task<bool> AddVote(AddVoteRequest addVoteRequest);
         //ICollection<GetVotesResponse> GetVotesWhere(Func<>);
     }

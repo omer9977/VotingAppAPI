@@ -16,7 +16,7 @@ namespace VotingAPI.Persistence.Services
             throw new NotImplementedException();
         }
 
-        public ICollection<GetVotesResponse> GetVoteList()
+        public ICollection<GetVoteResponse> GetVoteList()
         {
             throw new NotImplementedException();
         }

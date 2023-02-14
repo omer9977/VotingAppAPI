@@ -20,30 +20,51 @@ namespace VotingAPI.Persistence.Services
         private readonly IStudentReadRepo _studentReadRepo;
         private readonly IMapper _mapper;
 
-        public VoteService(IVoteReadRepo voteReadRepo, IVoteWriteRepo voteWriteRepo, IMapper mapper)
+        public VoteService(IVoteReadRepo voteReadRepo,
+            IVoteWriteRepo voteWriteRepo,
+            IMapper mapper,
+ICandidateReadRepo candidateReadRepo
+,
+IStudentReadRepo studentReadRepo)
         {
             _voteReadRepo = voteReadRepo;
             _voteWriteRepo = voteWriteRepo;
             _mapper = mapper;
+            _candidateReadRepo = candidateReadRepo;
+            _studentReadRepo = studentReadRepo;
         }
         public async Task<bool> AddVote(AddVoteRequest addVoteRequest)
         {//todo null exception kontrolü geçtim artık :)
-            var candidate = await _candidateReadRepo.GetSingleAsync(c => c.Id == addVoteRequest.CandidateId);
-            var student = await _studentReadRepo.GetSingleAsync(s => s.Id == addVoteRequest.StudentId);
-            if (candidate.Student.DepartmentId == student.DepartmentId)
+            var candidate = await _candidateReadRepo.GetByIdAsync(addVoteRequest.CandidateId);
+            var student = await _studentReadRepo.GetByIdAsync(addVoteRequest.StudentId);
+            if (candidate.Student.DepartmentId == student.DepartmentId && candidate.ApproveStatus == 1)
             {
                 var voteMapped = _mapper.Map<Vote>(addVoteRequest);
-                await _voteWriteRepo.AddAsync(voteMapped);
-                return true;
+                bool isAdded = await _voteWriteRepo.AddAsync(voteMapped);
+                if (isAdded)
+                {
+                    try
+                    {
+                    await _voteWriteRepo.SaveChangesAsync();
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                        throw ex;
+                    }
+                    return true;
+                }
+                return false;
             }
             else
                 return false;//todo daha sonra burayı düzenle
         }
 
-        public ICollection<GetVotesResponse> GetVoteList()
+        public ICollection<GetVoteResponse> GetVoteList()
         {
             var votesDb = _voteReadRepo.GetAll(false).ToList();
-            var studentListResponse = _mapper.Map<List<GetVotesResponse>>(votesDb);
+            var studentListResponse = _mapper.Map<List<GetVoteResponse>>(votesDb);
             return studentListResponse;
         }
     }

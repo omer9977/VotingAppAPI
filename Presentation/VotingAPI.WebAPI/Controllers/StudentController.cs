@@ -65,7 +65,7 @@ namespace VotingAPI.WebAPI.Controllers
 
         [Route("")]
         [HttpPut]
-        public async Task<IActionResult> UpdateStudentAsync(UpdateStudentRequest updateStudentRequest)
+        public async Task<IActionResult> UpdateStudentAsync(UpdateStudentRequest updateStudentRequest)//todo onemli: burada ilişkisel updateler nasıl olacak
         {
             await _studentService.UpdateStudentAsync(updateStudentRequest);
             return Ok();

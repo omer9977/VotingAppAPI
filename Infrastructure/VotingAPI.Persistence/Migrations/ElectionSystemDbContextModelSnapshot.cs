@@ -400,9 +400,6 @@ namespace VotingAPI.Persistence.Migrations
                     b.Property<int>("CandidateId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Students")
-                        .HasColumnType("integer");
-
                     b.Property<int>("VoterId")
                         .HasColumnType("integer");
 
@@ -417,12 +414,10 @@ namespace VotingAPI.Persistence.Migrations
                     b.HasIndex("CandidateId")
                         .IsUnique();
 
-                    b.HasIndex("Students");
-
-                    b.HasIndex("VoterId")
+                    b.HasIndex("VotingPeriodId")
                         .IsUnique();
 
-                    b.HasIndex("VotingPeriodId")
+                    b.HasIndex("VoterId", "VotingPeriodId")
                         .IsUnique();
 
                     b.ToTable("Votes", "dbo");
@@ -462,11 +457,11 @@ namespace VotingAPI.Persistence.Migrations
                     b.Property<int>("ElectionTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<DateOnly>("EndDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateOnly>("StartDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -552,7 +547,7 @@ namespace VotingAPI.Persistence.Migrations
             modelBuilder.Entity("VotingAPI.Domain.Entities.Student", b =>
                 {
                     b.HasOne("VotingAPI.Domain.Entities.Department", "Department")
-                        .WithMany("Students")
+                        .WithMany()
                         .HasForeignKey("DepartmentId");
 
                     b.HasOne("VotingAPI.Domain.Entities.Identity.AppUser", "User")
@@ -568,7 +563,7 @@ namespace VotingAPI.Persistence.Migrations
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Vote", b =>
                 {
-                    b.HasOne("VotingAPI.Domain.Entities.Student", "Candidate")
+                    b.HasOne("VotingAPI.Domain.Entities.Candidate", "Candidate")
                         .WithMany()
                         .HasForeignKey("CandidateId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -576,7 +571,7 @@ namespace VotingAPI.Persistence.Migrations
 
                     b.HasOne("VotingAPI.Domain.Entities.Student", "Voter")
                         .WithMany()
-                        .HasForeignKey("Students")
+                        .HasForeignKey("VoterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -621,11 +616,6 @@ namespace VotingAPI.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("ElectionType");
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.Department", b =>
-                {
-                    b.Navigation("Students");
                 });
 #pragma warning restore 612, 618
         }
