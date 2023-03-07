@@ -109,9 +109,9 @@ namespace VotingAPI.Persistence.Services
         }
         public async Task<bool> UploadCandidateFileAsync(AddCandidateFileRequest addFileRequest)
         {
-            var datas = await _storageService.UploadAsync(addFileRequest.FileTypeId.ToString().ToLower(), addFileRequest.Files);
             var candidate = await _candidateReadRepo.GetByIdAsync(addFileRequest.CandidateId);
             var user = await _userManager.FindByIdAsync(candidate.Student.UserId.ToString());
+            var datas = await _storageService.UploadAsync(addFileRequest.FileTypeId.ToString().ToLower(), addFileRequest.Files);
             if (datas == null)
                 throw new DataNotFoundException("Files could not found!");
             //var user = await _userManager.FindByIdAsync(addFileRequest.UserId.ToString());

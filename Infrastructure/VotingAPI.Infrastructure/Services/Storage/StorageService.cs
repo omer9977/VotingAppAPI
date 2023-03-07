@@ -9,7 +9,7 @@ using VotingAPI.Application.Abstractions.Storage;
 
 namespace VotingAPI.Infrastructure.Services.Storage
 {
-    internal class StorageService : IStorageService
+    public class StorageService : IStorageService
     {
         private readonly IStorage _storage;
         private readonly IConfiguration _configuration;
