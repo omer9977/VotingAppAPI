@@ -5,13 +5,13 @@ using VotingAPI.Application.Dto.Request.User;
 
 namespace VotingAPI.WebAPI.Controllers
 {
-    [Route("api/user")]
+    [Route("api/auth")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
         private readonly IMailService _mailService;
-        public UserController(IUserService userService, IMailService mailService)
+        public AuthController(IUserService userService, IMailService mailService)
         {
             _userService = userService;
             _mailService = mailService;
@@ -19,13 +19,13 @@ namespace VotingAPI.WebAPI.Controllers
 
         //Bu metod yeni bir kullanıcı eklemeye yarar. UI arayüzünden kullanıcı ilgili formu doldurup register butonuna tıklar ve onaylanması için onay maili alır bu endpoint ile.
         //onay maili ile refresh token oluşturulur 5dk lik. Eğer süre geçtiyse kullanıcı onaylanmaz
-        [Route("")]
-        [HttpPost]
-        public async Task<IActionResult> CreateUserAsync(CreateUserRequest createUserRequest)
-        {
-            var response = await _userService.CreateUser(createUserRequest);
-            return Ok(response);
-        }
+        //[Route("")]
+        //[HttpPost]
+        //public async Task<IActionResult> CreateUserAsync(CreateUserRequest createUserRequest)
+        //{
+        //    var response = await _userService.CreateUser(createUserRequest);
+        //    return Ok(response);
+        //}
 
         //Kullanıcı ekrana girmek için giriş yapar. Access token ve refresh token yenilenir. Elindeki access tokenin içinde role vardır o role a göre endpointlere bağlanır
         [Route("login")]
@@ -45,23 +45,23 @@ namespace VotingAPI.WebAPI.Controllers
             return Ok(user);
         }
 
-        //mail kutucuğuna karşısına bir buton çıktığı zaman o butona tıklarsa eğer yönlendirileceği sayfadaki client buraya istek gönderir
-        //kullanıcı onaylanır 
-        [Route("mail-verification-login")]
-        [HttpPost]
-        public async Task<IActionResult> MailVerificationLoginAsync([FromForm]string refreshToken)
-        {
-            var user = await _userService.MailVerificationLoginAsync(refreshToken);
-            return Ok(user);
-        }
+        ////mail kutucuğuna karşısına bir buton çıktığı zaman o butona tıklarsa eğer yönlendirileceği sayfadaki client buraya istek gönderir
+        ////kullanıcı onaylanır 
+        //[Route("mail-verification-login")]
+        //[HttpPost]
+        //public async Task<IActionResult> MailVerificationLoginAsync([FromForm]string refreshToken)
+        //{
+        //    var user = await _userService.MailVerificationLoginAsync(refreshToken);
+        //    return Ok(user);
+        //}
 
-        //todo onemli: burayı daha sonra doldur
-        [Route("resend-mail-verification-login")]
-        [HttpPost]
-        public async Task<IActionResult> ResendMailVerificationLoginAsync([FromForm] string refreshToken)
-        {
-            await _userService.ResendVerificationByMailAsync(refreshToken);
-            return Ok();
-        }
+        ////todo onemli: burayı daha sonra doldur
+        //[Route("resend-mail-verification-login")]
+        //[HttpPost]
+        //public async Task<IActionResult> ResendMailVerificationLoginAsync([FromForm] string refreshToken)
+        //{
+        //    await _userService.ResendVerificationByMailAsync(refreshToken);
+        //    return Ok();
+        //}
     }
 }
