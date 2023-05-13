@@ -18,7 +18,7 @@ namespace VotingAPI.Domain.Entities
         public Student Voter { get; set; }
         public Candidate Candidate { get; set; }
         public int CandidateId { get; set; }
-        public VotingPeriod VotingPeriod { get; set; }
-        public int VotingPeriodId { get; set; }
+        public Election Election { get; set; }//todo electionid olacak
+        public int ElectionId { get; set; }
     }
 }

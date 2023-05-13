@@ -16,17 +16,21 @@ namespace VotingAPI.Persistence.Contexts
     {
         public ElectionSystemDbContext(DbContextOptions options) : base(options) 
         { }
-        public DbSet<Department> Departments { get; set; }
         public DbSet<Candidate> Candidates { get; set; }
-        public DbSet<Voting> Votings { get; set; }
-        public DbSet<Vote> Votes { get; set; }
-        public DbSet<VotingPeriod> VotingPeriods { get; set; }
-        public DbSet<ElectionType> ElectionTypes { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Election> Elections { get; set; }
+        public DbSet<Faculty> Faculties { get; set; }
         public DbSet<Student> Students { get; set; }
+
+        public DbSet<Vote> Votes { get; set; }
+        public DbSet<Winner> Winners { get; set; }
+
+        //public DbSet<VotingPeriod> VotingPeriods { get; set; }
+        //public DbSet<ElectionType> ElectionTypes { get; set; }
         //public DbSet<ProfilePhotoFile> ProfilePhotoFiles { get; set; }
 
-        public DbSet<Domain.Entities.Common.File> Files { get; set; }
-        public DbSet<FileType> FileTypes { get; set; }
+        //public DbSet<Domain.Entities.Common.File> Files { get; set; }
+        //public DbSet<FileType> FileTypes { get; set; }
 
 
         //public DbSet<F.TranscriptFile> TranscriptFiles { get; set; }
@@ -53,6 +57,14 @@ namespace VotingAPI.Persistence.Contexts
             //    .HasIndex(p => new { p.CandidateId })
             //    .IsUnique(true);
 
+            modelBuilder.Entity<Student>()
+                .Property(s => s.UserRole)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Candidate>()
+                .Property(s => s.ApproveStatus)
+                .HasConversion<string>();
+
             modelBuilder.Entity<AppUser>()
                 .HasIndex(p => new { p.SchoolId })
                 .IsUnique(true);
@@ -65,35 +77,35 @@ namespace VotingAPI.Persistence.Contexts
                 .HasIndex(p => new { p.StudentId })
                 .IsUnique(true);
 
-            modelBuilder.Entity<Vote>()
-                .HasIndex(p => new { p.VoterId, p.VotingPeriodId })
-                .IsUnique(true);
+            //modelBuilder.Entity<Vote>()
+            //    .HasIndex(p => new { p.VoterId, p.VotingPeriodId })
+            //    .IsUnique(true);
             modelBuilder.Entity<Vote>()
                 .HasIndex(p => new { p.CandidateId })
                 .IsUnique(true);
-            modelBuilder.Entity<Vote>()
-                .HasIndex(p => new { p.VotingPeriodId })
-                .IsUnique(true);
+            //modelBuilder.Entity<Vote>()
+            //    .HasIndex(p => new { p.VotingPeriodId })
+            //    .IsUnique(true);
 
-            modelBuilder.Entity<VotingPeriod>()
-                .HasIndex(p => new { p.ElectionTypeId })
-                .IsUnique(true);
+            //modelBuilder.Entity<VotingPeriod>()
+            //    .HasIndex(p => new { p.ElectionTypeId })
+            //    .IsUnique(true);
 
             modelBuilder.Entity<Department>()
                 .HasIndex(p => new { p.Name })
                 .IsUnique(true);
 
-            modelBuilder.Entity<ElectionType>()
-                .HasIndex(p => new { p.TypeName })
-                .IsUnique(true);
+            //modelBuilder.Entity<ElectionType>()
+            //    .HasIndex(p => new { p.TypeName })
+            //    .IsUnique(true);
 
-            modelBuilder.Entity<Student>()
-                .HasIndex(p => new { p.UserId })
-                .IsUnique(true);
+            //modelBuilder.Entity<Student>()
+            //    .HasIndex(p => new { p.UserId })
+            //    .IsUnique(true);
 
-            modelBuilder.Entity<FileType>()
-                .HasIndex(p => new { p.Name })
-                .IsUnique(true);
+            //modelBuilder.Entity<FileType>()
+            //    .HasIndex(p => new { p.Name })
+            //    .IsUnique(true);
 
             base.OnModelCreating(modelBuilder);
 

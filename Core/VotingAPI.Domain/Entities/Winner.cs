@@ -8,11 +8,12 @@ using VotingAPI.Domain.Entities.Common;
 
 namespace VotingAPI.Domain.Entities
 {
-    [Table("Departments", Schema = "dbo")]
-    public class Department : BaseEntity
+    [Table("Winners", Schema = "dbo")]
+    public class Winner : BaseEntity
     {
-        public string Name { get; set; }
-        public int FacultyId { get; set; }
-        //public ICollection<Student> Students { get; set; }
+        [ForeignKey("Candidates")]
+        public int CandidateId { get; set; }
+        [ForeignKey("Elections")]
+        public int ElectionId { get; set; }
     }
 }

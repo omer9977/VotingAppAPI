@@ -8,9 +8,9 @@
 
 //namespace VotingAPI.Domain.Entities
 //{
-//    [Table("ElectionTypes", Schema = "dbo")]
-//    public class ElectionType : BaseEntity
+//    [Table("UserRoles", Schema = "dbo")]
+//    public class UserRole : BaseEntity
 //    {
-//        public string TypeName { get; set; }
+//        public string Name { get; set; }
 //    }
 //}

@@ -28,7 +28,7 @@ namespace VotingAPI.Persistence.Services
         }
         public List<GetStudentResponse> GetStudentList()
         {
-            var studentsDb = _studentReadRepo.GetAll().Include(s => s.User).Include(s => s.Department).ToList();
+            var studentsDb = _studentReadRepo.GetAll()/*.Include(s => s.User).Include(s => s.Department)*/.ToList();
             var studentListResponse = _mapper.Map<List<GetStudentResponse>>(studentsDb);
             return studentListResponse;
         }

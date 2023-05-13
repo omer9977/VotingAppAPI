@@ -37,7 +37,7 @@ IStudentReadRepo studentReadRepo)
         {//todo null exception kontrolü geçtim artık :)
             var candidate = await _candidateReadRepo.GetByIdAsync(addVoteRequest.CandidateId);
             var student = await _studentReadRepo.GetByIdAsync(addVoteRequest.StudentId);
-            if (candidate.Student.DepartmentId == student.DepartmentId && candidate.ApproveStatus == 1)
+            if (candidate.Student.DepartmentId == student.DepartmentId && candidate.ApproveStatus == ApproveStatus.Approved)
             {
                 var voteMapped = _mapper.Map<Vote>(addVoteRequest);
                 bool isAdded = await _voteWriteRepo.AddAsync(voteMapped);

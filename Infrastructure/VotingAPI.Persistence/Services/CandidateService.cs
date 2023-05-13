@@ -27,8 +27,8 @@ namespace VotingAPI.Persistence.Services
         private readonly IStorageService _storageService;
         //private readonly IProfilePhotoFileWriteRepo _profilePhotoFileWriteRepo;
         //private readonly IProfilePhotoFileReadRepo _profilePhotoFileReadRepo;
-        private readonly IFileReadRepo _fileReadRepo;
-        private readonly IFileWriteRepo _fileWriteRepo;
+        //private readonly IFileReadRepo _fileReadRepo;
+        //private readonly IFileWriteRepo _fileWriteRepo;
         private readonly IConfiguration _configuration;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
@@ -40,8 +40,8 @@ namespace VotingAPI.Persistence.Services
             //IProfilePhotoFileReadRepo profilePhotoFileReadRepo,
             IConfiguration configuration,
             IMapper mapper,
-            IFileReadRepo fileReadRepo,
-            IFileWriteRepo fileWriteRepo,
+            //IFileReadRepo fileReadRepo,
+            //IFileWriteRepo fileWriteRepo,
             UserManager<AppUser> userManager
             )
         {
@@ -53,8 +53,8 @@ namespace VotingAPI.Persistence.Services
             //_profilePhotoFileReadRepo = profilePhotoFileReadRepo;
             _configuration = configuration;
             _mapper = mapper;
-            _fileReadRepo = fileReadRepo;
-            _fileWriteRepo = fileWriteRepo;
+            //_fileReadRepo = fileReadRepo;
+            //_fileWriteRepo = fileWriteRepo;
             _userManager = userManager;
         }
 
@@ -66,7 +66,7 @@ namespace VotingAPI.Persistence.Services
                 throw new DataNotFoundException("Candidate does not have a department!");
             }
 
-            bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { StudentId = addCandidateRequest.StudentId, ApplicationDate = DateOnly.FromDateTime(DateTime.Now), ApproveStatus = 0 });
+            bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { StudentId = addCandidateRequest.StudentId, /*ApplicationDate = DateOnly.FromDateTime(DateTime.Now),*/ ApproveStatus = 0 });
             if (!candidateAdded)
                 throw new DataNotAddedException();
             await _candidateWriteRepo.SaveChangesAsync();
@@ -89,60 +89,60 @@ namespace VotingAPI.Persistence.Services
 
         public List<GetCandidateResponse> GetCandidateList()
         {
-            var candidates = _candidateReadRepo.Table.Include(x => x.Student.Department).Include(x => x.Student.User).AsNoTracking().ToList();
+            var candidates = _candidateReadRepo.Table/*.Include(x => x.Student.Department).Include(x => x.Student.User)*/.AsNoTracking().ToList();
             //var candidates = _candidateReadRepo.GetByIdAsync();
             var candidateList = _mapper.Map<List<GetCandidateResponse>>(candidates);
             return candidateList;
         }
 
         //todo Student objesi null geliyor
-        public async Task<GetFileResponse> GetCandidateFileAsync(int candidateId, short fileTypeId)
-        {
-            var candidate = await _candidateReadRepo.GetByIdAsync(candidateId);
-            var photoDb = await _fileReadRepo.GetSingleAsync(p => p.UserId == candidate.Student.UserId);
-            if (photoDb == null)
-                throw new DataNotFoundException(candidateId);
+        //public async Task<GetFileResponse> GetCandidateFileAsync(int candidateId, short fileTypeId)
+        //{
+        //    var candidate = await _candidateReadRepo.GetByIdAsync(candidateId);
+        //    //var photoDb = await _fileReadRepo.GetSingleAsync(p => p.UserId == candidate.Student.UserId);
+        //    //if (photoDb == null)
+        //    //    throw new DataNotFoundException(candidateId);
 
-            string fullPath = $"{_configuration["BaseStorageUrl"]}/{photoDb.Path}";
-            GetFileResponse response = new() { UserId = candidate.Student.UserId, FileName = photoDb.FileName, Path = fullPath };//todo buraları kontrol et çok kötü kod
-            return response;
-        }
-        public async Task<bool> UploadCandidateFileAsync(AddCandidateFileRequest addFileRequest)
-        {
-            var candidate = await _candidateReadRepo.GetByIdAsync(addFileRequest.CandidateId);
-            var user = await _userManager.FindByIdAsync(candidate.Student.UserId.ToString());
-            var datas = await _storageService.UploadAsync(addFileRequest.FileTypeId.ToString().ToLower(), addFileRequest.Files);
-            if (datas == null)
-                throw new DataNotFoundException("Files could not found!");
-            //var user = await _userManager.FindByIdAsync(addFileRequest.UserId.ToString());
-            if (user == null)
-                throw new DataNotFoundException(user.Id);
-            await _fileWriteRepo.AddRangeAsync(datas.Select(d => new C.File() //todo burada mapper kullan
-            {
-                FileName = d.fileName,
-                Path = d.path,
-                User = user,
-                Storage = _storageService.StorageName,
-                ApprovedStatus = (short)ApproveEnum.OnHold,
-                FileTypeId = (short)addFileRequest.FileTypeId,
-                UserId = user.Id
-            }).ToList());
-            await _fileWriteRepo.SaveChangesAsync();
+        //    //string fullPath = $"{_configuration["BaseStorageUrl"]}/{photoDb.Path}";
+        //    //GetFileResponse response = new() { UserId = candidate.Student.UserId, FileName = photoDb.FileName, Path = fullPath };//todo buraları kontrol et çok kötü kod
+        //    return candidate/*response*/;
+        //}
+        //public async Task<bool> UploadCandidateFileAsync(AddCandidateFileRequest addFileRequest)
+        //{
+        //    var candidate = await _candidateReadRepo.GetByIdAsync(addFileRequest.CandidateId);
+        //    var user = await _userManager.FindByIdAsync(candidate.Student.UserId.ToString());
+        //    var datas = await _storageService.UploadAsync(addFileRequest.FileTypeId.ToString().ToLower(), addFileRequest.Files);
+        //    if (datas == null)
+        //        throw new DataNotFoundException("Files could not found!");
+        //    //var user = await _userManager.FindByIdAsync(addFileRequest.UserId.ToString());
+        //    if (user == null)
+        //        throw new DataNotFoundException(user.Id);
+        //    await _fileWriteRepo.AddRangeAsync(datas.Select(d => new C.File() //todo burada mapper kullan
+        //    {
+        //        FileName = d.fileName,
+        //        Path = d.path,
+        //        User = user,
+        //        Storage = _storageService.StorageName,
+        //        ApprovedStatus = (short)ApproveEnum.OnHold,
+        //        FileTypeId = (short)addFileRequest.FileTypeId,
+        //        UserId = user.Id
+        //    }).ToList());
+        //    await _fileWriteRepo.SaveChangesAsync();
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        public async Task<bool> DeleteCandidateFileAsync(int candidateId, short fileTypeId)
-        {
-            var candidate = await _candidateReadRepo.GetByIdAsync(candidateId);
-            var student = await _studentReadRepo.GetByIdAsync(candidate.StudentId);//todo burası çok kötü olmuş, çok fazla db ye istek gidiyor
-            var file = await _fileReadRepo.GetSingleAsync(c => c.UserId == student.UserId && c.FileTypeId == fileTypeId);
-            if (file == null)
-                throw new DataNotFoundException(candidateId);
-            _fileWriteRepo.Remove(file);
-            await _fileWriteRepo.SaveChangesAsync();
-            await _storageService.DeleteFileAsync(file.Path, file.FileName);
-            return true;
-        }//todo burada null kontrolleri çok oldu, kısa yöntemi yok mu
+        //public async Task<bool> DeleteCandidateFileAsync(int candidateId, short fileTypeId)
+        //{
+        //    var candidate = await _candidateReadRepo.GetByIdAsync(candidateId);
+        //    var student = await _studentReadRepo.GetByIdAsync(candidate.StudentId);//todo burası çok kötü olmuş, çok fazla db ye istek gidiyor
+        //    var file = await _fileReadRepo.GetSingleAsync(c => c.UserId == student.UserId && c.FileTypeId == fileTypeId);
+        //    if (file == null)
+        //        throw new DataNotFoundException(candidateId);
+        //    _fileWriteRepo.Remove(file);
+        //    await _fileWriteRepo.SaveChangesAsync();
+        //    await _storageService.DeleteFileAsync(file.Path, file.FileName);
+        //    return true;
+        //}//todo burada null kontrolleri çok oldu, kısa yöntemi yok mu
     }
 }

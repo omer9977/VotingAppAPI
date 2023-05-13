@@ -20,7 +20,7 @@ namespace VotingAPI.Persistence.Repos
             var query = Table.AsQueryable();
             if (!isTracking)
                 query = query.AsNoTracking();
-            return await query.Include(s => s.Student.User).Include(s => s.Student.Department).FirstOrDefaultAsync(x => x.Id == id);
+            return await query/*.Include(s => s.Student.User).Include(s => s.Student.Department)*/.FirstOrDefaultAsync(x => x.Id == id);
         }
     }
     public class CandidateWriteRepo : WriteRepo<Candidate>, ICandidateWriteRepo

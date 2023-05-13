@@ -28,18 +28,18 @@ namespace VotingAPI.Persistence
                  .AddDefaultTokenProviders(); //todo bunu araştır
             services.AddScoped<IDepartmentReadRepo, DepartmentReadRepo>();
             services.AddScoped<ICandidateReadRepo, CandidateReadRepo>();
-            services.AddScoped<IElectionTypeReadRepo, ElectionTypeReadRepo>();
+            //services.AddScoped<IElectionTypeReadRepo, ElectionTypeReadRepo>();
             services.AddScoped<IStudentReadRepo, StudentReadRepo>();
             services.AddScoped<IVoteReadRepo, VoteReadRepo>();
-            services.AddScoped<IVotingPeriodReadRepo, VotingPeriodReadRepo>();
-            services.AddScoped<IVotingReadRepo, VotingReadRepo>();
+            //services.AddScoped<IVotingPeriodReadRepo, VotingPeriodReadRepo>();
+            //services.AddScoped<IVotingReadRepo, VotingReadRepo>();
             services.AddScoped<IDepartmentWriteRepo, DepartmentWriteRepo>();
             services.AddScoped<ICandidateWriteRepo, CandidateWriteRepo>();
-            services.AddScoped<IElectionTypeWriteRepo, ElectionTypeWriteRepo>();
+            //services.AddScoped<IElectionTypeWriteRepo, ElectionTypeWriteRepo>();
             services.AddScoped<IStudentWriteRepo, StudentWriteRepo>();
             services.AddScoped<IVoteWriteRepo, VoteWriteRepo>();
-            services.AddScoped<IVotingPeriodWriteRepo, VotingPeriodWriteRepo>();
-            services.AddScoped<IVotingWriteRepo, VotingWriteRepo>();
+            //services.AddScoped<IVotingPeriodWriteRepo, VotingPeriodWriteRepo>();
+            //services.AddScoped<IVotingWriteRepo, VotingWriteRepo>();
             services.AddScoped<IVoteReadRepo, VoteReadRepo>();
             services.AddScoped<IVoteWriteRepo, VoteWriteRepo>();
             //services.AddScoped<ITranscriptFileReadRepo, TranscriptFileReadRepo>();
@@ -53,9 +53,9 @@ namespace VotingAPI.Persistence
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IVoteService, VoteService>();
-            services.AddScoped<IVotingPeriodService, VotingPeriodService>();
-            services.AddScoped<IFileReadRepo, FileReadRepo>();
-            services.AddScoped<IFileWriteRepo, FileWriteRepo>();
+            //services.AddScoped<IVotingPeriodService, VotingPeriodService>();
+            //services.AddScoped<IFileReadRepo, FileReadRepo>();
+            //services.AddScoped<IFileWriteRepo, FileWriteRepo>();
 
         }
     }

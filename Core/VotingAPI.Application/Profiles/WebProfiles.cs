@@ -35,17 +35,8 @@ namespace VotingAPI.Application.Profiles
             CreateMap<AddStudentRequest, Student>();
             CreateMap<Student, AddStudentResponse>();
             //CreateMap<Student, GetStudentListResponse>();
-            CreateMap<Student, GetStudentResponse>()
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.User.FirstName))
-                .ForMember(x => x.Surname, y => y.MapFrom(z => z.User.LastName))
-                .ForMember(x => x.SchoolNumber, y => y.MapFrom(z => z.User.SchoolId))
-                .ForMember(x => x.Email, y => y.MapFrom(z => z.User.Email));
-            CreateMap<Candidate, GetCandidateResponse>()
-                .ForMember(x => x.FirstName, y => y.MapFrom(z => z.Student.User.FirstName))
-                .ForMember(x => x.LastName, y => y.MapFrom(z => z.Student.User.LastName))
-                .ForMember(x => x.SchoolNumber, y => y.MapFrom(z => z.Student.User.SchoolId))
-                .ForMember(x => x.DepartmentName, y => y.MapFrom(z => z.Student.Department.Name))
-                .ForMember(x => x.Email, y => y.MapFrom(z => z.Student.User.Email));
+            CreateMap<Student, GetStudentResponse>();
+            CreateMap<Candidate, GetCandidateResponse>();
 
 
                 //.ForMember(c => c.StudentNumber, g => g.MapFrom(x => x.Student.StudentNumber))
@@ -61,13 +52,13 @@ namespace VotingAPI.Application.Profiles
             CreateMap<UpdateStudentRequest, Student>();
             CreateMap<AddVoteRequest, Vote>()
                 .ForMember(x => x.VoterId, y => y.MapFrom(z => z.StudentId))
-                .ForMember(x => x.VotingPeriodId, y => y.MapFrom(z => z.VotingPeriodId))
+                //.ForMember(x => x.VotingPeriodId, y => y.MapFrom(z => z.VotingPeriodId))
                 .ForMember(x => x.CandidateId, y => y.MapFrom(z => z.CandidateId));
 
-            CreateMap<VotingPeriod, GetVotingPeriodResponse>()
-                .ForMember(x => x.ElectionTypeName, y => y.MapFrom(z => z.ElectionType.TypeName));
+            //CreateMap<VotingPeriod, GetVotingPeriodResponse>()
+            //    .ForMember(x => x.ElectionTypeName, y => y.MapFrom(z => z.ElectionType.TypeName));
 
-            CreateMap<AddVotingPeriodRequest, VotingPeriod>();
+            //CreateMap<AddVotingPeriodRequest, VotingPeriod>();
 
 
             //todo burayı barışa sor her modelde mapper kullanmaya gerek var mı?
