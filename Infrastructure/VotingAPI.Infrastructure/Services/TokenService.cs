@@ -22,21 +22,24 @@ namespace VotingAPI.Infrastructure.Services
         private readonly IConfiguration _configuration;
         private readonly UserManager<AppUser> _userManager;
 
-            
+
         public TokenService(IConfiguration configuration, UserManager<AppUser> userManager)
         {
             _userManager = userManager;
             _configuration = configuration;
         }
 
-        public TokenResponse CreateAccessToken(List<string> userRole, int minute)
+        public TokenResponse CreateAccessToken(int minute, List<string> userRole = null)
         {
             TokenResponse tokenResponse = new();
 
             List<Claim> claims = new();
-            foreach (string role in userRole)
+            if (userRole != null)
             {
-                claims.Add(new("role", role));
+                foreach (string role in userRole)
+                {
+                    claims.Add(new("role", role));
+                }
             }
 
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
@@ -54,7 +57,7 @@ namespace VotingAPI.Infrastructure.Services
                 notBefore: DateTime.UtcNow
                 );
             JwtSecurityTokenHandler tokenHandler = new();
-                tokenResponse.AccessToken = tokenHandler.WriteToken(securityToken);
+            tokenResponse.AccessToken = tokenHandler.WriteToken(securityToken);
 
             tokenResponse.RefreshToken = CreateRefreshToken();
             return tokenResponse;

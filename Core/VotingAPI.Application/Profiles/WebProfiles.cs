@@ -29,8 +29,8 @@ namespace VotingAPI.Application.Profiles
             CreateMap<C.File, AddFileResponse>();
             //CreateMap<AddStudentRequest, AppUser>()
             //.ForMember(x => x.);
-            CreateMap<AppUser, AddStudentRequest>()
-                .ForMember(s => s.UserId, x => x.MapFrom(t => t.Id));
+            //CreateMap<AppUser, AddStudentRequest>()
+            //    .ForMember(s => s.UserId, x => x.MapFrom(t => t.Id));
 
             CreateMap<AddStudentRequest, Student>();
             CreateMap<Student, AddStudentResponse>();

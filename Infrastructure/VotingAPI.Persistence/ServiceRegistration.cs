@@ -13,17 +13,17 @@ namespace VotingAPI.Persistence
 {
     public static class ServiceRegistration
     {
-        public static void AddPersistenceDI(this IServiceCollection services) 
+        public static void AddPersistenceDI(this IServiceCollection services)
         {
             services.AddDbContext<ElectionSystemDbContext>(o => o.UseNpgsql(ConfigurationExtensions.GetConnectionString()));
-            services.AddIdentity<AppUser, AppRole>(options => 
-            { 
+            services.AddIdentity<AppUser, AppRole>(options =>
+            {
                 options.Password.RequireNonAlphanumeric = false;
                 options.User.RequireUniqueEmail = true;
                 options.Password.RequireUppercase = false;
                 options.SignIn.RequireConfirmedEmail = true;
             })
-                .AddRoles<AppRole>()
+                //.AddRoles<AppRole>()
                 .AddEntityFrameworkStores<ElectionSystemDbContext>()
                  .AddDefaultTokenProviders(); //todo bunu araştır
             services.AddScoped<IDepartmentReadRepo, DepartmentReadRepo>();
@@ -50,7 +50,8 @@ namespace VotingAPI.Persistence
             //services.AddScoped<IProfilePhotoFileWriteRepo, ProfilePhotoFileWriteRepo>();
             services.AddScoped<ICandidateService, CandidateService>();
             services.AddScoped<IStudentService, StudentService>();
-            services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IVoteService, VoteService>();
             //services.AddScoped<IVotingPeriodService, VotingPeriodService>();

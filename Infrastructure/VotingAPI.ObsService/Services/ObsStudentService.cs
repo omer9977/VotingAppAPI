@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VotingAPI.ObsService.Data;
 using VotingAPI.ObsService.Entities;
 using VotingAPI.ObsService.Interfaces;
 
@@ -11,29 +12,30 @@ namespace VotingAPI.ObsService.Services
 {
     public class ObsStudentService : IObsStudentService
     {
-        string filePath;
+        //string filePath;
         public ObsStudentService()
         {
-            string currentDirectory = Directory.GetCurrentDirectory();
-            filePath = Path.Combine(currentDirectory, "..", "..", "..", "..", "..", "Infrastructure", "VotingAPI.ObsService", "Data", "students.json");
+            //string currentDirectory = Directory.GetCurrentDirectory();
+            //filePath = Path.Combine(currentDirectory, "..", "..", "..", "..", "..", "Infrastructure", "VotingAPI.ObsService", "Data", "students.json");
         }
-        public string FindUserByStudentId()
+        public Student FindUserByStudentId()
         {
             throw new NotImplementedException();
         }
 
-        public string FindUserByUserName(string userName)
+        public Student FindUserByUserName(string userName)
         {
-            List<Student> studentList = JsonConvert.DeserializeObject<List<Student>>(GetStudents());
+            List<Student> studentList = GetStudents().ToList();
             var student = studentList.FirstOrDefault(x => x.UserName == userName);
-            var studentResponse = JsonConvert.SerializeObject(student);
-            return studentResponse;
+            //var studentResponse = JsonConvert.SerializeObject(student);
+            return student;
         }
 
-        public string GetStudents() //todo şimdilik string olarak alıyom ama daha sonraları bunları çevirecem
+        public ICollection<Student> GetStudents() //todo şimdilik string olarak alıyom ama daha sonraları bunları çevirecem
         {
-            string json = File.ReadAllText(filePath);
-            return json;
+            List<Student> studentList = JsonConvert.DeserializeObject<List<Student>>(StudentData.Students);
+
+            return studentList;
         }
     }
 }

@@ -9,11 +9,17 @@ namespace VotingAPI.WebAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IUserService _userService;
+        //private readonly IUserService _userService;
+        private readonly IAuthenticationService _authenticationService;
         private readonly IMailService _mailService;
-        public AuthController(IUserService userService, IMailService mailService)
+        public AuthController(
+            //IUserService userService, 
+            IAuthenticationService authenticationService,
+            IMailService mailService
+            )
         {
-            _userService = userService;
+            //_userService = userService;
+            _authenticationService = authenticationService;
             _mailService = mailService;
         }
 
@@ -32,18 +38,19 @@ namespace VotingAPI.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginAsync(LoginUserRequest loginUserRequest)
         {
-            var user = await _userService.LoginAsync(loginUserRequest);
+            //var user = await _userService.LoginAsync(loginUserRequest);
+            var user = await _authenticationService.LoginAsync(loginUserRequest);
             return Ok(user);
         }
 
         //access token dolduğu zaman refresh token ile tekrar access token yaratılır. Buradaki şart refresh tokenin süresinin dolmamış olması
-        [Route("refresh-token-login")]
-        [HttpPost]
-        public async Task<IActionResult> RefreshTokenLoginAsync([FromForm]string refreshToken)
-        {
-            var user = await _userService.RefreshTokenLoginAsync(refreshToken);
-            return Ok(user);
-        }
+        //[Route("refresh-token-login")]
+        //[HttpPost]
+        //public async Task<IActionResult> RefreshTokenLoginAsync([FromForm]string refreshToken)
+        //{
+        //    var user = await _userService.RefreshTokenLoginAsync(refreshToken);
+        //    return Ok(user);
+        //}
 
         ////mail kutucuğuna karşısına bir buton çıktığı zaman o butona tıklarsa eğer yönlendirileceği sayfadaki client buraya istek gönderir
         ////kullanıcı onaylanır 

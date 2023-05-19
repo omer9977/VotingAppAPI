@@ -1,6 +1,7 @@
 ﻿using VotingAPI.Application;
 using VotingAPI.Infrastructure;
 using VotingAPI.Infrastructure.Services.Storage.Azure;
+using VotingAPI.ObsService;
 using VotingAPI.Persistence;
 
 namespace VotingAPI.WebAPI.Helper
@@ -18,6 +19,7 @@ namespace VotingAPI.WebAPI.Helper
                 _.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
                 _.AssumeDefaultVersionWhenUnspecified = true;
             });
+            services.AddObsServices();
             //services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
         }
