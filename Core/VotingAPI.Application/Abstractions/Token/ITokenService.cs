@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Application.Dto.Response.User;
+//using VotingAPI.Domain.Entities.Identity;
 
 namespace VotingAPI.Application.Abstractions.Token
 {
