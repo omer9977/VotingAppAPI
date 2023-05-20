@@ -1,0 +1,12 @@
+D:\WorkSpace\.Net Core\VotingAppAPI\Infrastructure\VotingAPI.ObsService\bin\Debug\net6.0\VotingAPI.ObsService.deps.json
+D:\WorkSpace\.Net Core\VotingAppAPI\Infrastructure\VotingAPI.ObsService\bin\Debug\net6.0\VotingAPI.ObsService.dll
+D:\WorkSpace\.Net Core\VotingAppAPI\Infrastructure\VotingAPI.ObsService\bin\Debug\net6.0\VotingAPI.ObsService.pdb
+D:\WorkSpace\.Net Core\VotingAppAPI\Infrastructure\VotingAPI.ObsService\obj\Debug\net6.0\VotingAPI.ObsService.csproj.AssemblyReference.cache
+D:\WorkSpace\.Net Core\VotingAppAPI\Infrastructure\VotingAPI.ObsService\obj\Debug\net6.0\VotingAPI.ObsService.GeneratedMSBuildEditorConfig.editorconfig
+D:\WorkSpace\.Net Core\VotingAppAPI\Infrastructure\VotingAPI.ObsService\obj\Debug\net6.0\VotingAPI.ObsService.AssemblyInfoInputs.cache
+D:\WorkSpace\.Net Core\VotingAppAPI\Infrastructure\VotingAPI.ObsService\obj\Debug\net6.0\VotingAPI.ObsService.AssemblyInfo.cs
+D:\WorkSpace\.Net Core\VotingAppAPI\Infrastructure\VotingAPI.ObsService\obj\Debug\net6.0\VotingAPI.ObsService.csproj.CoreCompileInputs.cache
+D:\WorkSpace\.Net Core\VotingAppAPI\Infrastructure\VotingAPI.ObsService\obj\Debug\net6.0\VotingAPI.ObsService.dll
+D:\WorkSpace\.Net Core\VotingAppAPI\Infrastructure\VotingAPI.ObsService\obj\Debug\net6.0\refint\VotingAPI.ObsService.dll
+D:\WorkSpace\.Net Core\VotingAppAPI\Infrastructure\VotingAPI.ObsService\obj\Debug\net6.0\VotingAPI.ObsService.pdb
+D:\WorkSpace\.Net Core\VotingAppAPI\Infrastructure\VotingAPI.ObsService\obj\Debug\net6.0\ref\VotingAPI.ObsService.dll
