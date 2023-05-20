@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VotingAPI.Persistence.Contexts;
@@ -11,9 +12,11 @@ using VotingAPI.Persistence.Contexts;
 namespace VotingAPI.Persistence.Migrations
 {
     [DbContext(typeof(ElectionSystemDbContext))]
-    partial class ElectionSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230519202801_update_mig_13")]
+    partial class updatemig13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,6 +136,10 @@ namespace VotingAPI.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AccessToken")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("ApproveStatus")
                         .IsRequired()
                         .HasColumnType("text");
@@ -146,9 +153,6 @@ namespace VotingAPI.Persistence.Migrations
                     b.Property<int>("StudentId1")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TokenId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ElectionId");
@@ -157,8 +161,6 @@ namespace VotingAPI.Persistence.Migrations
                         .IsUnique();
 
                     b.HasIndex("StudentId1");
-
-                    b.HasIndex("TokenId");
 
                     b.ToTable("Candidates", "dbo");
                 });
@@ -200,7 +202,7 @@ namespace VotingAPI.Persistence.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("FacultyId")
+                    b.Property<int>("FacultyId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
@@ -359,6 +361,10 @@ namespace VotingAPI.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AccessToken")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("DepartmentId")
                         .HasColumnType("integer");
 
@@ -374,43 +380,16 @@ namespace VotingAPI.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("TokenId")
-                        .HasColumnType("integer");
+                    b.Property<long>("StudentId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("UserRole")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Year")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TokenId");
 
                     b.ToTable("Students", "dbo");
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.Token", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AccessToken")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("ExpirationDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tokens", "dbo");
                 });
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Vote", b =>
@@ -529,28 +508,9 @@ namespace VotingAPI.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VotingAPI.Domain.Entities.Token", "Token")
-                        .WithMany()
-                        .HasForeignKey("TokenId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Election");
 
                     b.Navigation("Student");
-
-                    b.Navigation("Token");
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.Student", b =>
-                {
-                    b.HasOne("VotingAPI.Domain.Entities.Token", "Token")
-                        .WithMany()
-                        .HasForeignKey("TokenId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Token");
                 });
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Vote", b =>

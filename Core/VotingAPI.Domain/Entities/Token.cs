@@ -8,10 +8,11 @@ using VotingAPI.Domain.Entities.Common;
 
 namespace VotingAPI.Domain.Entities
 {
-    [Table("Departments", Schema = "dbo")]
-    public class Department : BaseEntity
+    [Table("Tokens", Schema = "dbo")]
+    public class Token : BaseEntity
     {
-        public string Name { get; set; }
-        public int FacultyId { get; set; }
+        public string? AccessToken { get; set; }
+        public DateTime? ExpirationDate { get; set; }
+        public string? RefreshToken { get; set; }
     }
 }

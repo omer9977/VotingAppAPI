@@ -21,9 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingAPI.WebAPI", "Present
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{CDE4E8C9-ED3F-4857-9EB2-5CBD2C42BA5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingAPI.ObsService", "Infrastructure\VotingAPI.ObsService\VotingAPI.ObsService.csproj", "{66D73135-C1D9-4258-83B6-28FA9530031B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingAPI.Tests", "Presentation\VotingAPI.Tests\VotingAPI.Tests.csproj", "{650F01B2-8AA1-4CED-B0B9-477B01B4BAA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingAPI.ObsService", "Infrastructure\VotingAPI.ObsService\VotingAPI.ObsService.csproj", "{66D73135-C1D9-4258-83B6-28FA9530031B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +57,6 @@ Global
 		{66D73135-C1D9-4258-83B6-28FA9530031B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66D73135-C1D9-4258-83B6-28FA9530031B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66D73135-C1D9-4258-83B6-28FA9530031B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{650F01B2-8AA1-4CED-B0B9-477B01B4BAA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{650F01B2-8AA1-4CED-B0B9-477B01B4BAA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{650F01B2-8AA1-4CED-B0B9-477B01B4BAA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{650F01B2-8AA1-4CED-B0B9-477B01B4BAA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,7 +68,6 @@ Global
 		{F8AFA552-8859-497E-91E6-D89DFB4C0A30} = {CDA22E67-EB9A-4D11-BEB9-BBEFFA8908DC}
 		{874B26CE-E9CB-4EEF-A1B0-B50C3E70B244} = {6756BDB3-53CD-4EF9-9B1F-BE8E347C6093}
 		{66D73135-C1D9-4258-83B6-28FA9530031B} = {CDA22E67-EB9A-4D11-BEB9-BBEFFA8908DC}
-		{650F01B2-8AA1-4CED-B0B9-477B01B4BAA7} = {6756BDB3-53CD-4EF9-9B1F-BE8E347C6093}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {150DAAF1-4B4A-4DD2-96AE-28CB632DE113}

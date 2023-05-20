@@ -14,11 +14,7 @@ namespace VotingAPI.Domain.Entities
         public DateTime VotingDate { get; set; }
         [ForeignKey("Students")]
         public int VoterId { get; set; }
-        [Column("VoterId")]
-        public Student Voter { get; set; }
-        public Candidate Candidate { get; set; }
         public int CandidateId { get; set; }
-        public Election Election { get; set; }//todo electionid olacak
         public int ElectionId { get; set; }
     }
 }

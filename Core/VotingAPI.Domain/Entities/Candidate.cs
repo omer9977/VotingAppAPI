@@ -13,12 +13,11 @@ namespace VotingAPI.Domain.Entities
     public class Candidate : BaseEntity
     {
         public ApproveStatus ApproveStatus { get; set; }
-
         public long StudentId { get; set; }
         public Student Student { get; set; }
-
         public int ElectionId { get; set; }
         public Election Election { get; set; }
+        public Token Token { get; set; }
     }
     public enum ApproveStatus
     {

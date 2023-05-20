@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VotingAPI.Persistence.Contexts;
@@ -11,9 +12,11 @@ using VotingAPI.Persistence.Contexts;
 namespace VotingAPI.Persistence.Migrations
 {
     [DbContext(typeof(ElectionSystemDbContext))]
-    partial class ElectionSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230520055641_update_migration_17")]
+    partial class updatemigration17
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

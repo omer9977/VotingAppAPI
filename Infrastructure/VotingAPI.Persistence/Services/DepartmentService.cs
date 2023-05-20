@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions;
@@ -50,6 +52,15 @@ namespace VotingAPI.Persistence.Services
             if (department == null)
                 throw new DataNotFoundException(id);
             var response = _mapper.Map<GetDepartmentResponse>(department);
+            return response;
+        }
+        public async Task<List<GetDepartmentResponse>> GetDepartmentsWhere(Expression<Func<Department, bool>> expression)// burası çok kötü direk domaine erişim olmaması lazım daha sonra düzelt
+        {
+            //var departmentMapped = _mapper.Map<Department>(expression);
+            var departments = await _departmentReadRepo.Table.Where(expression).ToListAsync();
+            if (departments == null || departments.Count == 0)
+                throw new DataNotFoundException("not found");
+            var response = _mapper.Map<List<GetDepartmentResponse>>(departments);
             return response;
         }
         public async Task<bool> UpdateDepartmentAsync(UpdateDepartmentRequest updateDepartmentRequest)

@@ -19,12 +19,18 @@ namespace VotingAPI.Persistence.Services
         private readonly IMapper _mapper;
         private readonly IStudentReadRepo _studentReadRepo;
         private readonly IStudentWriteRepo _studentWriteRepo;
+        private readonly IDepartmentReadRepo _departmentReadRepo;
 
-        public StudentService(IMapper mapper, IStudentReadRepo studentReadRepo, IStudentWriteRepo studentWriteRepo)
+        public StudentService(
+            IMapper mapper,
+            IStudentReadRepo studentReadRepo,
+            IStudentWriteRepo studentWriteRepo,
+            IDepartmentReadRepo departmentReadRepo)
         {
             _mapper = mapper;
             _studentReadRepo = studentReadRepo;
             _studentWriteRepo = studentWriteRepo;
+            _departmentReadRepo = departmentReadRepo;
         }
         public List<GetStudentResponse> GetStudentList()
         {
@@ -45,11 +51,21 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<GetStudentResponse> GetStudentByUserNameAsync(string userName)
         {
-            var studentDb = await _studentReadRepo.GetSingleAsync(x => x.Email == userName);
-            if (studentDb == null)
-                throw new DataNotFoundException(userName);
+            Student studentDb = await _studentReadRepo.GetSingleAsync(x => x.Email == userName);
+            Department department = await _departmentReadRepo.GetByIdAsync(studentDb.DepartmentId);
+            GetStudentResponse response = new();
+            //if (studentDb == null)
+                //throw new DataNotFoundException(userName);
 
-            var response = _mapper.Map<GetStudentResponse>(studentDb);
+                //response = _mapper.Map<GetStudentResponse>(studentDb);
+                response = new GetStudentResponse()
+                {
+                    DepartmentName = department.Name,
+                    Email = studentDb.Email,
+                    Name = studentDb.Name,
+                    Lastname = studentDb.LastName,
+                    UserRole = studentDb.UserRole.ToString(),
+                };
             return response;
         }
 
@@ -68,8 +84,16 @@ namespace VotingAPI.Persistence.Services
             bool addedStatus = await _studentWriteRepo.AddAsync(studentMapped);
             if (!addedStatus)
                 throw new DataNotAddedException();
+            try
+            {
 
             await _studentWriteRepo.SaveChangesAsync();//todo arada foreign key kaynaklı hata çözümü var ama çok fazka try catch geleceek: https://stackoverflow.com/questions/2403348/how-can-i-know-if-an-sqlexception-was-thrown-because-of-foreign-key-violation
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public async Task UpdateStudentAsync(UpdateStudentRequest updateStudentRequest)

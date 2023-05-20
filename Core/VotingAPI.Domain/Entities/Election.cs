@@ -16,7 +16,7 @@ namespace VotingAPI.Domain.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int? DepartmentId { get; set; }
-        public int FacultyId { get; set; }
+        public int? FacultyId { get; set; }
         public ICollection<Candidate> Candidates { get; set; }
 
     }

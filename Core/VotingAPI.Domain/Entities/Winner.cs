@@ -17,3 +17,4 @@ namespace VotingAPI.Domain.Entities
         public int ElectionId { get; set; }
     }
 }
+

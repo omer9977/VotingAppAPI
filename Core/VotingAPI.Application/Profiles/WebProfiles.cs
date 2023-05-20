@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Application.Dto.Request.Department;
+using VotingAPI.Application.Dto.Request.Election;
 using VotingAPI.Application.Dto.Request.Student;
 using VotingAPI.Application.Dto.Request.User;
 using VotingAPI.Application.Dto.Request.Votes;
@@ -24,7 +25,7 @@ namespace VotingAPI.Application.Profiles
 {
     public class WebProfiles : Profile
     {
-        public WebProfiles() 
+        public WebProfiles()
         {
             CreateMap<C.File, AddFileResponse>();
             //CreateMap<AddStudentRequest, AppUser>()
@@ -32,20 +33,26 @@ namespace VotingAPI.Application.Profiles
             //CreateMap<AppUser, AddStudentRequest>()
             //    .ForMember(s => s.UserId, x => x.MapFrom(t => t.Id));
 
-            CreateMap<AddStudentRequest, Student>();
+            CreateMap<AddStudentRequest, Student>()
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.UserName))
+                .ForPath(dest => dest.Token.AccessToken, opt => opt.MapFrom(src => src.AccessToken))
+                .ForPath(dest => dest.Token.RefreshToken, opt => opt.MapFrom(src => src.RefreshToken))
+                .ForPath(dest => dest.Token.ExpirationDate, opt => opt.MapFrom(src => src.ExpirationDate));
             CreateMap<Student, AddStudentResponse>();
             //CreateMap<Student, GetStudentListResponse>();
             CreateMap<Student, GetStudentResponse>();
+
+
             CreateMap<Candidate, GetCandidateResponse>();
 
 
-                //.ForMember(c => c.StudentNumber, g => g.MapFrom(x => x.Student.StudentNumber))
-                //.ForMember(c => c.Name, g => g.MapFrom(x => x.Student.Name));
+            //.ForMember(c => c.StudentNumber, g => g.MapFrom(x => x.Student.StudentNumber))
+            //.ForMember(c => c.Name, g => g.MapFrom(x => x.Student.Name));
             CreateMap<CreateUserRequest, AppUser>()
                 .ForMember(c => c.UserName, g => g.MapFrom(x => x.Email));
             CreateMap<AppUser, GetUserResponse>();
 
-
+            CreateMap<GetDepartmentRequest, Department>();
             CreateMap<AddDepartmentRequest, Department>();
             CreateMap<Department, GetDepartmentResponse>();
             CreateMap<UpdateDepartmentRequest, Department>();
@@ -54,6 +61,8 @@ namespace VotingAPI.Application.Profiles
                 .ForMember(x => x.VoterId, y => y.MapFrom(z => z.StudentId))
                 //.ForMember(x => x.VotingPeriodId, y => y.MapFrom(z => z.VotingPeriodId))
                 .ForMember(x => x.CandidateId, y => y.MapFrom(z => z.CandidateId));
+
+            CreateMap<CreateDepartmentElectionRequest, Election>();
 
             //CreateMap<VotingPeriod, GetVotingPeriodResponse>()
             //    .ForMember(x => x.ElectionTypeName, y => y.MapFrom(z => z.ElectionType.TypeName));

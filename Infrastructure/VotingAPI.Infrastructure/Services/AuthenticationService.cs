@@ -24,6 +24,7 @@ namespace VotingAPI.Infrastructure.Services
         private readonly IMapper _mapper;
         private readonly IObsStudentService _obsStudentService;
         private readonly IStudentService _studentService;
+        private readonly IDepartmentService _departmentService;
 
         public AuthenticationService(
             UserManager<AppUser> userManager,
@@ -31,7 +32,8 @@ namespace VotingAPI.Infrastructure.Services
             SignInManager<AppUser> signInManager,
             ITokenService tokenService,
             IObsStudentService obsStudentService,
-            IStudentService studentService
+            IStudentService studentService,
+            IDepartmentService departmentService
             )
         {
             _userManager = userManager;
@@ -40,6 +42,7 @@ namespace VotingAPI.Infrastructure.Services
             _tokenService = tokenService;
             _obsStudentService = obsStudentService;
             _studentService = studentService;
+            _departmentService = departmentService;
         }
         //public async Task<bool> CreateUser(CreateUserRequest createUserRequest)
         //{
@@ -55,35 +58,38 @@ namespace VotingAPI.Infrastructure.Services
 
         public async Task<LoginUserResponse> LoginAsync(LoginUserRequest loginUserRequest)
         {
-            //var user = await _userManager.FindByEmailAsync(loginUserRequest.Email);
             var user = _obsStudentService.FindUserByUserName(loginUserRequest.Email);
             if (user == null)
                 throw new UserNotFoundException();
-            var userDb = _studentService.GetStudentByUserNameAsync(loginUserRequest.Email);
-            if (userDb == null)
+            var userDb = await _studentService.GetStudentByUserNameAsync(loginUserRequest.Email);
+            TokenResponse tokenResponse = new();
+            if (user.PasswordHash == loginUserRequest.Password)
             {
+                //List<string> userRole = (List<string>)await _userManager.GetRolesAsync(user);
+                tokenResponse = _tokenService.CreateAccessToken(userRole: new List<string>() { "Admin" }, minute: 5); //todo deneme
 
+                //await UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.ExpirationDate, 5);//todo access token 5
+                //return new()
+                //{
+                //    Token = tokenResponse
+                //};
             }
-            var addStudentRequest = new AddStudentRequest() 
+            if (userDb != null)
             {
-                //DepartmentId = user.Department,
+                return new() { Token = tokenResponse };
+            }
+            var department = _departmentService.GetDepartmentsWhere(u => u.Name == user.Department).Result.FirstOrDefault();
+            var addStudentRequest = new AddStudentRequest()
+            {
+                DepartmentId = department?.Id,
                 Name = user.Name,
                 LastName = user.LastName,
                 UserName = user.UserName,
                 Year = user.Year,
+                AccessToken = tokenResponse.AccessToken,
+                ExpirationDate = tokenResponse.ExpirationDate
             };
-            await _studentService.AddStudentAsync(user);
-            if (user.PasswordHash == loginUserRequest.Password)
-            {
-                //List<string> userRole = (List<string>)await _userManager.GetRolesAsync(user);
-                TokenResponse tokenResponse = _tokenService.CreateAccessToken(minute: 5);
-
-                //await UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.ExpirationDate, 5);//todo access token 5
-                return new()
-                {
-                    Token = tokenResponse
-                };
-            }
+            await _studentService.AddStudentAsync(addStudentRequest);
 
             //var result = await _signInManager.CheckPasswordSignInAsync(user, loginUserRequest.Password, false);
             //if (result.Succeeded)
@@ -94,7 +100,8 @@ namespace VotingAPI.Infrastructure.Services
             //        Token = tokenResponse
             //    };
             //}
-            throw new AuthenticationFailedException();
+            //throw new AuthenticationFailedException();
+            return new() { Token = tokenResponse };
         }
     }
 }
