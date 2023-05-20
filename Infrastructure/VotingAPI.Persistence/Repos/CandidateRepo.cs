@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,13 @@ namespace VotingAPI.Persistence.Repos
     {
         public CandidateReadRepo(ElectionSystemDbContext _dbContext) : base(_dbContext)
         {
+        }
+        public new async Task<Candidate> GetByIdAsync(int id, bool isTracking = true) //todo onemli bu kullanım nasıl include için
+        {
+            var query = Table.AsQueryable();
+            if (!isTracking)
+                query = query.AsNoTracking();
+            return await query/*.Include(s => s.Student.User).Include(s => s.Student.Department)*/.FirstOrDefaultAsync(x => x.Id == id);
         }
     }
     public class CandidateWriteRepo : WriteRepo<Candidate>, ICandidateWriteRepo

@@ -12,9 +12,17 @@ namespace VotingAPI.Domain.Entities
     [Table("Candidates", Schema = "dbo")]
     public class Candidate : BaseEntity
     {
-        public DateOnly ApplicationDate { get; set; }
-        public short ApproveStatus { get; set; }
-        public int StudentId { get; set; }
+        public ApproveStatus ApproveStatus { get; set; }
+        public long StudentId { get; set; }
         public Student Student { get; set; }
+        public int ElectionId { get; set; }
+        public Election Election { get; set; }
+        public Token Token { get; set; }
+    }
+    public enum ApproveStatus
+    {
+        Pending = 1,
+        Approved = 2,
+        Rejected = 3
     }
 }

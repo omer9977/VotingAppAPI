@@ -5,19 +5,23 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{57BAA53D-8F07-44D1-A5D6-B40AEBAA0C04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingAPI.Domain", "Core\VotingAPI.Domain\VotingAPI.Domain.csproj", "{F1246580-341F-4E45-9D28-33F01F480B07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingAPI.Domain", "Core\VotingAPI.Domain\VotingAPI.Domain.csproj", "{F1246580-341F-4E45-9D28-33F01F480B07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingAPI.Application", "Core\VotingAPI.Application\VotingAPI.Application.csproj", "{AA3D541E-179C-42F1-A034-4CD66DF1D4B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingAPI.Application", "Core\VotingAPI.Application\VotingAPI.Application.csproj", "{AA3D541E-179C-42F1-A034-4CD66DF1D4B2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{CDA22E67-EB9A-4D11-BEB9-BBEFFA8908DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingAPI.Infrastructure", "Infrastructure\VotingAPI.Infrastructure\VotingAPI.Infrastructure.csproj", "{E718D88A-92C7-42AD-8C0D-EBA71D997EA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingAPI.Infrastructure", "Infrastructure\VotingAPI.Infrastructure\VotingAPI.Infrastructure.csproj", "{E718D88A-92C7-42AD-8C0D-EBA71D997EA8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{6756BDB3-53CD-4EF9-9B1F-BE8E347C6093}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingAPI.Persistence", "Infrastructure\VotingAPI.Persistence\VotingAPI.Persistence.csproj", "{F8AFA552-8859-497E-91E6-D89DFB4C0A30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingAPI.Persistence", "Infrastructure\VotingAPI.Persistence\VotingAPI.Persistence.csproj", "{F8AFA552-8859-497E-91E6-D89DFB4C0A30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingAPI.WebAPI", "Presentation\VotingAPI.WebAPI\VotingAPI.WebAPI.csproj", "{874B26CE-E9CB-4EEF-A1B0-B50C3E70B244}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingAPI.WebAPI", "Presentation\VotingAPI.WebAPI\VotingAPI.WebAPI.csproj", "{874B26CE-E9CB-4EEF-A1B0-B50C3E70B244}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{CDE4E8C9-ED3F-4857-9EB2-5CBD2C42BA5A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingAPI.ObsService", "Infrastructure\VotingAPI.ObsService\VotingAPI.ObsService.csproj", "{66D73135-C1D9-4258-83B6-28FA9530031B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{874B26CE-E9CB-4EEF-A1B0-B50C3E70B244}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{874B26CE-E9CB-4EEF-A1B0-B50C3E70B244}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{874B26CE-E9CB-4EEF-A1B0-B50C3E70B244}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDE4E8C9-ED3F-4857-9EB2-5CBD2C42BA5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDE4E8C9-ED3F-4857-9EB2-5CBD2C42BA5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDE4E8C9-ED3F-4857-9EB2-5CBD2C42BA5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDE4E8C9-ED3F-4857-9EB2-5CBD2C42BA5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66D73135-C1D9-4258-83B6-28FA9530031B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66D73135-C1D9-4258-83B6-28FA9530031B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66D73135-C1D9-4258-83B6-28FA9530031B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66D73135-C1D9-4258-83B6-28FA9530031B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +67,7 @@ Global
 		{E718D88A-92C7-42AD-8C0D-EBA71D997EA8} = {CDA22E67-EB9A-4D11-BEB9-BBEFFA8908DC}
 		{F8AFA552-8859-497E-91E6-D89DFB4C0A30} = {CDA22E67-EB9A-4D11-BEB9-BBEFFA8908DC}
 		{874B26CE-E9CB-4EEF-A1B0-B50C3E70B244} = {6756BDB3-53CD-4EF9-9B1F-BE8E347C6093}
+		{66D73135-C1D9-4258-83B6-28FA9530031B} = {CDA22E67-EB9A-4D11-BEB9-BBEFFA8908DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {150DAAF1-4B4A-4DD2-96AE-28CB632DE113}

@@ -10,6 +10,13 @@ namespace VotingAPI.Application.Abstractions
 {
     public interface IStudentService
     {
-        Task<AddStudentResponse> AddStudentAsync(AddStudentRequest student);
+        List<GetStudentResponse> GetStudentList();
+        Task<GetStudentResponse> GetStudentByIdAsync(int id);
+        Task<GetStudentResponse> GetStudentByUserNameAsync(string userName);
+
+        //Task<GetStudentResponse> GetStudentByStudentNumberAsync(long studentNumber);
+        Task AddStudentAsync(AddStudentRequest addStudentRequest);
+        Task UpdateStudentAsync(UpdateStudentRequest updateStudentRequest);
+        Task DeleteStudentAsync(int id);
     }
 }

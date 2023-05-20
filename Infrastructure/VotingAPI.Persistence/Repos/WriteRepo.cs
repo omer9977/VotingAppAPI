@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using VotingAPI.Domain.Entities.Common;
 using VotingAPI.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using VotingAPI.Application.Exceptions;
 
 namespace VotingAPI.Persistence.Repos
 {
@@ -21,16 +22,15 @@ namespace VotingAPI.Persistence.Repos
 
         public DbSet<T> Table => dbContext.Set<T>();
 
-        public async Task<T> AddAsync(T entity)
+        public async Task<bool> AddAsync(T entity)
         {
-            EntityEntry entityEntry = await Table.AddAsync(entity); // qt : buraya EntityEntry<T> entity böyle yazabilir miydik?
-            return (T)entityEntry.Entity;
+            EntityEntry entityEntry = await Table.AddAsync(entity);
+            return entityEntry.State == EntityState.Added;
         }
 
-        public async Task<bool> AddRangeAsync(List<T> entities)
+        public async Task AddRangeAsync(List<T> entities)
         {
-            Table.AddRangeAsync(entities);
-            return true;
+            await Table.AddRangeAsync(entities);
         }
 
         public bool Remove(T entity)
@@ -58,11 +58,11 @@ namespace VotingAPI.Persistence.Repos
             return entity.State == EntityState.Modified;
         }
 
-        public bool UpdateRange(List<T> entities)
+        public void UpdateRange(List<T> entities)
         {
-            throw new NotImplementedException();
+            Table.UpdateRange(entities);
         }
         public async Task<int> SaveChangesAsync()
-        => await dbContext.SaveChangesAsync();
+            =>await dbContext.SaveChangesAsync();
     }
 }

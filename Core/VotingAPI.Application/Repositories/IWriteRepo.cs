@@ -9,13 +9,13 @@ namespace VotingAPI.Application.Repositories
 {
     public interface IWriteRepo<T> : IRepo<T> where T : BaseEntity
     {
-        Task<T> AddAsync(T entity);
-        Task<bool> AddRangeAsync(List<T> entities);
+        Task<bool> AddAsync(T entity);
+        Task AddRangeAsync(List<T> entities);
         bool Remove(T entity);
         Task<bool> RemoveByIdAsync(int id);
         bool RemoveRange(List<T> entities);
         bool Update(T entity);
-        bool UpdateRange(List<T> entities);
+        void UpdateRange(List<T> entities);
         Task<int> SaveChangesAsync();
     }
 }

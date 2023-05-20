@@ -8,6 +8,7 @@ using VotingAPI.Domain.Entities.Common;
 using Microsoft.EntityFrameworkCore;
 using VotingAPI.Persistence.Contexts;
 using System.Linq.Expressions;
+using VotingAPI.Application.Exceptions;
 
 namespace VotingAPI.Persistence.Repos
 {
@@ -39,10 +40,10 @@ namespace VotingAPI.Persistence.Repos
 
         public async Task<T> GetSingleAsync(Expression<Func<T, bool>> expression, bool isTracking = true)
         {
-            var query = GetAll().Where(expression);
+            var query = GetAll(isTracking);//todo asqueryable olsa daha iyi olmaz mı?
             if (!isTracking)
-                query = query.AsNoTracking();
-            return await Table.FirstOrDefaultAsync(expression);
+                query = Table.AsNoTracking();
+            return await query.FirstOrDefaultAsync(expression);
         }
 
         public IQueryable<T> GetWhere(Expression<Func<T, bool>> expression, bool isTracking = true)

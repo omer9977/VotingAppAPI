@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  votingapi.webapi:
+    image: ${DOCKER_REGISTRY-}votingapiwebapi
+    build:
+      context: .
+      dockerfile: Presentation/VotingAPI.WebAPI/Dockerfile
+    ports:
+      - 5000:80 
+  
+  #s_portainer:
+  #  container_name: c_portainer
+  #  image: portainer/portainer
+  #  ports:
+  #    - 9000:9000
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
+  #    - ./docker_data/portainer_data:/data
+
+  #s_jenkins:
+  #  container_name: c_jenkins
+  #  image: omeryilmaz77/jenkinswithdocker
+  #  ports:
+  #    - 8080:8080
+  #    # - 50000:50000
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
+  #    - ./app_data:/var/jenkins_home
