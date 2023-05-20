@@ -7,12 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Domain.Entities;
 //using VotingAPI.Domain.Entities.FileTypes;
-using VotingAPI.Domain.Entities.Identity;
+//using VotingAPI.Domain.Entities.Identity;
 //using F = VotingAPI.Domain.Entities.FileTypes;
 
 namespace VotingAPI.Persistence.Contexts
 {
-    public class ElectionSystemDbContext : IdentityDbContext<AppUser, AppRole, int>
+    public class ElectionSystemDbContext : DbContext /*: IdentityDbContext<AppUser, AppRole, int>*/
     {
         public ElectionSystemDbContext(DbContextOptions options) : base(options) 
         { }
@@ -65,13 +65,13 @@ namespace VotingAPI.Persistence.Contexts
                 .Property(s => s.ApproveStatus)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<AppUser>()
-                .HasIndex(p => new { p.SchoolId })
-                .IsUnique(true);
+            //modelBuilder.Entity<AppUser>()
+            //    .HasIndex(p => new { p.SchoolId })
+            //    .IsUnique(true);
 
-            modelBuilder.Entity<AppUser>()
-            .HasIndex(p => new { p.RefreshToken })
-            .IsUnique(true);
+            //modelBuilder.Entity<AppUser>()
+            //.HasIndex(p => new { p.RefreshToken })
+            //.IsUnique(true);
 
             modelBuilder.Entity<Candidate>()
                 .HasIndex(p => new { p.StudentId })

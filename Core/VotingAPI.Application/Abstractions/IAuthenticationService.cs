@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Application.Dto.Request.User;
 using VotingAPI.Application.Dto.Response.User;
-using VotingAPI.Domain.Entities.Identity;
+//using VotingAPI.Domain.Entities.Identity;
 
 namespace VotingAPI.Application.Abstractions
 {

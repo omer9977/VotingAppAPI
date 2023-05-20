@@ -13,19 +13,19 @@ using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions.Token;
 using VotingAPI.Application.Dto.Response.User;
 using VotingAPI.Application.Exceptions;
-using VotingAPI.Domain.Entities.Identity;
+//using VotingAPI.Domain.Entities.Identity;
 
 namespace VotingAPI.Infrastructure.Services
 {
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
-        private readonly UserManager<AppUser> _userManager;
+        //private readonly UserManager<AppUser> _userManager;
 
 
-        public TokenService(IConfiguration configuration, UserManager<AppUser> userManager)
+        public TokenService(IConfiguration configuration /*UserManager<AppUser> userManager*/)
         {
-            _userManager = userManager;
+            //_userManager = userManager;
             _configuration = configuration;
         }
 

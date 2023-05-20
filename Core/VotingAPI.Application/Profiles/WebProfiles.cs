@@ -18,7 +18,6 @@ using VotingAPI.Application.Dto.Response.User;
 using VotingAPI.Application.Dto.Response.VotingPeriod;
 using VotingAPI.Domain.Entities;
 //using VotingAPI.Domain.Entities.FileTypes;
-using VotingAPI.Domain.Entities.Identity;
 using C = VotingAPI.Domain.Entities.Common;
 
 namespace VotingAPI.Application.Profiles
@@ -27,7 +26,7 @@ namespace VotingAPI.Application.Profiles
     {
         public WebProfiles()
         {
-            CreateMap<C.File, AddFileResponse>();
+            //CreateMap<C.File, AddFileResponse>();
             //CreateMap<AddStudentRequest, AppUser>()
             //.ForMember(x => x.);
             //CreateMap<AppUser, AddStudentRequest>()
@@ -48,9 +47,9 @@ namespace VotingAPI.Application.Profiles
 
             //.ForMember(c => c.StudentNumber, g => g.MapFrom(x => x.Student.StudentNumber))
             //.ForMember(c => c.Name, g => g.MapFrom(x => x.Student.Name));
-            CreateMap<CreateUserRequest, AppUser>()
-                .ForMember(c => c.UserName, g => g.MapFrom(x => x.Email));
-            CreateMap<AppUser, GetUserResponse>();
+            //CreateMap<CreateUserRequest, AppUser>()
+            //    .ForMember(c => c.UserName, g => g.MapFrom(x => x.Email));
+            //CreateMap<AppUser, GetUserResponse>();
 
             CreateMap<GetDepartmentRequest, Department>();
             CreateMap<AddDepartmentRequest, Department>();

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Repositories.ModelRepos;
-using VotingAPI.Domain.Entities.Identity;
+//using VotingAPI.Domain.Entities.Identity;
 using VotingAPI.Persistence.Contexts;
 using VotingAPI.Persistence.Extensions;
 using VotingAPI.Persistence.Repos;
@@ -16,16 +16,16 @@ namespace VotingAPI.Persistence
         public static void AddPersistenceDI(this IServiceCollection services)
         {
             services.AddDbContext<ElectionSystemDbContext>(o => o.UseNpgsql(ConfigurationExtensions.GetConnectionString()));
-            services.AddIdentity<AppUser, AppRole>(options =>
-            {
-                options.Password.RequireNonAlphanumeric = false;
-                options.User.RequireUniqueEmail = true;
-                options.Password.RequireUppercase = false;
-                options.SignIn.RequireConfirmedEmail = true;
-            })
+            //services.AddIdentity<AppUser, AppRole>(options =>
+            //{
+            //    options.Password.RequireNonAlphanumeric = false;
+            //    options.User.RequireUniqueEmail = true;
+            //    options.Password.RequireUppercase = false;
+            //    options.SignIn.RequireConfirmedEmail = true;
+            //})
                 //.AddRoles<AppRole>()
-                .AddEntityFrameworkStores<ElectionSystemDbContext>()
-                 .AddDefaultTokenProviders(); //todo bunu araştır
+                //.AddEntityFrameworkStores<ElectionSystemDbContext>()
+                 //.AddDefaultTokenProviders(); //todo bunu araştır
             services.AddScoped<IDepartmentReadRepo, DepartmentReadRepo>();
             services.AddScoped<ICandidateReadRepo, CandidateReadRepo>();
             //services.AddScoped<IElectionTypeReadRepo, ElectionTypeReadRepo>();

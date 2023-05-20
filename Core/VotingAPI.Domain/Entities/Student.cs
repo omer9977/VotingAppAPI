@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Domain.Entities.Common;
-using VotingAPI.Domain.Entities.Identity;
+//using VotingAPI.Domain.Entities.Identity;
 
 namespace VotingAPI.Domain.Entities
 {
@@ -18,8 +18,10 @@ namespace VotingAPI.Domain.Entities
         public string Email { get; set; }
         //public long StudentId { get; set; }
         public int DepartmentId { get; set; }
-        public UserRole UserRole { get; set; }
+        [ForeignKey("Tokens")]
         public Token Token { get; set; }
+        public UserRole UserRole { get; set; }
+        public int? TokenId { get; set; }
         public int Year { get; set; }
     }
     public enum UserRole

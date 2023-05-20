@@ -11,15 +11,15 @@ using VotingAPI.Application.Dto.Request.Student;
 using VotingAPI.Application.Dto.Request.User;
 using VotingAPI.Application.Dto.Response.User;
 using VotingAPI.Application.Exceptions;
-using VotingAPI.Domain.Entities.Identity;
+//using VotingAPI.Domain.Entities.Identity;
 using VotingAPI.ObsService.Interfaces;
 
 namespace VotingAPI.Infrastructure.Services
 {
     public class AuthenticationService : IAuthenticationService
     {//todo bu servisin persistence içerisinde olması lazım
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
+        //private readonly UserManager<AppUser> _userManager;
+        //private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly IObsStudentService _obsStudentService;
@@ -27,18 +27,18 @@ namespace VotingAPI.Infrastructure.Services
         private readonly IDepartmentService _departmentService;
 
         public AuthenticationService(
-            UserManager<AppUser> userManager,
+            //UserManager<AppUser> userManager,
             IMapper mapper,
-            SignInManager<AppUser> signInManager,
+            //SignInManager<AppUser> signInManager,
             ITokenService tokenService,
             IObsStudentService obsStudentService,
             IStudentService studentService,
             IDepartmentService departmentService
             )
         {
-            _userManager = userManager;
+            //_userManager = userManager;
             _mapper = mapper;
-            _signInManager = signInManager;
+            //_signInManager = signInManager;
             _tokenService = tokenService;
             _obsStudentService = obsStudentService;
             _studentService = studentService;

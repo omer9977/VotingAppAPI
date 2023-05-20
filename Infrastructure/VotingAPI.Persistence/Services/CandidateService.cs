@@ -12,7 +12,7 @@ using VotingAPI.Application.Dto.Response.ProfilePhoto;
 using VotingAPI.Application.Exceptions;
 using VotingAPI.Application.Repositories.ModelRepos;
 using VotingAPI.Domain.Entities;
-using VotingAPI.Domain.Entities.Identity;
+//using VotingAPI.Domain.Entities.Identity;
 //using VotingAPI.Domain.Entities.FileTypes;
 using VotingAPI.Persistence.Enums;
 using C = VotingAPI.Domain.Entities.Common;
@@ -30,7 +30,7 @@ namespace VotingAPI.Persistence.Services
         //private readonly IFileReadRepo _fileReadRepo;
         //private readonly IFileWriteRepo _fileWriteRepo;
         private readonly IConfiguration _configuration;
-        private readonly UserManager<AppUser> _userManager;
+        //private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
         public CandidateService(ICandidateReadRepo candidateReadRepo,
             ICandidateWriteRepo candidateWriteRepo,
@@ -39,10 +39,10 @@ namespace VotingAPI.Persistence.Services
             //IProfilePhotoFileWriteRepo profilePhotoFileWriteRepo,
             //IProfilePhotoFileReadRepo profilePhotoFileReadRepo,
             IConfiguration configuration,
-            IMapper mapper,
+            IMapper mapper
             //IFileReadRepo fileReadRepo,
             //IFileWriteRepo fileWriteRepo,
-            UserManager<AppUser> userManager
+            //UserManager<AppUser> userManager
             )
         {
             _candidateReadRepo = candidateReadRepo;
@@ -55,7 +55,7 @@ namespace VotingAPI.Persistence.Services
             _mapper = mapper;
             //_fileReadRepo = fileReadRepo;
             //_fileWriteRepo = fileWriteRepo;
-            _userManager = userManager;
+            //_userManager = userManager;
         }
 
         public async Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
