@@ -10,11 +10,8 @@ namespace VotingAPI.Application.Dto.Request.Votes
 {
     public class AddVoteRequest
     {
-        [ForeignKey("Students")]
         public int StudentId { get; set; }
-        [ForeignKey("Candidates")]
         public int CandidateId { get; set; }
-        [ForeignKey("VotingPeriods")]
         public int VotingPeriodId { get; set; }
     }
 }

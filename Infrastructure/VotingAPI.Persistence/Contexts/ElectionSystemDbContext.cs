@@ -57,7 +57,7 @@ namespace VotingAPI.Persistence.Contexts
             //    .HasIndex(p => new { p.CandidateId })
             //    .IsUnique(true);
 
-            modelBuilder.Entity<Student>()
+            modelBuilder.Entity<User>()
                 .Property(s => s.UserRole)
                 .HasConversion<string>();
 
@@ -73,9 +73,6 @@ namespace VotingAPI.Persistence.Contexts
             //.HasIndex(p => new { p.RefreshToken })
             //.IsUnique(true);
 
-            modelBuilder.Entity<Candidate>()
-                .HasIndex(p => new { p.StudentId })
-                .IsUnique(true);
 
             //modelBuilder.Entity<Vote>()
             //    .HasIndex(p => new { p.VoterId, p.VotingPeriodId })

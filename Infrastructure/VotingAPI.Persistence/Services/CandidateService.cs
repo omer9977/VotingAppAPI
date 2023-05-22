@@ -66,7 +66,7 @@ namespace VotingAPI.Persistence.Services
                 throw new DataNotFoundException("Candidate does not have a department!");
             }
 
-            bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { StudentId = addCandidateRequest.StudentId, /*ApplicationDate = DateOnly.FromDateTime(DateTime.Now),*/ ApproveStatus = 0 });
+            bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { /*StudentId = addCandidateRequest.StudentId,*/ /*ApplicationDate = DateOnly.FromDateTime(DateTime.Now),*/ ApproveStatus = 0 });
             if (!candidateAdded)
                 throw new DataNotAddedException();
             await _candidateWriteRepo.SaveChangesAsync();

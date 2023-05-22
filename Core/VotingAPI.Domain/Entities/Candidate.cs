@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Domain.Entities.Common;
+using VotingAPI.Domain.Entities.Identity;
 
 namespace VotingAPI.Domain.Entities
 {
@@ -13,11 +14,11 @@ namespace VotingAPI.Domain.Entities
     public class Candidate : BaseEntity
     {
         public ApproveStatus ApproveStatus { get; set; }
-        public long StudentId { get; set; }
         public Student Student { get; set; }
         public int ElectionId { get; set; }
         public Election Election { get; set; }
         public Token Token { get; set; }
+        public int UserId { get; set; }
     }
     public enum ApproveStatus
     {

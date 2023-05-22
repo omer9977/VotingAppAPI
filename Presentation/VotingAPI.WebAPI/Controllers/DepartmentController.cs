@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Dto.Request.Department;
-using VotingAPI.Application.Features.Commands.AddDepartment;
-using VotingAPI.Application.Features.Queries.GetAllDepartments;
 using VotingAPI.Application.Repositories.ModelRepos;
 using VotingAPI.Domain.Entities;
 

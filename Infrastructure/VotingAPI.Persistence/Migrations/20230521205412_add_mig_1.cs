@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace VotingAPI.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class initmig1 : Migration
+    public partial class addmig1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -111,7 +111,7 @@ namespace VotingAPI.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Students",
+                name: "Users",
                 schema: "dbo",
                 columns: table => new
                 {
@@ -120,20 +120,40 @@ namespace VotingAPI.Persistence.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    DepartmentId = table.Column<int>(type: "integer", nullable: false),
-                    Tokens = table.Column<int>(type: "integer", nullable: false),
                     UserRole = table.Column<string>(type: "text", nullable: false),
                     TokenId = table.Column<int>(type: "integer", nullable: true),
+                    Password = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Tokens_TokenId",
+                        column: x => x.TokenId,
+                        principalSchema: "dbo",
+                        principalTable: "Tokens",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Students",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    DepartmentId = table.Column<int>(type: "integer", nullable: false),
                     Year = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Students", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Students_Tokens_Tokens",
-                        column: x => x.Tokens,
+                        name: "FK_Students_Users_UserId",
+                        column: x => x.UserId,
                         principalSchema: "dbo",
-                        principalTable: "Tokens",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -146,17 +166,17 @@ namespace VotingAPI.Persistence.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ApproveStatus = table.Column<string>(type: "text", nullable: false),
-                    StudentId = table.Column<long>(type: "bigint", nullable: false),
-                    StudentId1 = table.Column<int>(type: "integer", nullable: false),
+                    StudentId = table.Column<int>(type: "integer", nullable: false),
                     ElectionId = table.Column<int>(type: "integer", nullable: false),
-                    TokenId = table.Column<int>(type: "integer", nullable: false)
+                    TokenId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Candidates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Candidates_Students_StudentId1",
-                        column: x => x.StudentId1,
+                        name: "FK_Candidates_Students_StudentId",
+                        column: x => x.StudentId,
                         principalSchema: "dbo",
                         principalTable: "Students",
                         principalColumn: "Id",
@@ -187,14 +207,7 @@ namespace VotingAPI.Persistence.Migrations
                 name: "IX_Candidates_StudentId",
                 schema: "dbo",
                 table: "Candidates",
-                column: "StudentId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Candidates_StudentId1",
-                schema: "dbo",
-                table: "Candidates",
-                column: "StudentId1");
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Candidates_TokenId",
@@ -210,10 +223,16 @@ namespace VotingAPI.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_Tokens",
+                name: "IX_Students_UserId",
                 schema: "dbo",
                 table: "Students",
-                column: "Tokens");
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_TokenId",
+                schema: "dbo",
+                table: "Users",
+                column: "TokenId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Votes_CandidateId",
@@ -252,6 +271,10 @@ namespace VotingAPI.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Votings",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "Users",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

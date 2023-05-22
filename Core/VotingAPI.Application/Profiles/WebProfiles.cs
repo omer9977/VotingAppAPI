@@ -33,10 +33,10 @@ namespace VotingAPI.Application.Profiles
             //    .ForMember(s => s.UserId, x => x.MapFrom(t => t.Id));
 
             CreateMap<AddStudentRequest, Student>()
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.UserName))
-                .ForPath(dest => dest.Token.AccessToken, opt => opt.MapFrom(src => src.AccessToken))
-                .ForPath(dest => dest.Token.RefreshToken, opt => opt.MapFrom(src => src.RefreshToken))
-                .ForPath(dest => dest.Token.ExpirationDate, opt => opt.MapFrom(src => src.ExpirationDate));
+                .ForPath(dest => dest.User.Email, opt => opt.MapFrom(src => src.UserName))
+                .ForPath(dest => dest.User.Token.AccessToken, opt => opt.MapFrom(src => src.AccessToken))
+                .ForPath(dest => dest.User.Token.RefreshToken, opt => opt.MapFrom(src => src.RefreshToken))
+                .ForPath(dest => dest.User.Token.ExpirationDate, opt => opt.MapFrom(src => src.ExpirationDate));
             CreateMap<Student, AddStudentResponse>();
             //CreateMap<Student, GetStudentListResponse>();
             CreateMap<Student, GetStudentResponse>();

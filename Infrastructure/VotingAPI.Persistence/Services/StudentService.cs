@@ -20,17 +20,21 @@ namespace VotingAPI.Persistence.Services
         private readonly IStudentReadRepo _studentReadRepo;
         private readonly IStudentWriteRepo _studentWriteRepo;
         private readonly IDepartmentReadRepo _departmentReadRepo;
+        private readonly IUserReadRepo _userReadRepo;
 
         public StudentService(
             IMapper mapper,
             IStudentReadRepo studentReadRepo,
             IStudentWriteRepo studentWriteRepo,
-            IDepartmentReadRepo departmentReadRepo)
+            IDepartmentReadRepo departmentReadRepo,
+            IUserReadRepo userReadRepo
+            )
         {
             _mapper = mapper;
             _studentReadRepo = studentReadRepo;
             _studentWriteRepo = studentWriteRepo;
             _departmentReadRepo = departmentReadRepo;
+            _userReadRepo = userReadRepo;
         }
         public List<GetStudentResponse> GetStudentList()
         {
@@ -51,21 +55,15 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<GetStudentResponse> GetStudentByUserNameAsync(string userName)
         {
-            Student studentDb = await _studentReadRepo.GetSingleAsync(x => x.Email == userName);
-            Department department = await _departmentReadRepo.GetByIdAsync(studentDb.DepartmentId);
+            var user = await _userReadRepo.GetSingleAsync(x => x.Email == userName);
+            var studentDb = await _studentReadRepo.GetSingleAsync(x => x.UserId == user.Id);
+            var department = await _departmentReadRepo.GetByIdAsync(studentDb.DepartmentId);
             GetStudentResponse response = new();
             //if (studentDb == null)
                 //throw new DataNotFoundException(userName);
 
-                //response = _mapper.Map<GetStudentResponse>(studentDb);
-                response = new GetStudentResponse()
-                {
-                    DepartmentName = department.Name,
-                    Email = studentDb.Email,
-                    Name = studentDb.Name,
-                    Lastname = studentDb.LastName,
-                    UserRole = studentDb.UserRole.ToString(),
-                };
+            response = _mapper.Map<GetStudentResponse>(studentDb);
+                
             return response;
         }
 
