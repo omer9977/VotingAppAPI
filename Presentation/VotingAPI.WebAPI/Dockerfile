@@ -11,6 +11,7 @@ COPY ["Presentation/VotingAPI.WebAPI/VotingAPI.WebAPI.csproj", "Presentation/Vot
 COPY ["Core/VotingAPI.Application/VotingAPI.Application.csproj", "Core/VotingAPI.Application/"]
 COPY ["Core/VotingAPI.Domain/VotingAPI.Domain.csproj", "Core/VotingAPI.Domain/"]
 COPY ["Infrastructure/VotingAPI.Infrastructure/VotingAPI.Infrastructure.csproj", "Infrastructure/VotingAPI.Infrastructure/"]
+COPY ["Infrastructure/VotingAPI.ObsService/VotingAPI.ObsService.csproj", "Infrastructure/ObsService.Persistence/"]
 COPY ["Infrastructure/VotingAPI.Persistence/VotingAPI.Persistence.csproj", "Infrastructure/VotingAPI.Persistence/"]
 RUN dotnet restore "Presentation/VotingAPI.WebAPI/VotingAPI.WebAPI.csproj"
 COPY . .
