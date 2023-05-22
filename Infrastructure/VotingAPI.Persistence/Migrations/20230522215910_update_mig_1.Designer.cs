@@ -12,8 +12,8 @@ using VotingAPI.Persistence.Contexts;
 namespace VotingAPI.Persistence.Migrations
 {
     [DbContext(typeof(ElectionSystemDbContext))]
-    [Migration("20230521205412_add_mig_1")]
-    partial class addmig1
+    [Migration("20230522215910_update_mig_1")]
+    partial class updatemig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,9 +43,6 @@ namespace VotingAPI.Persistence.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TokenId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -54,8 +51,6 @@ namespace VotingAPI.Persistence.Migrations
                     b.HasIndex("ElectionId");
 
                     b.HasIndex("StudentId");
-
-                    b.HasIndex("TokenId");
 
                     b.ToTable("Candidates", "dbo");
                 });
@@ -153,7 +148,7 @@ namespace VotingAPI.Persistence.Migrations
                     b.ToTable("Students", "dbo");
                 });
 
-            modelBuilder.Entity("VotingAPI.Domain.Entities.Token", b =>
+            modelBuilder.Entity("VotingAPI.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -167,26 +162,6 @@ namespace VotingAPI.Persistence.Migrations
                     b.Property<DateTime?>("ExpirationDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tokens", "dbo");
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -199,16 +174,18 @@ namespace VotingAPI.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("TokenId")
-                        .HasColumnType("integer");
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("UserRole")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TokenId");
 
                     b.ToTable("Users", "dbo");
                 });
@@ -274,17 +251,9 @@ namespace VotingAPI.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VotingAPI.Domain.Entities.Token", "Token")
-                        .WithMany()
-                        .HasForeignKey("TokenId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Election");
 
                     b.Navigation("Student");
-
-                    b.Navigation("Token");
                 });
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Student", b =>
@@ -296,15 +265,6 @@ namespace VotingAPI.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("VotingAPI.Domain.Entities.User", b =>
-                {
-                    b.HasOne("VotingAPI.Domain.Entities.Token", "Token")
-                        .WithMany()
-                        .HasForeignKey("TokenId");
-
-                    b.Navigation("Token");
                 });
 
             modelBuilder.Entity("VotingAPI.Domain.Entities.Election", b =>

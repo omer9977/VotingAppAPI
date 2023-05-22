@@ -13,9 +13,6 @@ namespace VotingAPI.Domain.Entities
         public string Name { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        [ForeignKey("Tokens")]
-        public Token Token { get; set; }
         public UserRole UserRole { get; set; }
-        public int? TokenId { get; set; }
     }
 }

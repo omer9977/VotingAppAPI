@@ -17,7 +17,7 @@ namespace VotingAPI.Domain.Entities
         public Student Student { get; set; }
         public int ElectionId { get; set; }
         public Election Election { get; set; }
-        public Token Token { get; set; }
+        //public Token Token { get; set; }
         public int UserId { get; set; }
     }
     public enum ApproveStatus

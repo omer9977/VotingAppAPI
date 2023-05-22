@@ -28,7 +28,6 @@ D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\FluentValidation.DependencyInjecti
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.IdentityModel.Logging.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\System.Text.Encodings.Web.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\System.IdentityModel.Tokens.Jwt.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.IdentityModel.Protocols.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Extensions.Primitives.dll
@@ -39,10 +38,6 @@ D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\MediatR.Contracts.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\MediatR.Extensions.Microsoft.DependencyInjection.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.OpenApi.dll
-D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\System.Text.Json.dll
-D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Extensions.FileProviders.Abstractions.dll
-D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Extensions.Configuration.FileExtensions.dll
-D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Extensions.Configuration.Json.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\MimeKit.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\MailKit.dll
@@ -54,13 +49,11 @@ D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.EntityFrameworkCore.Abst
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Extensions.Logging.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Extensions.Caching.Memory.dll
-D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Extensions.FileProviders.Physical.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Npgsql.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\BouncyCastle.Crypto.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Azure.Storage.Common.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\System.Memory.Data.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\System.IO.Hashing.dll
-D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Extensions.FileSystemGlobbing.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\VotingAPI.WebAPI.pdb
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\VotingAPI.Application.pdb
@@ -71,4 +64,8 @@ D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\VotingAPI.Domain.pdb
 D:\WorkSpace\.Net Core\VotingAppAPI\obj\Debug\docker-compose.dcproj.AssemblyReference.cache
 D:\WorkSpace\.Net Core\VotingAppAPI\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache
 D:\WorkSpace\.Net Core\VotingAppAPI\obj\Debug\docker-compose.dcproj.CopyComplete
+D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Extensions.Identity.Stores.dll
+D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.Extensions.Identity.Core.dll
+D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\WorkSpace\.Net Core\VotingAppAPI\bin\Debug\Microsoft.EntityFrameworkCore.Relational.dll

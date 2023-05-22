@@ -55,8 +55,12 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<GetStudentResponse> GetStudentByUserNameAsync(string userName)
         {
-            var user = await _userReadRepo.GetSingleAsync(x => x.Email == userName);
+            var user = await _userReadRepo.GetSingleAsync(x => x.UserName == userName);
+            if (user == null)
+                return null;
             var studentDb = await _studentReadRepo.GetSingleAsync(x => x.UserId == user.Id);
+            if (studentDb == null)
+                return null;
             var department = await _departmentReadRepo.GetByIdAsync(studentDb.DepartmentId);
             GetStudentResponse response = new();
             //if (studentDb == null)

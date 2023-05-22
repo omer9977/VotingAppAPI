@@ -16,8 +16,8 @@ namespace VotingAPI.Application.Validators
         {
             _configuration = configuration;
 
-            RuleFor(s => s.Email).Must(s => s.EndsWith(_configuration["SchoolDomain:General"])).WithMessage("Please enter your school domain!!!");
-            RuleFor(s => s.FirstName).MaximumLength(100);
+            RuleFor(s => s.UserName).Must(s => s.EndsWith(_configuration["SchoolDomain:General"])).WithMessage("Please enter your school domain!!!");
+            RuleFor(s => s.Name).MaximumLength(100);
             RuleFor(s => s.LastName).MinimumLength(3);
         }
     }
