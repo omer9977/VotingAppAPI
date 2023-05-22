@@ -15,7 +15,7 @@ namespace VotingAPI.Persistence
     {
         public static void AddPersistenceDI(this IServiceCollection services)
         {
-            services.AddDbContext<ElectionSystemDbContext>(o => o.UseNpgsql(ConfigurationExtensions.GetConnectionString()));
+            services.AddDbContext<ElectionSystemDbContext>(o => o.UseNpgsql(Constants.ConnectionString));
             //services.AddIdentity<AppUser, AppRole>(options =>
             //{
             //    options.Password.RequireNonAlphanumeric = false;

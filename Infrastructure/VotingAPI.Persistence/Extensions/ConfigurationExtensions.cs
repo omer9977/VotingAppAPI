@@ -11,13 +11,13 @@ namespace VotingAPI.Persistence.Extensions
 {
     public static class ConfigurationExtensions
     {
-        public static string GetConnectionString()
-        {
-            ConfigurationManager configurationManager = new();
-            configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/VotingAPI.WebAPI"));
-            configurationManager.AddJsonFile("appsettings.json");
+        //public static string GetConnectionString()
+        //{
+        //    ConfigurationManager configurationManager = new();
+        //    configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/VotingAPI.WebAPI"));
+        //    configurationManager.AddJsonFile("appsettings.json");
 
-            return configurationManager.GetConnectionString("PostgreConnectionString");
-        }
+        //    return configurationManager.GetConnectionString("PostgreConnectionString");
+        //}
     }
 }
