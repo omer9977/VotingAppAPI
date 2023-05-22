@@ -13,21 +13,10 @@ namespace VotingAPI.Domain.Entities
 
     public class Student : BaseEntity
     {
-        public string Name { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        //public long StudentId { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
         public int DepartmentId { get; set; }
-        [ForeignKey("Tokens")]
-        public Token Token { get; set; }
-        public UserRole UserRole { get; set; }
-        public int? TokenId { get; set; }
         public int Year { get; set; }
     }
-    public enum UserRole
-    {
-        Admin,
-        Student,
-        Candidate
-    }
+
 }

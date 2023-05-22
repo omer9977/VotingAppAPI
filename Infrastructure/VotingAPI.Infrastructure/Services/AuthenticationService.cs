@@ -11,6 +11,8 @@ using VotingAPI.Application.Dto.Request.Student;
 using VotingAPI.Application.Dto.Request.User;
 using VotingAPI.Application.Dto.Response.User;
 using VotingAPI.Application.Exceptions;
+using VotingAPI.Application.Repositories.ModelRepos;
+using VotingAPI.Domain.Entities;
 //using VotingAPI.Domain.Entities.Identity;
 using VotingAPI.ObsService.Interfaces;
 
@@ -25,6 +27,7 @@ namespace VotingAPI.Infrastructure.Services
         private readonly IObsStudentService _obsStudentService;
         private readonly IStudentService _studentService;
         private readonly IDepartmentService _departmentService;
+        private readonly IUserReadRepo _userReadRepo;
 
         public AuthenticationService(
             //UserManager<AppUser> userManager,
@@ -33,7 +36,8 @@ namespace VotingAPI.Infrastructure.Services
             ITokenService tokenService,
             IObsStudentService obsStudentService,
             IStudentService studentService,
-            IDepartmentService departmentService
+            IDepartmentService departmentService,
+            IUserReadRepo userReadRepo
             )
         {
             //_userManager = userManager;
@@ -43,6 +47,7 @@ namespace VotingAPI.Infrastructure.Services
             _obsStudentService = obsStudentService;
             _studentService = studentService;
             _departmentService = departmentService;
+            _userReadRepo = userReadRepo;
         }
         //public async Task<bool> CreateUser(CreateUserRequest createUserRequest)
         //{
@@ -58,7 +63,7 @@ namespace VotingAPI.Infrastructure.Services
 
         public async Task<LoginUserResponse> LoginAsync(LoginUserRequest loginUserRequest)
         {
-            var user = _obsStudentService.FindUserByUserName(loginUserRequest.Email);
+            var user = _obsStudentService.FindUserByUserName(loginUserRequest.UserName);
             if (user == null)
                 throw new UserNotFoundException();
             var userDb = await _studentService.GetStudentByUserNameAsync(loginUserRequest.Email);
@@ -66,7 +71,7 @@ namespace VotingAPI.Infrastructure.Services
             if (user.PasswordHash == loginUserRequest.Password)
             {
                 //List<string> userRole = (List<string>)await _userManager.GetRolesAsync(user);
-                tokenResponse = _tokenService.CreateAccessToken(userRole: new List<string>() { "Admin" }, minute: 5); //todo deneme
+                tokenResponse = _tokenService.CreateAccessToken(userRole: new List<string>() { userDb.UserRole }, minute: 5); //todo deneme
 
                 //await UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.ExpirationDate, 5);//todo access token 5
                 //return new()
@@ -74,11 +79,15 @@ namespace VotingAPI.Infrastructure.Services
                 //    Token = tokenResponse
                 //};
             }
+            var department = _departmentService.GetDepartmentsWhere(u => u.Name == user.Department).Result.FirstOrDefault();
             if (userDb != null)
             {
-                return new() { Token = tokenResponse };
+                return new() { Token = tokenResponse, 
+                    DepartmentName = department.Name, 
+                    Name = user.Name, 
+                    LastName = user.LastName, 
+                    UserRole = userDb.UserRole };
             }
-            var department = _departmentService.GetDepartmentsWhere(u => u.Name == user.Department).Result.FirstOrDefault();
             var addStudentRequest = new AddStudentRequest()
             {
                 DepartmentId = department?.Id,
@@ -101,7 +110,13 @@ namespace VotingAPI.Infrastructure.Services
             //    };
             //}
             //throw new AuthenticationFailedException();
-            return new() { Token = tokenResponse };
+            return new() { 
+                Token = tokenResponse,
+                UserRole = userDb.UserRole,
+                DepartmentName = department.Name,
+                Name = user.Name,
+                LastName = user.LastName
+            };
         }
     }
 }

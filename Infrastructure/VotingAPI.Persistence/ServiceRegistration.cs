@@ -44,6 +44,8 @@ namespace VotingAPI.Persistence
             services.AddScoped<IVoteWriteRepo, VoteWriteRepo>();
             services.AddScoped<IElectionReadRepo, ElectionReadRepo>();
             services.AddScoped<IElectionWriteRepo, ElectionWriteRepo>();
+            services.AddScoped<IUserReadRepo, UserReadRepo>();
+            services.AddScoped<IUserWriteRepo, UserWriteRepo>();
             //services.AddScoped<ITranscriptFileReadRepo, TranscriptFileReadRepo>();
             //services.AddScoped<ITranscriptFileWriteRepo, TranscriptFileWriteRepo>();
             //services.AddScoped<ICriminalRecordFileReadRepo, CriminalRecordFileReadRepo>();
