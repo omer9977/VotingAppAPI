@@ -26,5 +26,12 @@ namespace VotingAPI.WebAPI.Controllers
             var response = await _electionService.CreateDepartmentElection(createDepartmentElectionRequest);
             return Ok(response);
         }
+
+        [HttpGet("department")]
+        public async Task<IActionResult> GetDepartmentElections()
+        {
+            var response = await _electionService.GetAllDepartmentElections();
+            return Ok(response);
+        }
     }
 }

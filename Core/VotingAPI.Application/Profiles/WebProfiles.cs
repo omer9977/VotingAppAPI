@@ -12,6 +12,7 @@ using VotingAPI.Application.Dto.Request.Votes;
 using VotingAPI.Application.Dto.Request.VotingPeriod;
 using VotingAPI.Application.Dto.Response.Candidate;
 using VotingAPI.Application.Dto.Response.Department;
+using VotingAPI.Application.Dto.Response.Election;
 using VotingAPI.Application.Dto.Response.ProfilePhoto;
 using VotingAPI.Application.Dto.Response.Student;
 using VotingAPI.Application.Dto.Response.User;
@@ -61,6 +62,8 @@ namespace VotingAPI.Application.Profiles
                 .ForMember(x => x.CandidateId, y => y.MapFrom(z => z.CandidateId));
 
             CreateMap<CreateDepartmentElectionRequest, Election>();
+            CreateMap<Election, GetDepartmentElectionResponse>();
+
 
             //CreateMap<VotingPeriod, GetVotingPeriodResponse>()
             //    .ForMember(x => x.ElectionTypeName, y => y.MapFrom(z => z.ElectionType.TypeName));
