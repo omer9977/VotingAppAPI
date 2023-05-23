@@ -47,10 +47,11 @@ namespace VotingAPI.Persistence.Services
             List<GetDepartmentElectionResponse> getDepartmentElectionResponse = new();
             response.ForEach(election =>
             {
+                var department = departments.FirstOrDefault(x => x.Id == election.DepartmentId).Name;
                 getDepartmentElectionResponse.Add(new GetDepartmentElectionResponse()
                 {
-
-                    DepartmentName = departments.FirstOrDefault(x => x.Id == election.DepartmentId).Name,
+                    
+                    DepartmentName = department ?? "",
                     EndDate = election.EndDate,
                     Name = election.Name,
                     StartDate = election.StartDate,
