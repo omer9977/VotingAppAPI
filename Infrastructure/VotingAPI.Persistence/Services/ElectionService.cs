@@ -50,7 +50,7 @@ namespace VotingAPI.Persistence.Services
                 var department = departments.FirstOrDefault(x => x.Id == election.DepartmentId)?.Name;
                 getDepartmentElectionResponse.Add(new GetDepartmentElectionResponse()
                 {
-                    
+                    Id = election.Id,
                     DepartmentName = department ?? "",
                     EndDate = election.EndDate,
                     Name = election.Name,
