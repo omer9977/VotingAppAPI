@@ -19,7 +19,7 @@ namespace VotingAPI.WebAPI.Controllers
             _electionService = electionService;
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("department")]
         public async Task<IActionResult> CreateDepartmentElection([FromBody]CreateDepartmentElectionRequest createDepartmentElectionRequest)
         {
