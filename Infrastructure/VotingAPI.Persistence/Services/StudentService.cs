@@ -62,11 +62,18 @@ namespace VotingAPI.Persistence.Services
             if (studentDb == null)
                 return null;
             var department = await _departmentReadRepo.GetByIdAsync(studentDb.DepartmentId);
-            GetStudentResponse response = new();
+            GetStudentResponse response = new() { 
+            DepartmentName = department.Name,
+            Email = userName,
+            Id = user.Id,
+            Lastname = user.LastName,
+            Name = user.Name,
+            UserRole = user.UserRole
+            };
             //if (studentDb == null)
                 //throw new DataNotFoundException(userName);
 
-            response = _mapper.Map<GetStudentResponse>(studentDb);
+            //response = _mapper.Map<GetStudentResponse>(studentDb);
                 
             return response;
         }

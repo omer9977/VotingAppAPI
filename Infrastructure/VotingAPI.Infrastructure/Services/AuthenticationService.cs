@@ -99,7 +99,7 @@ namespace VotingAPI.Infrastructure.Services
                     DepartmentName = department.Name, 
                     Name = user.Name, 
                     LastName = user.LastName, 
-                    UserRole = student.UserRole };
+                    UserRole = student.UserRole.ToString() };
             }
             await _userService.AddUserAsync(new() { 
                 LastName = user.LastName, 
