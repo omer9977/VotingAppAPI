@@ -83,6 +83,7 @@ namespace VotingAPI.Persistence.Services
         public async Task AddStudentAsync(AddStudentRequest student)
         {
             var studentMapped = _mapper.Map<Student>(student);//todo : 1 Burayı anlamadım Student tipinde neden veriyoz ki
+            //studentMapped.UserId = student.UserId;
             bool addedStatus = await _studentWriteRepo.AddAsync(studentMapped);
             if (!addedStatus)
                 throw new DataNotAddedException();
