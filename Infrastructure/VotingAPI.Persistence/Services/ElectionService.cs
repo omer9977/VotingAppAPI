@@ -47,7 +47,7 @@ namespace VotingAPI.Persistence.Services
             List<GetDepartmentElectionResponse> getDepartmentElectionResponse = new();
             response.ForEach(election =>
             {
-                var department = departments.FirstOrDefault(x => x.Id == election.DepartmentId).Name;
+                var department = departments.FirstOrDefault(x => x.Id == election.DepartmentId)?.Name;
                 getDepartmentElectionResponse.Add(new GetDepartmentElectionResponse()
                 {
                     
