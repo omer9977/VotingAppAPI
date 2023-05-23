@@ -13,8 +13,8 @@ namespace VotingAPI.Application.Dto.Response.User
         public TokenResponse Token { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-        [JsonIgnore]
-        public string DepartmentName { get; set; }
+        public string? DepartmentName { get; set; }
+        public int? Year { get; set; }
         public string UserRole { get; set; }
     }
 }

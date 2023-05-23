@@ -77,7 +77,7 @@ namespace VotingAPI.Infrastructure.Services
                 {
                     token = _tokenService.CreateAccessToken(userRole: new List<string>() { personal.UserRole.ToString() }, minute: 5);
                 }
-                return new() { LastName = personal.LastName, UserRole = personal.UserRole.ToString(), Name = personal.Name, Token =  token };
+                return new() { LastName = personal.LastName, UserRole = personal.UserRole.ToString(), Name = personal.Name, Token =  token, DepartmentName = user.Department };
             }
             var student = await _studentService.GetStudentByUserNameAsync(loginUserRequest.UserName);
             TokenResponse tokenResponse = new();
@@ -99,7 +99,9 @@ namespace VotingAPI.Infrastructure.Services
                     DepartmentName = department.Name, 
                     Name = user.Name, 
                     LastName = user.LastName, 
-                    UserRole = student.UserRole.ToString() };
+                    UserRole = student.UserRole.ToString(),
+                    Year = user.Year //todo düzelecek
+                };
             }
             await _userService.AddUserAsync(new() { 
                 LastName = user.LastName, 
@@ -139,7 +141,8 @@ namespace VotingAPI.Infrastructure.Services
                 UserRole = userDb.UserRole.ToString(),
                 DepartmentName = department?.Name,
                 Name = user.Name,
-                LastName = user.LastName
+                LastName = user.LastName,
+                Year = user.Year, //todo düzelecek
             };
         }
     }
