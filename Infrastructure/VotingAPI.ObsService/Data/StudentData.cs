@@ -10,7 +10,7 @@ namespace VotingAPI.ObsService.Data
     {
         public static readonly string Students = @"[
   {
-    ""UserName"": ""sarahkaradeniz@std.iyte.edu.tr"",
+    ""UserName"": ""123456789"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Sarah"",
     ""LastName"": ""Karadeniz"",
@@ -19,7 +19,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 1
   },
   {
-    ""UserName"": ""metinince@std.iyte.edu.tr"",
+    ""UserName"": ""987654321"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Metin"",
     ""LastName"": ""İnce"",
@@ -28,7 +28,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 4
   },
   {
-    ""UserName"": ""selinanadol@std.iyte.edu.tr"",
+    ""UserName"": ""567891234"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Selin"",
     ""LastName"": ""Anadol"",
@@ -37,7 +37,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 1
   },
   {
-    ""UserName"": ""selinyilmaz@std.iyte.edu.tr"",
+    ""UserName"": ""987123456"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Selin"",
     ""LastName"": ""Yılmaz"",
@@ -46,7 +46,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 2
   },
   {
-    ""UserName"": ""metinince@std.iyte.edu.tr"",
+    ""UserName"": ""654789321"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Metin"",
     ""LastName"": ""İnce"",
@@ -55,7 +55,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 3
   },
   {
-    ""UserName"": ""emilyozer@std.iyte.edu.tr"",
+    ""UserName"": ""321456987"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Emily"",
     ""LastName"": ""Özer"",
@@ -64,7 +64,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 4
   },
   {
-    ""UserName"": ""burakyilmaz@std.iyte.edu.tr"",
+    ""UserName"": ""789123654"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Burak"",
     ""LastName"": ""Yılmaz"",
@@ -73,7 +73,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 3
   },
   {
-    ""UserName"": ""selinaydogan@std.iyte.edu.tr"",
+    ""UserName"": ""456789123"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Selin"",
     ""LastName"": ""Aydoğan"",
@@ -82,7 +82,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 4
   },
   {
-    ""UserName"": ""davidince@std.iyte.edu.tr"",
+    ""UserName"": ""789654321"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""David"",
     ""LastName"": ""İnce"",
@@ -91,7 +91,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 4
   },
   {
-    ""UserName"": ""barisaydogan@std.iyte.edu.tr"",
+    ""UserName"": ""123789456"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Barış"",
     ""LastName"": ""Aydoğan"",
@@ -100,7 +100,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 4
   },
   {
-    ""UserName"": ""omeranadol@std.iyte.edu.tr"",
+    ""UserName"": ""321987654"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Ömer"",
     ""LastName"": ""Anadol"",
@@ -109,7 +109,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 3
   },
   {
-    ""UserName"": ""emilyyilmaz@std.iyte.edu.tr"",
+    ""UserName"": ""654321987"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Emily"",
     ""LastName"": ""Yılmaz"",
@@ -118,7 +118,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 4
   },
   {
-    ""UserName"": ""elifozer@std.iyte.edu.tr"",
+    ""UserName"": ""123456987"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Elif"",
     ""LastName"": ""Özer"",
@@ -127,7 +127,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 4
   },
   {
-    ""UserName"": ""omeraydogan@std.iyte.edu.tr"",
+    ""UserName"": ""789456123"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Ömer"",
     ""LastName"": ""Aydoğan"",
@@ -136,7 +136,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 1
   },
   {
-    ""UserName"": ""mehmeterdogan@std.iyte.edu.tr"",
+    ""UserName"": ""321654789"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Mehmet"",
     ""LastName"": ""Erdoğan"",
@@ -145,7 +145,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 1
   },
   {
-    ""UserName"": ""saraherdogan@std.iyte.edu.tr"",
+    ""UserName"": ""789321654"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Sarah"",
     ""LastName"": ""Erdoğan"",
@@ -154,7 +154,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 3
   },
   {
-    ""UserName"": ""selinozer@std.iyte.edu.tr"",
+    ""UserName"": ""123789654"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Selin"",
     ""LastName"": ""Özer"",
@@ -163,7 +163,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 1
   },
   {
-    ""UserName"": ""mehmetkilic@std.iyte.edu.tr"",
+    ""UserName"": ""654987321"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Mehmet"",
     ""LastName"": ""Kılıç"",
@@ -172,7 +172,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 2
   },
   {
-    ""UserName"": ""emilyerdogan@std.iyte.edu.tr"",
+    ""UserName"": ""321789456"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Emily"",
     ""LastName"": ""Erdoğan"",
@@ -181,7 +181,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 1
   },
   {
-    ""UserName"": ""selinince@std.iyte.edu.tr"",
+    ""UserName"": ""789654123"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Selin"",
     ""LastName"": ""İnce"",
@@ -190,7 +190,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 3
   },
   {
-    ""UserName"": ""omeryilmaz@std.iyte.edu.tr"",
+    ""UserName"": ""456123789"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Ömer"",
     ""LastName"": ""Yılmaz"",
@@ -199,7 +199,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 3
   },
   {
-    ""UserName"": ""ibrahimaydogan@std.iyte.edu.tr"",
+    ""UserName"": ""123987654"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""İbrahim"",
     ""LastName"": ""Aydoğan"",
@@ -208,7 +208,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 1
   },
   {
-    ""UserName"": ""zeynepkilic@std.iyte.edu.tr"",
+    ""UserName"": ""789456321"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Zeynep"",
     ""LastName"": ""Kılıç"",
@@ -217,7 +217,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 4
   },
   {
-    ""UserName"": ""metinerdogan@std.iyte.edu.tr"",
+    ""UserName"": ""654321789"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Metin"",
     ""LastName"": ""Erdoğan"",
@@ -226,7 +226,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 4
   },
   {
-    ""UserName"": ""omerozer@std.iyte.edu.tr"",
+    ""UserName"": ""321456789"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Ömer"",
     ""LastName"": ""Özer"",
@@ -235,7 +235,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 1
   },
   {
-    ""UserName"": ""ibrahimkilic@std.iyte.edu.tr"",
+    ""UserName"": ""789123456"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""İbrahim"",
     ""LastName"": ""Kılıç"",
@@ -244,7 +244,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 2
   },
   {
-    ""UserName"": ""metinyilmaz@std.iyte.edu.tr"",
+    ""UserName"": ""654789123"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Metin"",
     ""LastName"": ""Yılmaz"",
@@ -253,7 +253,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 4
   },
   {
-    ""UserName"": ""metinyilmaz@std.iyte.edu.tr"",
+    ""UserName"": ""321789654"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Metin"",
     ""LastName"": ""Yılmaz"",
@@ -262,7 +262,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 1
   },
   {
-    ""UserName"": ""fahrikaradeniz@std.iyte.edu.tr"",
+    ""UserName"": ""123456789"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Fahri"",
     ""LastName"": ""Karadeniz"",
@@ -271,7 +271,7 @@ namespace VotingAPI.ObsService.Data
     ""Year"": 3
   },
   {
-    ""UserName"": ""burakanadol@std.iyte.edu.tr"",
+    ""UserName"": ""987654321"",
     ""PasswordHash"": ""password123"",
     ""Name"": ""Burak"",
     ""LastName"": ""Anadol"",
