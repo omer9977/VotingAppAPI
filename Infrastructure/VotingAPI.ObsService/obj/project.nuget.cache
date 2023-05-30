@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "OqWh7OnQKIB2RaY+uZZhhpNP7Za/nYZjumuARGMOVngmFb86WUz2AKtak6Sj8yBGdSk71qEZmeMLyScMbhWbQw==",
+  "dgSpecHash": "A97eL77gKsBGMzTzK1k1CZ4fAqtBLRqymr5Fq4BCgA997lCug5/LQWKXpgKmOS1Q3m8BJRwUyFBHv/Pc4Bwr8Q==",
   "success": true,
   "projectFilePath": "D:\\WorkSpace\\.Net Core\\VotingAppAPI\\Infrastructure\\VotingAPI.ObsService\\VotingAPI.ObsService.csproj",
   "expectedPackageFiles": [
