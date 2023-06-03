@@ -1,0 +1,10 @@
+﻿//ssl
+
+//department ismi varsa ona ait getElections department name alcak null ile
+
+//getCandidates yapılcak endpointi yapılcak    //election/13874/candidate
+
+//vote
+///election/18253/candidate/148925/student/5894
+
+//beCandidate //description
