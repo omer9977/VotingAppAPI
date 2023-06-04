@@ -27,10 +27,17 @@ namespace VotingAPI.WebAPI.Controllers
             return Ok(response);
         }
 
-        [HttpGet("department")]
-        public async Task<IActionResult> GetDepartmentElections()
+        [HttpGet("department/{departmentName?}")]
+        public async Task<IActionResult> GetDepartmentElections([FromRoute] string? departmentName)
         {
-            var response = await _electionService.GetAllDepartmentElections();
+            var response = await _electionService.GetAllDepartmentElections(departmentName);
+            return Ok(response);
+        }
+
+        [HttpGet("{electionId}/candidate")]
+        public async Task<IActionResult> GetCandidatesByElectionId([FromRoute] int electionId)
+        {
+            var response = await _electionService.GetCandidatesByElectionId(electionId);
             return Ok(response);
         }
     }

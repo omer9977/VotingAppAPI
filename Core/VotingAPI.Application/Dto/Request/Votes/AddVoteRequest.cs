@@ -10,8 +10,8 @@ namespace VotingAPI.Application.Dto.Request.Votes
 {
     public class AddVoteRequest
     {
-        public int StudentId { get; set; }
+        public int UserId { get; set; }
         public int CandidateId { get; set; }
-        public int VotingPeriodId { get; set; }
+        public int ElectionId { get; set; }
     }
 }

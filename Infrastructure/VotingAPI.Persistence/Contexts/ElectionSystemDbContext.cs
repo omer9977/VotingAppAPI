@@ -114,6 +114,5 @@ namespace VotingAPI.Persistence.Contexts
             //    .HasIndex(p =>  new { p.Candidate.Id }, "CandidateId")
             //    .IsUnique(true);
         }
-
     }
 }

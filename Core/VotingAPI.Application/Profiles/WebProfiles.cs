@@ -57,9 +57,9 @@ namespace VotingAPI.Application.Profiles
             CreateMap<UpdateDepartmentRequest, Department>();
             CreateMap<UpdateStudentRequest, Student>();
             CreateMap<AddVoteRequest, Vote>()
-                .ForMember(x => x.VoterId, y => y.MapFrom(z => z.StudentId))
+                .ForMember(x => x.VoterId, y => y.MapFrom(z => z.UserId));
                 //.ForMember(x => x.VotingPeriodId, y => y.MapFrom(z => z.VotingPeriodId))
-                .ForMember(x => x.CandidateId, y => y.MapFrom(z => z.CandidateId));
+                //.ForMember(x => x.CandidateId, y => y.MapFrom(z => z.CandidateId));
 
             CreateMap<CreateDepartmentElectionRequest, Election>();
             CreateMap<Election, GetDepartmentElectionResponse>();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Dto.Request.Votes;
@@ -25,6 +26,7 @@ namespace VotingAPI.WebAPI.Controllers
 
 
         [HttpPost]
+        //[Authorize(Roles = "Student")]
         [Route("")]
         public async Task<IActionResult> AddVote(AddVoteRequest addVoteRequest)
         {

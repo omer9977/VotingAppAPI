@@ -36,11 +36,38 @@ namespace VotingAPI.Persistence.Services
             _departmentReadRepo = departmentReadRepo;
             _userReadRepo = userReadRepo;
         }
-        public List<GetStudentResponse> GetStudentList()
+        public async Task<List<GetStudentResponse>> GetStudentList()
         {
+            var studentListResponse = new List<GetStudentResponse>();
             var studentsDb = _studentReadRepo.GetAll()/*.Include(s => s.User).Include(s => s.Department)*/.ToList();
-            var studentListResponse = _mapper.Map<List<GetStudentResponse>>(studentsDb);
+
+            HashSet<int> departmentIds = new HashSet<int>(studentsDb.Select(s => s.DepartmentId));
+            HashSet<int> userIds = new HashSet<int>(studentsDb.Select(s => s.UserId));
+
+            var departmentsQuery = _departmentReadRepo.Table.Where(x => departmentIds.Contains(x.Id)).AsNoTracking();
+            var departments = departmentsQuery.ToList();
+            var usersQuery = _userReadRepo.Table.Where(x => userIds.Contains(x.Id)).AsNoTracking();
+            var users = usersQuery.ToList();
+
+            foreach (var student in studentsDb)
+            {
+                var user = users.FirstOrDefault(u => u.Id == student.UserId);
+                var studentResponse = new GetStudentResponse()
+                {
+                    Id = student.Id,
+                    DepartmentName = departments.FirstOrDefault(d => d.Id == student.DepartmentId).Name,
+                    Name = user.Name,
+                    Lastname = user.LastName,
+                    Email = user.UserName,
+                    UserRole = user.UserRole
+                };
+                studentListResponse.Add(studentResponse);
+            }
+            //var department = await _departmentReadRepo.GetSingleAsync(x => x.Id == studentsDb.)
+            //var studentListResponse = _mapper.Map<List<GetStudentResponse>>(studentsDb);
             return studentListResponse;
+
+
         }
 
         public async Task<GetStudentResponse> GetStudentByIdAsync(int id)
@@ -62,19 +89,20 @@ namespace VotingAPI.Persistence.Services
             if (studentDb == null)
                 return null;
             var department = await _departmentReadRepo.GetByIdAsync(studentDb.DepartmentId);
-            GetStudentResponse response = new() { 
-            DepartmentName = department.Name,
-            Email = userName,
-            Id = user.Id,
-            Lastname = user.LastName,
-            Name = user.Name,
-            UserRole = user.UserRole
+            GetStudentResponse response = new()
+            {
+                DepartmentName = department.Name,
+                Email = userName,
+                Id = user.Id,
+                Lastname = user.LastName,
+                Name = user.Name,
+                UserRole = user.UserRole
             };
             //if (studentDb == null)
-                //throw new DataNotFoundException(userName);
+            //throw new DataNotFoundException(userName);
 
             //response = _mapper.Map<GetStudentResponse>(studentDb);
-                
+
             return response;
         }
 
@@ -97,7 +125,7 @@ namespace VotingAPI.Persistence.Services
             try
             {
 
-            await _studentWriteRepo.SaveChangesAsync();//todo arada foreign key kaynaklı hata çözümü var ama çok fazka try catch geleceek: https://stackoverflow.com/questions/2403348/how-can-i-know-if-an-sqlexception-was-thrown-because-of-foreign-key-violation
+                await _studentWriteRepo.SaveChangesAsync();//todo arada foreign key kaynaklı hata çözümü var ama çok fazka try catch geleceek: https://stackoverflow.com/questions/2403348/how-can-i-know-if-an-sqlexception-was-thrown-because-of-foreign-key-violation
             }
             catch (Exception ex)
             {

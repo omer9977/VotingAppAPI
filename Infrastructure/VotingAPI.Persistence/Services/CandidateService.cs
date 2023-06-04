@@ -25,6 +25,10 @@ namespace VotingAPI.Persistence.Services
         private readonly ICandidateWriteRepo _candidateWriteRepo;
         private readonly IStudentReadRepo _studentReadRepo;
         private readonly IStorageService _storageService;
+        private readonly IUserService _userService;
+        private readonly IElectionService _electionService;
+        private readonly IElectionReadRepo _electionReadRepo;
+
         //private readonly IProfilePhotoFileWriteRepo _profilePhotoFileWriteRepo;
         //private readonly IProfilePhotoFileReadRepo _profilePhotoFileReadRepo;
         //private readonly IFileReadRepo _fileReadRepo;
@@ -35,11 +39,14 @@ namespace VotingAPI.Persistence.Services
         public CandidateService(ICandidateReadRepo candidateReadRepo,
             ICandidateWriteRepo candidateWriteRepo,
             IStudentReadRepo studentReadRepo,
+            IElectionReadRepo electionReadRepo,
             IStorageService storageService,
             //IProfilePhotoFileWriteRepo profilePhotoFileWriteRepo,
             //IProfilePhotoFileReadRepo profilePhotoFileReadRepo,
             IConfiguration configuration,
-            IMapper mapper
+            IMapper mapper,
+            IUserService userService,
+            IElectionService electionService
             //IFileReadRepo fileReadRepo,
             //IFileWriteRepo fileWriteRepo,
             //UserManager<AppUser> userManager
@@ -53,6 +60,9 @@ namespace VotingAPI.Persistence.Services
             //_profilePhotoFileReadRepo = profilePhotoFileReadRepo;
             _configuration = configuration;
             _mapper = mapper;
+            _userService = userService;
+            _electionService = electionService;
+            _electionReadRepo = electionReadRepo;
             //_fileReadRepo = fileReadRepo;
             //_fileWriteRepo = fileWriteRepo;
             //_userManager = userManager;
@@ -60,17 +70,25 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
         {
-            var student = await _studentReadRepo.GetSingleAsync(c => c.Id == addCandidateRequest.StudentId);
-            if (student?.DepartmentId == null)
-            {
-                throw new DataNotFoundException("Candidate does not have a department!");
-            }
+            var user = await _userService.GetUserByUserNameAsync(addCandidateRequest.UserName);
+            var student = await _studentReadRepo.Table.FirstOrDefaultAsync(x => x.UserId == user.Id);
+            var election = await _electionReadRepo.Table.FirstOrDefaultAsync(
+            x => x.DepartmentId == student.DepartmentId
+            && DateTime.UtcNow > x.StartDate
+            && DateTime.UtcNow < x.EndDate);
 
-            bool candidateAdded = await _candidateWriteRepo.AddAsync(new() { /*StudentId = addCandidateRequest.StudentId,*/ /*ApplicationDate = DateOnly.FromDateTime(DateTime.Now),*/ ApproveStatus = 0 });
+
+            bool candidateAdded = await _candidateWriteRepo.AddAsync(new()
+            {
+                UserId = user.Id,
+                ElectionId = election.Id,
+                Description = addCandidateRequest.Description,
+                ApproveStatus = ApproveStatus.Pending
+            });
             if (!candidateAdded)
                 throw new DataNotAddedException();
-            await _candidateWriteRepo.SaveChangesAsync();
-            return true;
+
+            return await _candidateWriteRepo.SaveChangesAsync() > 0;
         }
 
         public Task<bool> DeleteCandidateProfilePhotoAsync(int candidateId)

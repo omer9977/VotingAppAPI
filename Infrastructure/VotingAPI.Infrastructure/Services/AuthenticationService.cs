@@ -92,7 +92,8 @@ namespace VotingAPI.Infrastructure.Services
                 //    Token = tokenResponse
                 //};
             }
-            var department = _departmentService.GetDepartmentsWhere(u => u.Name == user.Department).Result.FirstOrDefault();
+            var department = _departmentService.GetDepartmentsWhere(u => u.Name == user.Department).Result.FirstOrDefault(); //todo burayı hallet sonra
+
             if (student != null)
             {
                 return new() { Token = tokenResponse, 

@@ -35,30 +35,34 @@ IStudentReadRepo studentReadRepo)
         }
         public async Task<bool> AddVote(AddVoteRequest addVoteRequest)
         {//todo null exception kontrolü geçtim artık :)
-            var candidate = await _candidateReadRepo.GetByIdAsync(addVoteRequest.CandidateId);
-            var student = await _studentReadRepo.GetByIdAsync(addVoteRequest.StudentId);
-            if (candidate.Student.DepartmentId == student.DepartmentId && candidate.ApproveStatus == ApproveStatus.Approved)
-            {
-                var voteMapped = _mapper.Map<Vote>(addVoteRequest);
-                bool isAdded = await _voteWriteRepo.AddAsync(voteMapped);
-                if (isAdded)
-                {
-                    try
-                    {
-                    await _voteWriteRepo.SaveChangesAsync();
+            var voteDb = _mapper.Map<Vote>(addVoteRequest);
+            await _voteWriteRepo.AddAsync(voteDb);
+            await _voteWriteRepo.SaveChangesAsync();
+            //var candidate = await _candidateReadRepo.GetByIdAsync(addVoteRequest.CandidateId);
+            //var student = await _studentReadRepo.GetByIdAsync(addVoteRequest.StudentId);
+            //if (candidate.Student.DepartmentId == student.DepartmentId && candidate.ApproveStatus == ApproveStatus.Approved)
+            //{
+            //    var voteMapped = _mapper.Map<Vote>(addVoteRequest);
+            //    bool isAdded = await _voteWriteRepo.AddAsync(voteMapped);
+            //    if (isAdded)
+            //    {
+            //        try
+            //        {
+            //        await _voteWriteRepo.SaveChangesAsync();
 
-                    }
-                    catch (Exception ex)
-                    {
+            //        }
+            //        catch (Exception ex)
+            //        {
 
-                        throw ex;
-                    }
-                    return true;
-                }
-                return false;
-            }
-            else
-                return false;//todo daha sonra burayı düzenle
+            //            throw ex;
+            //        }
+            //        return true;
+            //    }
+            //    return false;
+            //}
+            //else
+            //    return false;//todo daha sonra burayı düzenle
+            return true;
         }
 
         public ICollection<GetVoteResponse> GetVoteList()
