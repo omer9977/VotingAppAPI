@@ -11,6 +11,7 @@ namespace VotingAPI.Application.Dto.Response.User
     public class LoginUserResponse
     {
         public TokenResponse Token { get; set; }
+        public string UserName { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string? DepartmentName { get; set; }

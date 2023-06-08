@@ -10,5 +10,6 @@ namespace VotingAPI.Application.Abstractions
         Task<bool> CreateDepartmentElection(CreateDepartmentElectionRequest createDepartmentElectionRequest);
         Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElections(string departmanName = null);
         Task<List<GetCandidateResponse>> GetCandidatesByElectionId(int electionId);
+        Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElections();
     }
 }

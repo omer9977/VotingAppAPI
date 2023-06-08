@@ -27,6 +27,14 @@ namespace VotingAPI.WebAPI.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet("department")]
+        public async Task<IActionResult> GetDepartmentElections()
+        {
+            var response = await _electionService.GetAllDepartmentElections();
+            return Ok(response);
+        }
+
         [HttpGet("department/{departmentName?}")]
         public async Task<IActionResult> GetDepartmentElections([FromRoute] string? departmentName)
         {

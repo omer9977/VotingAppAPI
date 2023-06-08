@@ -74,6 +74,34 @@ namespace VotingAPI.Persistence.Services
             return getDepartmentElectionResponse;
         }
 
+        public async Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElections()//todo düzelecek
+        {
+
+            //var departments = departmantName == null ? _departmentService.GetDepartmentList() : await _departmentService.GetDepartmentsWhere(x => x.Name == departmantName);
+            //var department = departments.FirstOrDefault();
+
+            //List<int> departmentIds = departments.Select(y => y.Id).ToList();
+            var response = await _electionReadRepo.GetAll().ToListAsync();
+            if (response == null)
+                return null;
+            List<GetDepartmentElectionResponse> getDepartmentElectionResponse = new();
+            response.ForEach(election =>
+            {
+                //var department = departments.FirstOrDefault(x => x.Id == election.DepartmentId)?.Name;
+
+                getDepartmentElectionResponse.Add(new GetDepartmentElectionResponse()
+                {
+                    Id = election.Id,
+                    //DepartmentName = department ?? "",
+                    EndDate = election.EndDate,
+                    Name = election.Name,
+                    StartDate = election.StartDate,
+                });
+            });
+            //var election = _mapper.Map<GetDepartmentElectionResponse>(response);
+            return getDepartmentElectionResponse;
+        }
+
         public async Task<List<GetCandidateResponse>> GetCandidatesByElectionId(int electionId)
         {
             var candidates = await _candidateReadRepo.GetWhere(c => c.ElectionId == electionId).ToListAsync();
