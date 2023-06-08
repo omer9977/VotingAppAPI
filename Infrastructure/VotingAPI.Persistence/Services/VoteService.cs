@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Dto.Request.Votes;
 using VotingAPI.Application.Dto.Response.Votes;
+using VotingAPI.Application.Profiles;
 using VotingAPI.Application.Repositories.ModelRepos;
 using VotingAPI.Domain.Entities;
 
@@ -18,24 +19,28 @@ namespace VotingAPI.Persistence.Services
         private readonly IVoteWriteRepo _voteWriteRepo;
         private readonly ICandidateReadRepo _candidateReadRepo;
         private readonly IStudentReadRepo _studentReadRepo;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
         public VoteService(IVoteReadRepo voteReadRepo,
             IVoteWriteRepo voteWriteRepo,
             IMapper mapper,
-ICandidateReadRepo candidateReadRepo
-,
-IStudentReadRepo studentReadRepo)
+            ICandidateReadRepo candidateReadRepo,
+            IStudentReadRepo studentReadRepo,
+            IUserService userService)
         {
             _voteReadRepo = voteReadRepo;
             _voteWriteRepo = voteWriteRepo;
             _mapper = mapper;
             _candidateReadRepo = candidateReadRepo;
             _studentReadRepo = studentReadRepo;
+            _userService = userService;
         }
         public async Task<bool> AddVote(AddVoteRequest addVoteRequest)
         {//todo null exception kontrolü geçtim artık :)
-            var voteDb = _mapper.Map<Vote>(addVoteRequest);
+            //var voteDb = _mapper.Map<Vote>(addVoteRequest);
+            var voteDto = addVoteRequest.ToVoteDto(_userService);
+            var voteDb = _mapper.Map<Vote>(voteDto);
             await _voteWriteRepo.AddAsync(voteDb);
             await _voteWriteRepo.SaveChangesAsync();
             //var candidate = await _candidateReadRepo.GetByIdAsync(addVoteRequest.CandidateId);

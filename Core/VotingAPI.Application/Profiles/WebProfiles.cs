@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VotingAPI.Application.Dto.General;
 using VotingAPI.Application.Dto.Request.Department;
 using VotingAPI.Application.Dto.Request.Election;
 using VotingAPI.Application.Dto.Request.Student;
@@ -56,10 +57,10 @@ namespace VotingAPI.Application.Profiles
             CreateMap<Department, GetDepartmentResponse>();
             CreateMap<UpdateDepartmentRequest, Department>();
             CreateMap<UpdateStudentRequest, Student>();
-            CreateMap<AddVoteRequest, Vote>()
-                .ForMember(x => x.VoterId, y => y.MapFrom(z => z.UserId));
-                //.ForMember(x => x.VotingPeriodId, y => y.MapFrom(z => z.VotingPeriodId))
-                //.ForMember(x => x.CandidateId, y => y.MapFrom(z => z.CandidateId));
+            CreateMap<VoteDto, Vote>().ReverseMap();
+            //    .ForMember(x => x.VoterId, y => y.MapFrom(z => z.UserId));
+            //.ForMember(x => x.VotingPeriodId, y => y.MapFrom(z => z.VotingPeriodId))
+            //.ForMember(x => x.CandidateId, y => y.MapFrom(z => z.CandidateId));
 
             CreateMap<CreateDepartmentElectionRequest, Election>();
             CreateMap<Election, GetDepartmentElectionResponse>();
