@@ -2797,19 +2797,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\YI018\\.nuget\\packages\\": {}
+    "C:\\Users\\omer\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Workspace\\VotingAppAPI\\Infrastructure\\VotingAPI.ObsService\\VotingAPI.ObsService.csproj",
+      "projectUniqueName": "D:\\WorkSpace\\.Net Core\\VotingAppAPI\\Infrastructure\\VotingAPI.ObsService\\VotingAPI.ObsService.csproj",
       "projectName": "VotingAPI.ObsService",
-      "projectPath": "D:\\Workspace\\VotingAppAPI\\Infrastructure\\VotingAPI.ObsService\\VotingAPI.ObsService.csproj",
-      "packagesPath": "C:\\Users\\YI018\\.nuget\\packages\\",
-      "outputPath": "D:\\Workspace\\VotingAppAPI\\Infrastructure\\VotingAPI.ObsService\\obj\\",
+      "projectPath": "D:\\WorkSpace\\.Net Core\\VotingAppAPI\\Infrastructure\\VotingAPI.ObsService\\VotingAPI.ObsService.csproj",
+      "packagesPath": "C:\\Users\\omer\\.nuget\\packages\\",
+      "outputPath": "D:\\WorkSpace\\.Net Core\\VotingAppAPI\\Infrastructure\\VotingAPI.ObsService\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\YI018\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\omer\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2860,7 +2860,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

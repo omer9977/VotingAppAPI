@@ -2,10 +2,13 @@
 
 //department ismi varsa ona ait getElections department name alcak null ile OK
 
-//beCandidate //description OK
+//beCandidate //description OK  // UserRole candidate olacak
 
 //getCandidates yapılcak endpointi yapılcak    //election/13874/candidate OK
 
 ///election/18253/candidate/148925/student/5894 post OK
 //vote OK
 //admin approved yapcak
+
+
+  'https://localhost:7057/api/candidate' \ startdate den küçükk olunca

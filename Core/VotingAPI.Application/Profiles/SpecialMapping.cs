@@ -14,9 +14,20 @@ namespace VotingAPI.Application.Profiles
     {
         public static async Task<VoteDto> ToVoteDto(this AddVoteRequest addVoteRequest, IUserService userService)
         {
+            try
+            {
             var voterUser = await userService.GetUserByUserNameAsync(addVoteRequest.VoterUserName);
+
+                Task.WaitAll();
             var candidateUser = await userService.GetUserByUserNameAsync(addVoteRequest.CandidateUserName);
             return new VoteDto() { CandidateId = candidateUser.Id, VoterId = voterUser.Id, ElectionId = addVoteRequest.ElectionId };
+
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
         }
     }
 }
