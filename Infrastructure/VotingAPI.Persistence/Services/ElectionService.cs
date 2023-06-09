@@ -119,6 +119,7 @@ namespace VotingAPI.Persistence.Services
                     FirstName = user.Name,
                     LastName = user.LastName,
                     Description = candidate.Description,
+                    UserName = user.UserName,
                 };
                 candidatesResponse.Add(candidateResponse);
 
