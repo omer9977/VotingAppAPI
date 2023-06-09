@@ -77,9 +77,9 @@ namespace VotingAPI.Persistence.Contexts
             //modelBuilder.Entity<Vote>()
             //    .HasIndex(p => new { p.VoterId, p.VotingPeriodId })
             //    .IsUnique(true);
-            modelBuilder.Entity<Vote>()
-                .HasIndex(p => new { p.CandidateId })
-                .IsUnique(true);
+            //modelBuilder.Entity<Vote>()
+            //    .HasIndex(p => new { p.CandidateId })
+            //    .IsUnique(true);
             //modelBuilder.Entity<Vote>()
             //    .HasIndex(p => new { p.VotingPeriodId })
             //    .IsUnique(true);

@@ -46,6 +46,7 @@ namespace VotingAPI.Persistence.Services
             if (vote != null)
                 throw new DataNotAddedException("You can not vote again!!!");
             await _voteWriteRepo.AddAsync(voteDb);
+
             await _voteWriteRepo.SaveChangesAsync();
             //var candidate = await _candidateReadRepo.GetByIdAsync(addVoteRequest.CandidateId);
             //var student = await _studentReadRepo.GetByIdAsync(addVoteRequest.StudentId);
