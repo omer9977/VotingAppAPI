@@ -47,7 +47,7 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<GetUserResponse> GetUserByUserNameAsync(string userName)
         {
-            var user =  _userReadRepo.Table.FirstOrDefault(x => x.UserName == userName);
+            var user = _userReadRepo.Table.FirstOrDefaultAsync(x => x.UserName == userName).Result;
             var userMapped = _mapper.Map<GetUserResponse>(user);
             return userMapped;
         }

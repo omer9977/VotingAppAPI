@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Dto.Request.Votes;
 using VotingAPI.Application.Dto.Response.Votes;
+using VotingAPI.Application.Exceptions;
 using VotingAPI.Application.Profiles;
 using VotingAPI.Application.Repositories.ModelRepos;
 using VotingAPI.Domain.Entities;
@@ -39,8 +40,11 @@ namespace VotingAPI.Persistence.Services
         public async Task<bool> AddVote(AddVoteRequest addVoteRequest)
         {//todo null exception kontrolü geçtim artık :)
             //var voteDb = _mapper.Map<Vote>(addVoteRequest);
-            var voteDto = addVoteRequest.ToVoteDto(_userService);
+            var voteDto = await addVoteRequest.ToVoteDto(_userService);
             var voteDb = _mapper.Map<Vote>(voteDto);
+            var vote = await _voteReadRepo.GetSingleAsync(x => x.CandidateId == voteDb.CandidateId && x.VoterId == voteDb.VoterId);
+            if (vote != null)
+                throw new DataNotAddedException("You can not vote again!!!");
             await _voteWriteRepo.AddAsync(voteDb);
             await _voteWriteRepo.SaveChangesAsync();
             //var candidate = await _candidateReadRepo.GetByIdAsync(addVoteRequest.CandidateId);
