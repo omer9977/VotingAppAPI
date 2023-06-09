@@ -72,14 +72,14 @@ namespace VotingAPI.Infrastructure.Services
         public async Task<LoginUserResponse> LoginAsync(LoginUserRequest loginUserRequest)
         {
             var user = _obsStudentService.FindUserByUserName(loginUserRequest.UserName);
-            if (loginUserRequest.Password != user.PasswordHash)
-                throw new Exception("Password is wrong!!!");
             if (user == null)
             {
                 var personal = await _userService.GetUserByUserNameAsync(loginUserRequest.UserName);
-                
+
                 if (personal == null)
                     throw new UserNotFoundException();
+                if (loginUserRequest.Password != personal.Password)
+                    throw new Exception("Password is wrong!!!");
                 TokenResponse token = new();
                 if (loginUserRequest.Password == personal.Password)
                 {
@@ -93,6 +93,8 @@ namespace VotingAPI.Infrastructure.Services
                 await _userWriteRepo.SaveChangesAsync();
                 return new() { UserName = personal.UserName, LastName = personal.LastName, UserRole = personal.UserRole.ToString(), Name = personal.Name, Token = token };
             }
+            if (loginUserRequest.Password != user.PasswordHash)
+                throw new Exception("Password is wrong!!!");
             var student = await _studentService.GetStudentByUserNameAsync(loginUserRequest.UserName);
 
             TokenResponse tokenResponse = new();
