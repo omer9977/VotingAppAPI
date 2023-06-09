@@ -83,7 +83,7 @@ namespace VotingAPI.Infrastructure.Services
                 {
                     token = _tokenService.CreateAccessToken(userRole: new List<string>() { personal.UserRole.ToString() }, minute: 1000);
                 }
-                var userPersonel = await _userReadRepo.GetSingleAsync(x => x.UserName == user.UserName);
+                var userPersonel = await _userReadRepo.GetSingleAsync(x => x.UserName == loginUserRequest.UserName);
                 userPersonel.RefreshToken = token.RefreshToken;
                 userPersonel.AccessToken = token.AccessToken;
                 userPersonel.ExpirationDate = token.ExpirationDate;
