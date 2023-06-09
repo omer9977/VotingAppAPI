@@ -31,7 +31,7 @@ namespace VotingAPI.WebAPI.Controllers
         [HttpGet("department")]
         public async Task<IActionResult> GetDepartmentElections()
         {
-            var response = await _electionService.GetAllDepartmentElections();
+            var response = await _electionService.GetAllDepartmentElections(null);
             return Ok(response);
         }
 

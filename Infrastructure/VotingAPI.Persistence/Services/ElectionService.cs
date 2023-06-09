@@ -80,7 +80,7 @@ namespace VotingAPI.Persistence.Services
         public async Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElections()//todo düzelecek
         {
 
-            //var departments = departmantName == null ? _departmentService.GetDepartmentList() : await _departmentService.GetDepartmentsWhere(x => x.Name == departmantName);
+            //var departments = departmantName == null ? _departmentService.GetDepartmentList();
             //var department = departments.FirstOrDefault();
 
             //List<int> departmentIds = departments.Select(y => y.Id).ToList();
