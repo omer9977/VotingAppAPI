@@ -88,8 +88,7 @@ namespace VotingAPI.Persistence.Services
                 throw new DataNotAddedException("You can not be candidate again!!!");
             var election = await _electionReadRepo.Table.FirstOrDefaultAsync(
             x => x.DepartmentId == student.DepartmentId
-            && DateTime.UtcNow > x.StartDate
-            && DateTime.UtcNow < x.EndDate);
+            && DateTime.UtcNow < x.StartDate);
 
             user.UserRole = UserRole.Candidate;
             _userWriteRepo.Update(user);
