@@ -48,5 +48,12 @@ namespace VotingAPI.WebAPI.Controllers
             var response = await _electionService.GetCandidatesByElectionId(electionId);
             return Ok(response);
         }
+
+        [HttpGet("{electionId}/result")]
+        public async Task<IActionResult> GetResultByElectionId([FromRoute] int electionId)
+        {
+            var response = await _electionService.GetResultByElectionId(electionId);
+            return Ok(response);
+        }
     }
 }

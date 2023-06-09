@@ -23,13 +23,15 @@ namespace VotingAPI.Persistence.Services
         private readonly IDepartmentService _departmentService;
         private readonly ICandidateReadRepo _candidateReadRepo;
         private readonly IUserReadRepo _userReadRepo;
+        private readonly IVoteReadRepo _voteReadRepo;
         public ElectionService(
             IElectionWriteRepo electionWriteRepo,
             IElectionReadRepo electionReadRepo,
             IMapper mapper,
             IDepartmentService departmentService,
             ICandidateReadRepo candidateReadRepo,
-            IUserReadRepo userReadRepo
+            IUserReadRepo userReadRepo,
+            IVoteReadRepo voteReadRepo
             )
         {
             _electionReadRepo = electionReadRepo;
@@ -38,6 +40,7 @@ namespace VotingAPI.Persistence.Services
             _departmentService = departmentService;
             _candidateReadRepo = candidateReadRepo;
             _userReadRepo = userReadRepo;
+            _voteReadRepo = voteReadRepo;
         }
         public async Task<bool> CreateDepartmentElection(CreateDepartmentElectionRequest createDepartmentElectionRequest)
         {
@@ -123,6 +126,45 @@ namespace VotingAPI.Persistence.Services
                 };
                 candidatesResponse.Add(candidateResponse);
 
+            }
+            return candidatesResponse;
+        }
+
+        public async Task<GetElectionResultResponse> GetResultByElectionId(int electionId)
+        {
+            var candidates = await _candidateReadRepo.GetWhere(c => c.ElectionId == electionId).ToListAsync();
+            var candidatesResponse = new GetElectionResultResponse();
+            var candidatesList = new List<GetCandidateElectionResponse>();
+
+            HashSet<int> userIds = new HashSet<int>(candidates.Select(s => s.UserId));
+            //HashSet<int> candidateIds = new HashSet<int>(candidates.Select(s => s.Id));
+
+            var usersQuery = _userReadRepo.Table.Where(x => userIds.Contains(x.Id)).AsNoTracking();
+            var users = usersQuery.ToList(); //todo buraya bakılacak
+
+            int totalCount = 0;
+            foreach (var candidate in candidates)
+            {
+                var voteNumber = _voteReadRepo.GetWhere(n => n.CandidateId == candidate.UserId).Count();
+                var user = users.FirstOrDefault(x => x.Id == candidate.UserId);
+                var candidateResponse = new GetCandidateElectionResponse()
+                {
+                    FirstName = user.Name,
+                    LastName = user.LastName,
+                    VoteNumber = voteNumber
+                };
+                candidatesList.Add(candidateResponse);
+                totalCount += voteNumber;
+            }
+            candidatesResponse.CandidateElectionResultList = candidatesList.OrderByDescending(x => x.VoteNumber).ToList();
+            var maxCountCandidate = candidatesResponse.CandidateElectionResultList.FirstOrDefault();
+            if (maxCountCandidate.VoteNumber > totalCount / 2)
+            {
+                candidatesResponse.Message = $"{maxCountCandidate.FirstName} {maxCountCandidate.LastName} won the election.";
+            }
+            else
+            {
+                candidatesResponse.Message = $"Nobody could not won election because of the absolute majority. It will be second election";
             }
             return candidatesResponse;
         }
