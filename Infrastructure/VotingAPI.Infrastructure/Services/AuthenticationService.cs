@@ -28,6 +28,9 @@ namespace VotingAPI.Infrastructure.Services
         private readonly IStudentService _studentService;
         private readonly IDepartmentService _departmentService;
         private readonly IUserService _userService;
+        private readonly IUserReadRepo _userReadRepo;
+        private readonly IUserWriteRepo _userWriteRepo;
+
 
 
         public AuthenticationService(
@@ -51,6 +54,8 @@ namespace VotingAPI.Infrastructure.Services
             _studentService = studentService;
             _departmentService = departmentService;
             _userService = userService;
+            _userWriteRepo = userWriteRepo;
+            _userReadRepo = userReadRepo;
         }
         //public async Task<bool> CreateUser(CreateUserRequest createUserRequest)
         //{
@@ -70,17 +75,24 @@ namespace VotingAPI.Infrastructure.Services
             if (user == null)
             {
                 var personal = await _userService.GetUserByUserNameAsync(loginUserRequest.UserName);
+                
                 if (personal == null)
                     throw new UserNotFoundException();
                 TokenResponse token = new();
                 if (loginUserRequest.Password == personal.Password)
                 {
-                    token = _tokenService.CreateAccessToken(userRole: new List<string>() { personal.UserRole.ToString() }, minute: 5);
+                    token = _tokenService.CreateAccessToken(userRole: new List<string>() { personal.UserRole.ToString() }, minute: 1000);
                 }
-                return new() { UserName = personal.UserName, LastName = personal.LastName, UserRole = personal.UserRole.ToString(), Name = personal.Name, Token =  token };
+                var userPersonel = await _userReadRepo.GetSingleAsync(x => x.UserName == user.UserName);
+                userPersonel.RefreshToken = token.RefreshToken;
+                userPersonel.AccessToken = token.AccessToken;
+                userPersonel.ExpirationDate = token.ExpirationDate;
+                _userWriteRepo.Update(userPersonel);
+                await _userWriteRepo.SaveChangesAsync();
+                return new() { UserName = personal.UserName, LastName = personal.LastName, UserRole = personal.UserRole.ToString(), Name = personal.Name, Token = token };
             }
             var student = await _studentService.GetStudentByUserNameAsync(loginUserRequest.UserName);
-            
+
             TokenResponse tokenResponse = new();
             if (user.PasswordHash == loginUserRequest.Password)
             {
@@ -94,31 +106,39 @@ namespace VotingAPI.Infrastructure.Services
                 //};
             }
             var department = _departmentService.GetDepartmentsWhere(u => u.Name == user.Department).Result.FirstOrDefault(); //todo burayı hallet sonra
-
+            var userDb = await _userReadRepo.GetSingleAsync(x => x.UserName == user.UserName);
             if (student != null)
             {
-                return new() { 
+                userDb.RefreshToken = tokenResponse.RefreshToken;
+                userDb.AccessToken = tokenResponse.AccessToken;
+                userDb.ExpirationDate = tokenResponse.ExpirationDate;
+                _userWriteRepo.Update(userDb);
+                await _userWriteRepo.SaveChangesAsync();
+
+                return new()
+                {
                     UserName = user.UserName,
-                    Token = tokenResponse, 
-                    DepartmentName = department.Name, 
-                    Name = user.Name, 
-                    LastName = user.LastName, 
+                    Token = tokenResponse,
+                    DepartmentName = department.Name,
+                    Name = user.Name,
+                    LastName = user.LastName,
                     UserRole = student.UserRole.ToString(),
                     Year = user.Year //todo düzelecek
                 };
             }
-            await _userService.AddUserAsync(new() { 
-                LastName = user.LastName, 
-                Name = user.Name, 
-                UserRole = UserRole.Student, 
-                Password = user.PasswordHash, 
+            await _userService.AddUserAsync(new()
+            {
+                LastName = user.LastName,
+                Name = user.Name,
+                UserRole = UserRole.Student,
+                Password = user.PasswordHash,
                 UserName = user.UserName,
                 AccessToken = tokenResponse.AccessToken,
                 ExpirationDate = tokenResponse.ExpirationDate,
                 RefreshToken = tokenResponse.RefreshToken
             });
 
-            var userDb = await _userService.GetUserByUserNameAsync(user.UserName);
+            //var userDb = await _userService.GetUserByUserNameAsync(user.UserName);
             var addStudentRequest = new AddStudentRequest()
             {
                 DepartmentId = department?.Id,
@@ -126,7 +146,7 @@ namespace VotingAPI.Infrastructure.Services
                 LastName = user.LastName,
                 UserName = user.UserName,
                 Year = user.Year,
-                UserId = userDb.Id
+                UserId = userDb.Id,
             };
             await _studentService.AddStudentAsync(addStudentRequest);
 
@@ -140,7 +160,8 @@ namespace VotingAPI.Infrastructure.Services
             //    };
             //}
             //throw new AuthenticationFailedException();
-            return new() { 
+            return new()
+            {
                 Token = tokenResponse,
                 UserRole = userDb.UserRole.ToString(),
                 DepartmentName = department?.Name,

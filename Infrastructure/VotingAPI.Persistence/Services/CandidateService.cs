@@ -34,6 +34,8 @@ namespace VotingAPI.Persistence.Services
         //private readonly IFileReadRepo _fileReadRepo;
         //private readonly IFileWriteRepo _fileWriteRepo;
         private readonly IConfiguration _configuration;
+        private readonly IUserWriteRepo _userWriteRepo;
+        private readonly IUserReadRepo _userReadRepo;
         //private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
         public CandidateService(ICandidateReadRepo candidateReadRepo,
@@ -46,10 +48,12 @@ namespace VotingAPI.Persistence.Services
             IConfiguration configuration,
             IMapper mapper,
             IUserService userService,
-            IElectionService electionService
+            IElectionService electionService,
             //IFileReadRepo fileReadRepo,
             //IFileWriteRepo fileWriteRepo,
             //UserManager<AppUser> userManager
+            IUserWriteRepo userWriteRepo,
+            IUserReadRepo userReadRepo
             )
         {
             _candidateReadRepo = candidateReadRepo;
@@ -63,6 +67,8 @@ namespace VotingAPI.Persistence.Services
             _userService = userService;
             _electionService = electionService;
             _electionReadRepo = electionReadRepo;
+            _userWriteRepo = userWriteRepo;
+            _userReadRepo = userReadRepo;
             //_fileReadRepo = fileReadRepo;
             //_fileWriteRepo = fileWriteRepo;
             //_userManager = userManager;
@@ -70,14 +76,16 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
         {
-            var user = await _userService.GetUserByUserNameAsync(addCandidateRequest.UserName);
+            var user = await _userReadRepo.GetSingleAsync(x => x.UserName == addCandidateRequest.UserName);
             var student = await _studentReadRepo.Table.FirstOrDefaultAsync(x => x.UserId == user.Id);
             var election = await _electionReadRepo.Table.FirstOrDefaultAsync(
             x => x.DepartmentId == student.DepartmentId
             && DateTime.UtcNow > x.StartDate
             && DateTime.UtcNow < x.EndDate);
 
-
+            user.UserRole = UserRole.Candidate;
+            _userWriteRepo.Update(user);
+            await _userWriteRepo.SaveChangesAsync();
             bool candidateAdded = await _candidateWriteRepo.AddAsync(new()
             {
                 UserId = user.Id,
