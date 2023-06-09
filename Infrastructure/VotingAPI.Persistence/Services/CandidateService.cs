@@ -83,6 +83,9 @@ namespace VotingAPI.Persistence.Services
             var user = await _userReadRepo.GetSingleAsync(x => x.UserName == addCandidateRequest.UserName);
             var eDevletStatus = _obsStudentService.FindUserByUserName(addCandidateRequest.UserName).EdevletStatus;
             var student = await _studentReadRepo.Table.FirstOrDefaultAsync(x => x.UserId == user.Id);
+            var candidate = await _candidateReadRepo.GetSingleAsync(x => x.UserId == user.Id);
+            if(candidate != null)
+                throw new DataNotAddedException("You can not be candidate again!!!");
             var election = await _electionReadRepo.Table.FirstOrDefaultAsync(
             x => x.DepartmentId == student.DepartmentId
             && DateTime.UtcNow > x.StartDate
