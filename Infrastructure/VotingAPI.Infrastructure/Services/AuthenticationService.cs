@@ -72,6 +72,8 @@ namespace VotingAPI.Infrastructure.Services
         public async Task<LoginUserResponse> LoginAsync(LoginUserRequest loginUserRequest)
         {
             var user = _obsStudentService.FindUserByUserName(loginUserRequest.UserName);
+            if (loginUserRequest.Password != user.PasswordHash)
+                throw new Exception("Password is wrong!!!");
             if (user == null)
             {
                 var personal = await _userService.GetUserByUserNameAsync(loginUserRequest.UserName);
