@@ -97,7 +97,7 @@ namespace VotingAPI.Infrastructure.Services
             if (user.PasswordHash == loginUserRequest.Password)
             {
                 //List<string> userRole = (List<string>)await _userManager.GetRolesAsync(user);
-                tokenResponse = _tokenService.CreateAccessToken(userRole: new List<string>() { "Student" }, minute: 5); //todo deneme
+                tokenResponse = _tokenService.CreateAccessToken(userRole: new List<string>() { "Student" }, minute: 45); //todo deneme
 
                 //await UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.ExpirationDate, 5);//todo access token 5
                 //return new()

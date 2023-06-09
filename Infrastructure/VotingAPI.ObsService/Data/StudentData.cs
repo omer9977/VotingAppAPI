@@ -16,7 +16,8 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Karadeniz"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Mechanical Engineering"",
-    ""Year"": 1
+    ""Year"": 1,
+    ""EdevletStatus"": true,
   },
   {
     ""UserName"": ""987654321"",
@@ -25,7 +26,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""İnce"",
     ""Faculty"": ""Science"",
     ""Department"": ""Mechanical Engineering"",
-    ""Year"": 4
+    ""Year"": 4,
+    ""EdevletStatus"": false,
+
   },
   {
     ""UserName"": ""567891234"",
@@ -34,7 +37,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Anadol"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Computer Engineering"",
-    ""Year"": 1
+    ""Year"": 1,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""987123456"",
@@ -43,7 +48,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Yılmaz"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Architecture"",
-    ""Year"": 2
+    ""Year"": 2,
+    ""EdevletStatus"": false,
+
   },
   {
     ""UserName"": ""654789321"",
@@ -52,7 +59,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""İnce"",
     ""Faculty"": ""Science"",
     ""Department"": ""Electrical Engineering"",
-    ""Year"": 3
+    ""Year"": 3,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""321456987"",
@@ -61,7 +70,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Özer"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Physics"",
-    ""Year"": 4
+    ""Year"": 4,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""789123654"",
@@ -70,7 +81,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Yılmaz"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Electrical Engineering"",
-    ""Year"": 3
+    ""Year"": 3,
+    ""EdevletStatus"": false,
+
   },
   {
     ""UserName"": ""456789123"",
@@ -79,7 +92,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Aydoğan"",
     ""Faculty"": ""Architecture"",
     ""Department"": ""Architecture"",
-    ""Year"": 4
+    ""Year"": 4,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""789654321"",
@@ -88,7 +103,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""İnce"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Mechanical Engineering"",
-    ""Year"": 4
+    ""Year"": 4,
+    ""EdevletStatus"": false,
+
   },
   {
     ""UserName"": ""123789456"",
@@ -97,7 +114,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Aydoğan"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Physics"",
-    ""Year"": 4
+    ""Year"": 4,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""321987654"",
@@ -106,7 +125,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Anadol"",
     ""Faculty"": ""Architecture"",
     ""Department"": ""Chemistry"",
-    ""Year"": 3
+    ""Year"": 3,
+    ""EdevletStatus"": false,
+
   },
   {
     ""UserName"": ""654321987"",
@@ -115,7 +136,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Yılmaz"",
     ""Faculty"": ""Architecture"",
     ""Department"": ""Fotonics"",
-    ""Year"": 4
+    ""Year"": 4,
+    ""EdevletStatus"": false,
+
   },
   {
     ""UserName"": ""123456987"",
@@ -124,7 +147,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Özer"",
     ""Faculty"": ""Science"",
     ""Department"": ""Chemistry"",
-    ""Year"": 4
+    ""Year"": 4,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""789456123"",
@@ -133,7 +158,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Aydoğan"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Electrical Engineering"",
-    ""Year"": 1
+    ""Year"": 1,
+    ""EdevletStatus"": false,
+
   },
   {
     ""UserName"": ""321654789"",
@@ -142,7 +169,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Erdoğan"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Mechanical Engineering"",
-    ""Year"": 1
+    ""Year"": 1,
+    ""EdevletStatus"": false,
+
   },
   {
     ""UserName"": ""789321654"",
@@ -151,7 +180,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Erdoğan"",
     ""Faculty"": ""Science"",
     ""Department"": ""Fotonics"",
-    ""Year"": 3
+    ""Year"": 3,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""123789654"",
@@ -160,7 +191,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Özer"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Architecture"",
-    ""Year"": 1
+    ""Year"": 1,
+    ""EdevletStatus"": false,
+
   },
   {
     ""UserName"": ""654987321"",
@@ -169,7 +202,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Kılıç"",
     ""Faculty"": ""Science"",
     ""Department"": ""Computer Engineering"",
-    ""Year"": 2
+    ""Year"": 2,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""321789456"",
@@ -178,7 +213,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Erdoğan"",
     ""Faculty"": ""Architecture"",
     ""Department"": ""Chemistry"",
-    ""Year"": 1
+    ""Year"": 1,
+    ""EdevletStatus"": false,
+
   },
   {
     ""UserName"": ""789654123"",
@@ -187,7 +224,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""İnce"",
     ""Faculty"": ""Science"",
     ""Department"": ""Electronics"",
-    ""Year"": 3
+    ""Year"": 3,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""456123789"",
@@ -196,7 +235,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Yılmaz"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Computer Engineering"",
-    ""Year"": 3
+    ""Year"": 3,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""123987654"",
@@ -205,7 +246,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Aydoğan"",
     ""Faculty"": ""Science"",
     ""Department"": ""Electronics"",
-    ""Year"": 1
+    ""Year"": 1,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""789456321"",
@@ -214,7 +257,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Kılıç"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Physics"",
-    ""Year"": 4
+    ""Year"": 4,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""654321789"",
@@ -223,7 +268,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Erdoğan"",
     ""Faculty"": ""Architecture"",
     ""Department"": ""Mechanical Engineering"",
-    ""Year"": 4
+    ""Year"": 4,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""321456789"",
@@ -232,7 +279,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Özer"",
     ""Faculty"": ""Architecture"",
     ""Department"": ""Computer Engineering"",
-    ""Year"": 1
+    ""Year"": 1,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""789123456"",
@@ -241,7 +290,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Kılıç"",
     ""Faculty"": ""Architecture"",
     ""Department"": ""Chemistry"",
-    ""Year"": 2
+    ""Year"": 2,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""654789123"",
@@ -250,7 +301,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Yılmaz"",
     ""Faculty"": ""Architecture"",
     ""Department"": ""Architecture"",
-    ""Year"": 4
+    ""Year"": 4,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""321789654"",
@@ -259,7 +312,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Yılmaz"",
     ""Faculty"": ""Science"",
     ""Department"": ""Mechanical Engineering"",
-    ""Year"": 1
+    ""Year"": 1,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""123456789"",
@@ -268,7 +323,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Karadeniz"",
     ""Faculty"": ""Architecture"",
     ""Department"": ""Electronics"",
-    ""Year"": 3
+    ""Year"": 3,
+    ""EdevletStatus"": true,
+
   },
   {
     ""UserName"": ""987654321"",
@@ -277,7 +334,9 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Anadol"",
     ""Faculty"": ""Science"",
     ""Department"": ""Fotonics"",
-    ""Year"": 1
+    ""Year"": 1,
+    ""EdevletStatus"": true,
+
   }
 ]";
     }

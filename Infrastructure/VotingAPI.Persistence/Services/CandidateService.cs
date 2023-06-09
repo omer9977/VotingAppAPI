@@ -12,6 +12,7 @@ using VotingAPI.Application.Dto.Response.ProfilePhoto;
 using VotingAPI.Application.Exceptions;
 using VotingAPI.Application.Repositories.ModelRepos;
 using VotingAPI.Domain.Entities;
+using VotingAPI.ObsService.Interfaces;
 //using VotingAPI.Domain.Entities.Identity;
 //using VotingAPI.Domain.Entities.FileTypes;
 using VotingAPI.Persistence.Enums;
@@ -28,6 +29,7 @@ namespace VotingAPI.Persistence.Services
         private readonly IUserService _userService;
         private readonly IElectionService _electionService;
         private readonly IElectionReadRepo _electionReadRepo;
+        private readonly IObsStudentService _obsStudentService;
 
         //private readonly IProfilePhotoFileWriteRepo _profilePhotoFileWriteRepo;
         //private readonly IProfilePhotoFileReadRepo _profilePhotoFileReadRepo;
@@ -53,7 +55,8 @@ namespace VotingAPI.Persistence.Services
             //IFileWriteRepo fileWriteRepo,
             //UserManager<AppUser> userManager
             IUserWriteRepo userWriteRepo,
-            IUserReadRepo userReadRepo
+            IUserReadRepo userReadRepo,
+            IObsStudentService obsStudentService
             )
         {
             _candidateReadRepo = candidateReadRepo;
@@ -69,6 +72,7 @@ namespace VotingAPI.Persistence.Services
             _electionReadRepo = electionReadRepo;
             _userWriteRepo = userWriteRepo;
             _userReadRepo = userReadRepo;
+            _obsStudentService = obsStudentService;
             //_fileReadRepo = fileReadRepo;
             //_fileWriteRepo = fileWriteRepo;
             //_userManager = userManager;
@@ -77,6 +81,7 @@ namespace VotingAPI.Persistence.Services
         public async Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
         {
             var user = await _userReadRepo.GetSingleAsync(x => x.UserName == addCandidateRequest.UserName);
+            var eDevletStatus = _obsStudentService.FindUserByUserName(addCandidateRequest.UserName).EdevletStatus;
             var student = await _studentReadRepo.Table.FirstOrDefaultAsync(x => x.UserId == user.Id);
             var election = await _electionReadRepo.Table.FirstOrDefaultAsync(
             x => x.DepartmentId == student.DepartmentId
@@ -91,7 +96,7 @@ namespace VotingAPI.Persistence.Services
                 UserId = user.Id,
                 ElectionId = election.Id,
                 Description = addCandidateRequest.Description,
-                ApproveStatus = ApproveStatus.Pending
+                ApproveStatus = eDevletStatus ? ApproveStatus.Approved : ApproveStatus.Rejected
             });
             if (!candidateAdded)
                 throw new DataNotAddedException();

@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\VotingAPI.Application\VotingAPI.Application.csproj" />
+    <ProjectReference Include="..\VotingAPI.ObsService\VotingAPI.ObsService.csproj" />
   </ItemGroup>
 
 </Project>

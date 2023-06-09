@@ -15,5 +15,6 @@ namespace VotingAPI.ObsService.Entities
         public string Faculty { get; set; }
         public string Department { get; set; }
         public int Year { get; set; }
+        public bool EdevletStatus { get; set; }
     }
 }
