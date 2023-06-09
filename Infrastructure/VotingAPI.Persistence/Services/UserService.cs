@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<GetUserResponse> GetUserByUserNameAsync(string userName)
         {
-            var user = await _userReadRepo.GetSingleAsync(x => x.UserName == userName);
+            var user =  _userReadRepo.Table.FirstOrDefault(x => x.UserName == userName);
             var userMapped = _mapper.Map<GetUserResponse>(user);
             return userMapped;
         }

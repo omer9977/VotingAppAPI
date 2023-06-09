@@ -26,7 +26,7 @@ namespace VotingAPI.WebAPI.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "Student")]
+        //[Authorize(Roles = "Student")]
         [Route("")]
         public async Task<IActionResult> AddVote(AddVoteRequest addVoteRequest)
         {
