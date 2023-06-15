@@ -1327,7 +1327,8 @@
           "Microsoft.Extensions.Configuration.Json": "7.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.1",
-          "VotingAPI.Application": "1.0.0"
+          "VotingAPI.Application": "1.0.0",
+          "VotingAPI.ObsService": "1.0.0"
         },
         "runtime": {
           "VotingAPI.Persistence.dll": {}

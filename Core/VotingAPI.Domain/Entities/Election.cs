@@ -8,7 +8,7 @@ using VotingAPI.Domain.Entities.Common;
 
 namespace VotingAPI.Domain.Entities
 {
-    [Table("Votings", Schema = "dbo")]
+    [Table("Elections", Schema = "dbo")]
 
     public class Election : BaseEntity
     {
