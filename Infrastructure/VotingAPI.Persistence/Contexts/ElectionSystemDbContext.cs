@@ -24,6 +24,8 @@ namespace VotingAPI.Persistence.Contexts
 
         public DbSet<Vote> Votes { get; set; }
         public DbSet<Winner> Winners { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
+
 
         //public DbSet<VotingPeriod> VotingPeriods { get; set; }
         //public DbSet<ElectionType> ElectionTypes { get; set; }

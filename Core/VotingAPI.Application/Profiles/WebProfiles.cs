@@ -5,12 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Application.Dto.General;
+using VotingAPI.Application.Dto.Request.Announcement;
 using VotingAPI.Application.Dto.Request.Department;
 using VotingAPI.Application.Dto.Request.Election;
 using VotingAPI.Application.Dto.Request.Student;
 using VotingAPI.Application.Dto.Request.User;
 using VotingAPI.Application.Dto.Request.Votes;
 using VotingAPI.Application.Dto.Request.VotingPeriod;
+using VotingAPI.Application.Dto.Response.Announcement;
 using VotingAPI.Application.Dto.Response.Candidate;
 using VotingAPI.Application.Dto.Response.Department;
 using VotingAPI.Application.Dto.Response.Election;
@@ -66,6 +68,8 @@ namespace VotingAPI.Application.Profiles
             CreateMap<Election, GetDepartmentElectionResponse>();
             CreateMap<Candidate, CandidateDto>();
 
+            CreateMap<AddAnnouncementRequest, Announcement>();
+            CreateMap<Announcement, GetAnnouncementResponse>();
             //CreateMap<VotingPeriod, GetVotingPeriodResponse>()
             //    .ForMember(x => x.ElectionTypeName, y => y.MapFrom(z => z.ElectionType.TypeName));
 
