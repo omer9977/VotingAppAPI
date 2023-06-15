@@ -130,7 +130,7 @@ namespace VotingAPI.Infrastructure.Services
                     Year = user.Year //todo düzelecek
                 };
             }
-            if (userDb != null)
+            if (userDb == null)
             {
                 await _userService.AddUserAsync(new()
                 {
@@ -145,7 +145,7 @@ namespace VotingAPI.Infrastructure.Services
                 });
             }
 
-            //var userDb = await _userService.GetUserByUserNameAsync(user.UserName);
+            userDb = await _userReadRepo.GetSingleAsync(x => x.UserName == user.UserName);
             var addStudentRequest = new AddStudentRequest()
             {
                 DepartmentId = department?.Id,
