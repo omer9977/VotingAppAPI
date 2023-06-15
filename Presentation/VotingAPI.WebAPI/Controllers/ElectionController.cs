@@ -55,6 +55,7 @@ namespace VotingAPI.WebAPI.Controllers
             var response = await _electionService.GetResultByElectionIdAsync(electionId);
             return Ok(response);
         }
+
         [HttpPut("{electionId}")]
         public async Task<IActionResult> UpdateElection([FromRoute] int electionId ,[FromBody] UpdateDepartmentElectionRequest updateDepartmentElectionRequest)
         {
