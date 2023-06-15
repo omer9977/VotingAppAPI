@@ -12,5 +12,6 @@ namespace VotingAPI.Application.Abstractions
     {
         public Task<GetAnnouncementListResponse> GetAnnouncementList();
         public Task<bool> CreateAnnouncement(AddAnnouncementRequest addAnnouncementRequest);
+        public Task<bool> DeleteAnnouncement(int announcementId);
     }
 }

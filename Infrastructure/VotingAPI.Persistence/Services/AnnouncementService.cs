@@ -35,6 +35,11 @@ namespace VotingAPI.Persistence.Services
             return await _announcementWriteRepo.SaveChangesAsync() > 0;
         }
 
+        public Task<bool> DeleteAnnouncement(int announcementId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<GetAnnouncementListResponse> GetAnnouncementList()
         {
             var announcements = await _announcementReadRepo.GetAll().ToListAsync();
