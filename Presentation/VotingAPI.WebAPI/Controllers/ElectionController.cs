@@ -23,7 +23,7 @@ namespace VotingAPI.WebAPI.Controllers
         [HttpPost("department")]
         public async Task<IActionResult> CreateDepartmentElection([FromBody]CreateDepartmentElectionRequest createDepartmentElectionRequest)
         {
-            var response = await _electionService.CreateDepartmentElection(createDepartmentElectionRequest);
+            var response = await _electionService.CreateDepartmentElectionAsync(createDepartmentElectionRequest);
             return Ok(response);
         }
 
@@ -31,41 +31,49 @@ namespace VotingAPI.WebAPI.Controllers
         [HttpGet("department")]
         public async Task<IActionResult> GetDepartmentElections()
         {
-            var response = await _electionService.GetAllDepartmentElections(null);
+            var response = await _electionService.GetAllDepartmentElectionsAsync(null);
             return Ok(response);
         }
 
         [HttpGet("department/{departmentName?}")]
         public async Task<IActionResult> GetDepartmentElections([FromRoute] string? departmentName)
         {
-            var response = await _electionService.GetAllDepartmentElections(departmentName);
+            var response = await _electionService.GetAllDepartmentElectionsAsync(departmentName);
             return Ok(response);
         }
 
         [HttpGet("{electionId}/candidate")]
         public async Task<IActionResult> GetCandidatesByElectionId([FromRoute] int electionId)
         {
-            var response = await _electionService.GetCandidatesByElectionId(electionId);
+            var response = await _electionService.GetCandidatesByElectionIdAsync(electionId);
             return Ok(response);
         }
 
         [HttpGet("{electionId}/result")]
         public async Task<IActionResult> GetResultByElectionId([FromRoute] int electionId)
         {
-            var response = await _electionService.GetResultByElectionId(electionId);
+            var response = await _electionService.GetResultByElectionIdAsync(electionId);
             return Ok(response);
         }
         [HttpPut("{electionId}")]
         public async Task<IActionResult> UpdateElection([FromRoute] int electionId ,[FromBody] UpdateDepartmentElectionRequest updateDepartmentElectionRequest)
         {
-            var response = await _electionService.UpdateElection(electionId, updateDepartmentElectionRequest);
+            var response = await _electionService.UpdateElectionAsync(electionId, updateDepartmentElectionRequest);
             return Ok(response);
         }
 
         [HttpDelete("{electionId}")]
         public async Task<IActionResult> DeleteElection([FromRoute] int electionId)
         {
-            var response = await _electionService.DeleteElection(electionId);
+            var response = await _electionService.DeleteElectionAsync(electionId);
+            return Ok(response);
+        }
+
+
+        [HttpPatch("{electionId}/finish")]
+        public async Task<IActionResult> FinishElection([FromRoute] int electionId)
+        {
+            var response = await _electionService.FinishElectionAsync(electionId);
             return Ok(response);
         }
     }

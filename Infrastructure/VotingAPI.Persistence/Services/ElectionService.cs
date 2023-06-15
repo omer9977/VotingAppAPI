@@ -42,14 +42,14 @@ namespace VotingAPI.Persistence.Services
             _userReadRepo = userReadRepo;
             _voteReadRepo = voteReadRepo;
         }
-        public async Task<bool> CreateDepartmentElection(CreateDepartmentElectionRequest createDepartmentElectionRequest)
+        public async Task<bool> CreateDepartmentElectionAsync(CreateDepartmentElectionRequest createDepartmentElectionRequest)
         {
             var election = _mapper.Map<Election>(createDepartmentElectionRequest);
             await _electionWriteRepo.AddAsync(election);
             return await _electionWriteRepo.SaveChangesAsync() > 0;
         }
 
-        public async Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElections(string? departmantName)//todo düzelecek
+        public async Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElectionsAsync(string? departmantName)//todo düzelecek
         {
 
             var departments = departmantName == null ? _departmentService.GetDepartmentList() : await _departmentService.GetDepartmentsWhere(x => x.Name == departmantName);
@@ -77,7 +77,7 @@ namespace VotingAPI.Persistence.Services
             return getDepartmentElectionResponse;
         }
 
-        public async Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElections()//todo düzelecek
+        public async Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElectionsAsync()//todo düzelecek
         {
 
             //var departments = departmantName == null ? _departmentService.GetDepartmentList();
@@ -105,7 +105,7 @@ namespace VotingAPI.Persistence.Services
             return getDepartmentElectionResponse;
         }
 
-        public async Task<List<GetCandidateResponse>> GetCandidatesByElectionId(int electionId)
+        public async Task<List<GetCandidateResponse>> GetCandidatesByElectionIdAsync(int electionId)
         {
             var candidates = await _candidateReadRepo.GetWhere(c => c.ElectionId == electionId).ToListAsync();
             var candidatesResponse = new List<GetCandidateResponse>();
@@ -130,7 +130,7 @@ namespace VotingAPI.Persistence.Services
             return candidatesResponse;
         }
 
-        public async Task<GetElectionResultResponse> GetResultByElectionId(int electionId)
+        public async Task<GetElectionResultResponse> GetResultByElectionIdAsync(int electionId)
         {
             var candidates = await _candidateReadRepo.GetWhere(c => c.ElectionId == electionId).ToListAsync();
             var candidatesResponse = new GetElectionResultResponse();
@@ -158,7 +158,7 @@ namespace VotingAPI.Persistence.Services
             }
             candidatesResponse.CandidateElectionResultList = candidatesList.OrderByDescending(x => x.VoteNumber).ToList();
             var maxCountCandidate = candidatesResponse.CandidateElectionResultList.FirstOrDefault();
-            if (maxCountCandidate.VoteNumber > totalCount / 2)
+            if (maxCountCandidate?.VoteNumber > totalCount / 2)
             {
                 candidatesResponse.Message = $"{maxCountCandidate.FirstName} {maxCountCandidate.LastName} won the election.";
             }
@@ -169,7 +169,7 @@ namespace VotingAPI.Persistence.Services
             return candidatesResponse;
         }
 
-        public async Task<bool> UpdateElection(int electionId, UpdateDepartmentElectionRequest updateDepartmentElectionRequest)
+        public async Task<bool> UpdateElectionAsync(int electionId, UpdateDepartmentElectionRequest updateDepartmentElectionRequest)
         {
             var election = await _electionReadRepo.GetSingleAsync(x => x.Id == electionId);
             election.EndDate = updateDepartmentElectionRequest.EndDate;
@@ -179,9 +179,16 @@ namespace VotingAPI.Persistence.Services
             return await _electionWriteRepo.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> DeleteElection(int electionId)
+        public async Task<bool> DeleteElectionAsync(int electionId)
         {
             await _electionWriteRepo.RemoveByIdAsync(electionId);
+            return await _electionWriteRepo.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> FinishElectionAsync(int electionId)
+        {
+            var election = await _electionReadRepo.GetByIdAsync(electionId);
+            election.EndDate = DateTime.UtcNow;
             return await _electionWriteRepo.SaveChangesAsync() > 0;
         }
     }

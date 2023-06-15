@@ -7,13 +7,14 @@ namespace VotingAPI.Application.Abstractions
 {
     public interface IElectionService
     {
-        Task<bool> CreateDepartmentElection(CreateDepartmentElectionRequest createDepartmentElectionRequest);
-        Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElections(string departmanName = null);
-        Task<List<GetCandidateResponse>> GetCandidatesByElectionId(int electionId);
-        Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElections();
-        Task<GetElectionResultResponse> GetResultByElectionId(int electionId);
-        Task<bool> UpdateElection(int electionId, UpdateDepartmentElectionRequest updateDepartmentElectionRequest);
-        Task<bool> DeleteElection(int electionId);
+        Task<bool> CreateDepartmentElectionAsync(CreateDepartmentElectionRequest createDepartmentElectionRequest);
+        Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElectionsAsync(string departmanName = null);
+        Task<List<GetCandidateResponse>> GetCandidatesByElectionIdAsync(int electionId);
+        Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElectionsAsync();
+        Task<GetElectionResultResponse> GetResultByElectionIdAsync(int electionId);
+        Task<bool> UpdateElectionAsync(int electionId, UpdateDepartmentElectionRequest updateDepartmentElectionRequest);
+        Task<bool> DeleteElectionAsync(int electionId);
+        Task<bool> FinishElectionAsync(int electionId);
 
     }
 }
