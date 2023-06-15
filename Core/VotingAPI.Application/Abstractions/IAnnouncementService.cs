@@ -10,8 +10,8 @@ namespace VotingAPI.Application.Abstractions
 {
     public interface IAnnouncementService
     {
-        public Task<GetAnnouncementListResponse> GetAnnouncementList();
-        public Task<bool> CreateAnnouncement(AddAnnouncementRequest addAnnouncementRequest);
-        public Task<bool> DeleteAnnouncement(int announcementId);
+        public Task<GetAnnouncementListResponse> GetAnnouncementListAsync();
+        public Task<bool> CreateAnnouncementAsync(AddAnnouncementRequest addAnnouncementRequest);
+        public Task<bool> DeleteAnnouncementAsync(int announcementId);
     }
 }

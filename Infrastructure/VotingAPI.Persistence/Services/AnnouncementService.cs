@@ -28,19 +28,19 @@ namespace VotingAPI.Persistence.Services
             _announcementWriteRepo = announcementWriteRepo;
             _mapper = mapper;
         }
-        public async Task<bool> CreateAnnouncement(AddAnnouncementRequest addAnnouncementRequest)
+        public async Task<bool> CreateAnnouncementAsync(AddAnnouncementRequest addAnnouncementRequest)
         {
             var announcementMapped = _mapper.Map<Announcement>(addAnnouncementRequest);
             await _announcementWriteRepo.AddAsync(announcementMapped);
             return await _announcementWriteRepo.SaveChangesAsync() > 0;
         }
 
-        public Task<bool> DeleteAnnouncement(int announcementId)
+        public Task<bool> DeleteAnnouncementAsync(int announcementId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<GetAnnouncementListResponse> GetAnnouncementList()
+        public async Task<GetAnnouncementListResponse> GetAnnouncementListAsync()
         {
             var announcements = await _announcementReadRepo.GetAll().ToListAsync();
             var announcementsMapped = _mapper.Map<List<GetAnnouncementResponse>>(announcements);
