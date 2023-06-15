@@ -130,17 +130,20 @@ namespace VotingAPI.Infrastructure.Services
                     Year = user.Year //todo düzelecek
                 };
             }
-            await _userService.AddUserAsync(new()
+            if (userDb != null)
             {
-                LastName = user.LastName,
-                Name = user.Name,
-                UserRole = UserRole.Student,
-                Password = user.PasswordHash,
-                UserName = user.UserName,
-                AccessToken = tokenResponse.AccessToken,
-                ExpirationDate = tokenResponse.ExpirationDate,
-                RefreshToken = tokenResponse.RefreshToken
-            });
+                await _userService.AddUserAsync(new()
+                {
+                    LastName = user.LastName,
+                    Name = user.Name,
+                    UserRole = UserRole.Student,
+                    Password = user.PasswordHash,
+                    UserName = user.UserName,
+                    AccessToken = tokenResponse.AccessToken,
+                    ExpirationDate = tokenResponse.ExpirationDate,
+                    RefreshToken = tokenResponse.RefreshToken
+                });
+            }
 
             //var userDb = await _userService.GetUserByUserNameAsync(user.UserName);
             var addStudentRequest = new AddStudentRequest()
