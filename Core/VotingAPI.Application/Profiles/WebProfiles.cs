@@ -64,7 +64,7 @@ namespace VotingAPI.Application.Profiles
 
             CreateMap<CreateDepartmentElectionRequest, Election>();
             CreateMap<Election, GetDepartmentElectionResponse>();
-
+            CreateMap<Candidate, CandidateDto>();
 
             //CreateMap<VotingPeriod, GetVotingPeriodResponse>()
             //    .ForMember(x => x.ElectionTypeName, y => y.MapFrom(z => z.ElectionType.TypeName));

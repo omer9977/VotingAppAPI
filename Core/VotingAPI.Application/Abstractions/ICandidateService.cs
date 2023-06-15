@@ -17,7 +17,7 @@ namespace VotingAPI.Application.Abstractions
         //public async Task<List<>> AddCandidateList();
         Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest);
         Task<GetCandidateResponse> GetCandidateByIdAsync(int id);
-        List<GetCandidateResponse> GetCandidateList();
+        Task<GetCandidateListResponse> GetCandidateListAsync();
         //Task<GetFileResponse> GetCandidateFileAsync(int candidateId, short fileTypeId);
         //Task<bool> UploadCandidateFileAsync(AddCandidateFileRequest addFileRequest); // daha sonrasında bool kaldır
         //Task<bool> DeleteCandidateFileAsync(int candidateId, short fileTypeId);

@@ -40,7 +40,7 @@ namespace VotingAPI.Persistence.Repos
 
         public async Task<T> GetSingleAsync(Expression<Func<T, bool>> expression, bool isTracking = true)
         {
-            var query = GetAll(isTracking);//todo asqueryable olsa daha iyi olmaz mı?
+            var query = GetAll(isTracking);
             if (!isTracking)
                 query = Table.AsNoTracking();
             return await query.FirstOrDefaultAsync(expression);
@@ -48,9 +48,11 @@ namespace VotingAPI.Persistence.Repos
 
         public IQueryable<T> GetWhere(Expression<Func<T, bool>> expression, bool isTracking = true)
         {
-            var query = GetAll().Where(expression);
+            var query = GetAll(isTracking);
             if (!isTracking)
-                query = query.AsNoTracking();
+                query = query.AsNoTracking().Where(expression);
+            else
+                query = query.Where(expression);
             return query;
         }
     }

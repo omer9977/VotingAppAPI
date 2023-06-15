@@ -55,5 +55,18 @@ namespace VotingAPI.WebAPI.Controllers
             var response = await _electionService.GetResultByElectionId(electionId);
             return Ok(response);
         }
+        [HttpPut("{electionId}")]
+        public async Task<IActionResult> UpdateElection([FromRoute] int electionId ,[FromBody] UpdateDepartmentElectionRequest updateDepartmentElectionRequest)
+        {
+            var response = await _electionService.UpdateElection(electionId, updateDepartmentElectionRequest);
+            return Ok(response);
+        }
+
+        [HttpDelete("{electionId}")]
+        public async Task<IActionResult> DeleteElection([FromRoute] int electionId)
+        {
+            var response = await _electionService.DeleteElection(electionId);
+            return Ok(response);
+        }
     }
 }

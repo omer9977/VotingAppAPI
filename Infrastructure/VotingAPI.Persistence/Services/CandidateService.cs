@@ -3,13 +3,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Abstractions.Storage;
+using VotingAPI.Application.Dto.General;
 using VotingAPI.Application.Dto.Request.Candidate;
 using VotingAPI.Application.Dto.Request.File;
 using VotingAPI.Application.Dto.Response.Candidate;
 using VotingAPI.Application.Dto.Response.ProfilePhoto;
 using VotingAPI.Application.Exceptions;
+using VotingAPI.Application.Extensions.Mapping;
 using VotingAPI.Application.Repositories.ModelRepos;
 using VotingAPI.Domain.Entities;
 using VotingAPI.ObsService.Interfaces;
@@ -120,12 +123,23 @@ namespace VotingAPI.Persistence.Services
             return candidateResponse;
         }
 
-        public List<GetCandidateResponse> GetCandidateList()
+        //public async Task<GetCandidateResponse> GetCandidatesWhere(CandidateFilterRequest filter)
+        //{
+        //    var candidate = await _candidateReadRepo.GetWhere(c => c.);
+        //    if (candidate == null)
+        //        throw new DataNotFoundException(id);
+        //    var candidateResponse = _mapper.Map<GetCandidateResponse>(candidate);
+        //    return candidateResponse;
+        //}
+
+        public async Task<GetCandidateListResponse> GetCandidateListAsync()
         {
-            var candidates = _candidateReadRepo.Table/*.Include(x => x.Student.Department).Include(x => x.Student.User)*/.AsNoTracking().ToList();
-            //var candidates = _candidateReadRepo.GetByIdAsync();
-            var candidateList = _mapper.Map<List<GetCandidateResponse>>(candidates);
-            return candidateList;
+            var candidates = _candidateReadRepo.GetAll();
+            var candidatesDto = _mapper.Map<List<CandidateDto>>(candidates);
+            var response = await candidatesDto.ToGetCandidateListResponseAsync(_userReadRepo);
+            //await Task.WhenAll(response);
+
+            return response;
         }
 
         //todo Student objesi null geliyor

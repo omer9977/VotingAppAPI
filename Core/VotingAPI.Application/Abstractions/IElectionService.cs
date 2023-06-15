@@ -12,5 +12,8 @@ namespace VotingAPI.Application.Abstractions
         Task<List<GetCandidateResponse>> GetCandidatesByElectionId(int electionId);
         Task<List<GetDepartmentElectionResponse>> GetAllDepartmentElections();
         Task<GetElectionResultResponse> GetResultByElectionId(int electionId);
+        Task<bool> UpdateElection(int electionId, UpdateDepartmentElectionRequest updateDepartmentElectionRequest);
+        Task<bool> DeleteElection(int electionId);
+
     }
 }

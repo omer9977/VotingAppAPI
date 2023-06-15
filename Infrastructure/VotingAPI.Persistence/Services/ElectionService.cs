@@ -168,5 +168,21 @@ namespace VotingAPI.Persistence.Services
             }
             return candidatesResponse;
         }
+
+        public async Task<bool> UpdateElection(int electionId, UpdateDepartmentElectionRequest updateDepartmentElectionRequest)
+        {
+            var election = await _electionReadRepo.GetSingleAsync(x => x.Id == electionId);
+            election.EndDate = updateDepartmentElectionRequest.EndDate;
+            election.StartDate = updateDepartmentElectionRequest.StartDate;
+            election.Name = updateDepartmentElectionRequest.Name;
+            _electionWriteRepo.Update(election);
+            return await _electionWriteRepo.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> DeleteElection(int electionId)
+        {
+            await _electionWriteRepo.RemoveByIdAsync(electionId);
+            return await _electionWriteRepo.SaveChangesAsync() > 0;
+        }
     }
 }

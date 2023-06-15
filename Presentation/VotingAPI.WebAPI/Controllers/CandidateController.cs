@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Abstractions.Storage;
+using VotingAPI.Application.Dto.General;
 using VotingAPI.Application.Dto.Request.Candidate;
 using VotingAPI.Application.Dto.Request.Department;
 using VotingAPI.Application.Dto.Request.File;
@@ -29,11 +30,9 @@ namespace VotingAPI.WebAPI.Controllers
 
         [Route("")]
         [HttpGet]
-        public IActionResult GetCandidateList()
+        public async Task<IActionResult> GetCandidateListAsync()
         {
-            var response = _candidateService.GetCandidateList();
-            //if (!response.IsSuccessful)
-            //    return BadRequest(response);
+            var response = await _candidateService.GetCandidateListAsync();
             return Ok(response);
         }
 
@@ -42,10 +41,16 @@ namespace VotingAPI.WebAPI.Controllers
         public async Task<IActionResult> GetCandidateById([FromRoute]int id)
         {
             var response = await _candidateService.GetCandidateByIdAsync(id);
-            //if (!response.IsSuccessful)
-            //    return BadRequest(response);
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("filter")]
+        public IActionResult GetCandidatesWhere([FromQuery] CandidateFilterRequest filter)
+        {
+            return Ok();
+        }
+
 
         [Route("")]
         [Authorize(Roles = "Student")]

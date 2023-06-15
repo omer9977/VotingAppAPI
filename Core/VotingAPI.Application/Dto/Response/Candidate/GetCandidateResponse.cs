@@ -12,10 +12,9 @@ namespace VotingAPI.Application.Dto.Response.Candidate
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-        //public string DepartmentName { get; set; }
         //public string UserName { get; set; }
         //public DateOnly ApplicationDate { get; set; }
-        //public short ApproveStatus { get; set; }
+        public short ApproveStatus { get; set; }
         public string Description { get; set; }
     }
 }
