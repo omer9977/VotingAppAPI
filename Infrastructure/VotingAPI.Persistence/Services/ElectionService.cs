@@ -56,7 +56,7 @@ namespace VotingAPI.Persistence.Services
             //var department = departments.FirstOrDefault();
 
             List<int> departmentIds = departments.Select(y => y.Id).ToList();
-            var response = await _electionReadRepo.GetWhere(x => departmentIds.Contains((int)x.DepartmentId)).ToListAsync();
+            var response = await _electionReadRepo.GetWhere(x => departmentIds.Contains((int)x.DepartmentId), false).ToListAsync();
             if (response == null)
                 return null;
             List<GetDepartmentElectionResponse> getDepartmentElectionResponse = new();

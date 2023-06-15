@@ -28,5 +28,12 @@ namespace VotingAPI.WebAPI.Controllers
             var response = await _announcementService.CreateAnnouncementAsync(addAnnouncementRequest);
             return Ok(response);
         }
+
+        [HttpDelete("{announcementId}")]
+        public async Task<IActionResult> DeleteAnnouncement([FromRoute] int announcementId)
+        {
+            var response = await _announcementService.DeleteAnnouncementAsync(announcementId);
+            return Ok(response);
+        }
     }
 }
