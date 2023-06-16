@@ -19,5 +19,6 @@ namespace VotingAPI.Domain.Entities
         public int? FacultyId { get; set; }
         public ICollection<Candidate> Candidates { get; set; }
         public int ElectionCount { get; set; }
+        public bool IsFinished { get; set; }
     }
 }

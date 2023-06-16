@@ -188,7 +188,8 @@ namespace VotingAPI.Persistence.Services
         public async Task<bool> FinishElectionAsync(int electionId)
         {
             var election = await _electionReadRepo.GetByIdAsync(electionId);
-            election.EndDate = DateTime.UtcNow;
+            election.ElectionCount++;
+            election.IsFinished = true;
             return await _electionWriteRepo.SaveChangesAsync() > 0;
         }
     }
