@@ -13,5 +13,6 @@ namespace VotingAPI.Application.Dto.Response.Election
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string DepartmentName { get; set; }
+        public bool? IsFinished { get; set; }
     }
 }

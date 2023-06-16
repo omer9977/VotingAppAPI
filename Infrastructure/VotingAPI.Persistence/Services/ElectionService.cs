@@ -71,6 +71,7 @@ namespace VotingAPI.Persistence.Services
                     EndDate = election.EndDate,
                     Name = election.Name,
                     StartDate = election.StartDate,
+                    IsFinished = election.IsFinished
                 });
             });
             //var election = _mapper.Map<GetDepartmentElectionResponse>(response);

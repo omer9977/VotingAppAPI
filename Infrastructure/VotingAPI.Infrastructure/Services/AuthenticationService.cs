@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions;
@@ -84,7 +86,11 @@ namespace VotingAPI.Infrastructure.Services
                 TokenResponse token = new();
                 if (loginUserRequest.Password == personal.Password)
                 {
-                    token = _tokenService.CreateAccessToken(userRole: new List<string>() { personal.UserRole.ToString() }, minute: 1000);
+                    var claims = new List<Claim>()
+                    {
+                        new Claim("role", UserRole.Candidate.ToString()),
+                    };
+                    token = _tokenService.CreateAccessToken(claims: claims, minute: 1000);
                 }
                 var userPersonel = await _userReadRepo.GetSingleAsync(x => x.UserName == loginUserRequest.UserName);
                 userPersonel.RefreshToken = token.RefreshToken;
@@ -102,8 +108,11 @@ namespace VotingAPI.Infrastructure.Services
             if (user.PasswordHash == loginUserRequest.Password)
             {
                 //List<string> userRole = (List<string>)await _userManager.GetRolesAsync(user);
-                tokenResponse = _tokenService.CreateAccessToken(userRole: new List<string>() { "Student" }, minute: 45); //todo deneme
-
+                var claims = new List<Claim>()
+                    {
+                        new Claim("role", UserRole.Candidate.ToString()),
+                    };
+                tokenResponse = _tokenService.CreateAccessToken(claims: claims, minute: 1000);
                 //await UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.ExpirationDate, 5);//todo access token 5
                 //return new()
                 //{

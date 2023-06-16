@@ -3,14 +3,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Abstractions.Storage;
+using VotingAPI.Application.Abstractions.Token;
 using VotingAPI.Application.Dto.General;
 using VotingAPI.Application.Dto.Request.Candidate;
 using VotingAPI.Application.Dto.Request.File;
 using VotingAPI.Application.Dto.Response.Candidate;
 using VotingAPI.Application.Dto.Response.ProfilePhoto;
+using VotingAPI.Application.Dto.Response.User;
+using VotingAPI.Application.Enums;
 using VotingAPI.Application.Exceptions;
 using VotingAPI.Application.Extensions.Mapping;
 using VotingAPI.Application.Repositories.ModelRepos;
@@ -33,6 +37,7 @@ namespace VotingAPI.Persistence.Services
         private readonly IElectionService _electionService;
         private readonly IElectionReadRepo _electionReadRepo;
         private readonly IObsStudentService _obsStudentService;
+        private readonly ITokenService _tokenService;
 
         //private readonly IProfilePhotoFileWriteRepo _profilePhotoFileWriteRepo;
         //private readonly IProfilePhotoFileReadRepo _profilePhotoFileReadRepo;
@@ -59,7 +64,8 @@ namespace VotingAPI.Persistence.Services
             //UserManager<AppUser> userManager
             IUserWriteRepo userWriteRepo,
             IUserReadRepo userReadRepo,
-            IObsStudentService obsStudentService
+            IObsStudentService obsStudentService,
+            ITokenService tokenService
             )
         {
             _candidateReadRepo = candidateReadRepo;
@@ -76,12 +82,13 @@ namespace VotingAPI.Persistence.Services
             _userWriteRepo = userWriteRepo;
             _userReadRepo = userReadRepo;
             _obsStudentService = obsStudentService;
+            _tokenService = tokenService;
             //_fileReadRepo = fileReadRepo;
             //_fileWriteRepo = fileWriteRepo;
             //_userManager = userManager;
         }
 
-        public async Task<bool> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
+        public async Task<TokenResponse> AddCandidateAsync(AddCandidateRequest addCandidateRequest)
         {
             var user = await _userReadRepo.GetSingleAsync(x => x.UserName == addCandidateRequest.UserName);
             var eDevletStatus = _obsStudentService.FindUserByUserName(addCandidateRequest.UserName).EdevletStatus;
@@ -93,8 +100,20 @@ namespace VotingAPI.Persistence.Services
             x => x.DepartmentId == student.DepartmentId
             && DateTime.UtcNow < x.StartDate);
 
+            if (election == null)
+                throw new DataNotFoundException("There are no elections you can apply");
+
+            var claims = new List<Claim>()
+            {
+                new Claim("role", UserRole.Candidate.ToString()),
+                new Claim("isApproved", eDevletStatus ? ApproveStatus.Approved.ToString() : ApproveStatus.Rejected.ToString()),
+            };
+
+            var tokenResponse = _tokenService.CreateAccessToken(30, claims);
             user.UserRole = UserRole.Candidate;
-            _userWriteRepo.Update(user);
+            user.AccessToken = tokenResponse.AccessToken;
+            user.RefreshToken = tokenResponse.RefreshToken;
+            user.ExpirationDate = tokenResponse.ExpirationDate;
             await _userWriteRepo.SaveChangesAsync();
             bool candidateAdded = await _candidateWriteRepo.AddAsync(new()
             {
@@ -105,8 +124,8 @@ namespace VotingAPI.Persistence.Services
             });
             if (!candidateAdded)
                 throw new DataNotAddedException();
-
-            return await _candidateWriteRepo.SaveChangesAsync() > 0;
+            await _candidateWriteRepo.SaveChangesAsync();
+            return tokenResponse;
         }
 
         public Task<bool> DeleteCandidateProfilePhotoAsync(int candidateId)
@@ -140,6 +159,26 @@ namespace VotingAPI.Persistence.Services
             //await Task.WhenAll(response);
 
             return response;
+        }
+
+        public async Task<TokenResponse> WithdrawCandidateAsync(string userName)
+        {
+            var claims = new List<Claim>()
+            {
+                new Claim("role", UserRole.Candidate.ToString()),
+                new Claim("isApproved", ApproveStatus.Rejected.ToString()),
+            };
+            var tokenResponse = _tokenService.CreateAccessToken(30, claims);
+
+            var user = await _userReadRepo.GetSingleAsync(x => x.UserName == userName);
+            var candidate = await _candidateReadRepo.GetSingleAsync(x => x.UserId == user.Id);
+            candidate.ApproveStatus = ApproveStatus.Rejected;
+            user.RefreshToken = tokenResponse.RefreshToken;
+            user.AccessToken = tokenResponse.AccessToken;
+            user.ExpirationDate = tokenResponse.ExpirationDate;
+            await _userWriteRepo.SaveChangesAsync();
+            await _candidateWriteRepo.SaveChangesAsync();
+            return tokenResponse;
         }
 
         //todo Student objesi null geliyor

@@ -63,6 +63,17 @@ namespace VotingAPI.WebAPI.Controllers
             return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
         }
 
+        [Route("{userName}/withdraw")]
+        [Authorize(Roles = "Candidate")]
+        [HttpPatch]
+        public async Task<IActionResult> WithdrawCandidateAsync([FromRoute] string userName)
+        {
+            var response = await _candidateService.WithdrawCandidateAsync(userName);
+            //if (!response.IsSuccessful)
+            //    return BadRequest(response);
+            return Ok(response);
+        }
+
         //[Route("{candidateId}/image/{fileTypeId}")]
         //[HttpGet]
         //public async Task<IActionResult> GetCandidateFileAsync(int candidateId, short fileTypeId)

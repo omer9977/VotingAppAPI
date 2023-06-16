@@ -29,39 +29,37 @@ namespace VotingAPI.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public TokenResponse CreateAccessToken(int minute, List<string> userRole = null)
+        public TokenResponse CreateAccessToken(int minute, List<Claim> claims = null)
         {
-            TokenResponse tokenResponse = new();
+            TokenResponse tokenResponse = new TokenResponse();
 
-            List<Claim> claims = new();
-            if (userRole != null)
+            if (claims == null)
             {
-                foreach (string role in userRole)
-                {
-                    claims.Add(new("role", role));
-                }
+                claims = new List<Claim>();
             }
 
-            SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
-
-            SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
+            SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             tokenResponse.ExpirationDate = DateTime.UtcNow.AddMinutes(minute);
 
-            JwtSecurityToken securityToken = new(
+            JwtSecurityToken securityToken = new JwtSecurityToken(
                 claims: claims,
                 expires: tokenResponse.ExpirationDate,
                 signingCredentials: signingCredentials,
                 audience: _configuration["Token:Audience"],
                 issuer: _configuration["Token:Issuer"],
                 notBefore: DateTime.UtcNow
-                );
-            JwtSecurityTokenHandler tokenHandler = new();
+            );
+
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             tokenResponse.AccessToken = tokenHandler.WriteToken(securityToken);
 
             tokenResponse.RefreshToken = CreateRefreshToken();
+
             return tokenResponse;
         }
+
 
         public string CreateRefreshToken()
         {
