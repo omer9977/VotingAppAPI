@@ -88,7 +88,7 @@ namespace VotingAPI.Infrastructure.Services
                 {
                     var claims = new List<Claim>()
                     {
-                        new Claim("role", UserRole.Candidate.ToString()),
+                        new Claim("role", personal.UserRole.ToString()),
                     };
                     token = _tokenService.CreateAccessToken(claims: claims, minute: 1000);
                 }
@@ -110,7 +110,7 @@ namespace VotingAPI.Infrastructure.Services
                 //List<string> userRole = (List<string>)await _userManager.GetRolesAsync(user);
                 var claims = new List<Claim>()
                     {
-                        new Claim("role", UserRole.Candidate.ToString()),
+                        new Claim("role", UserRole.Student.ToString()),
                     };
                 tokenResponse = _tokenService.CreateAccessToken(claims: claims, minute: 1000);
                 //await UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.ExpirationDate, 5);//todo access token 5
