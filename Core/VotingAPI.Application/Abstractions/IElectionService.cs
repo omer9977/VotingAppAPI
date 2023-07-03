@@ -15,6 +15,6 @@ namespace VotingAPI.Application.Abstractions
         Task<bool> UpdateElectionAsync(int electionId, UpdateDepartmentElectionRequest updateDepartmentElectionRequest);
         Task<bool> DeleteElectionAsync(int electionId);
         Task<bool> FinishElectionAsync(int electionId);
-
+        Task<bool> StartReElectionAsync(int electionId, DateTime endDate);
     }
 }

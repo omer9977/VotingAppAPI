@@ -16,5 +16,6 @@ namespace VotingAPI.ObsService.Entities
         public string Department { get; set; }
         public int Year { get; set; }
         public bool EdevletStatus { get; set; }
+        public string Email { get; set; }
     }
 }

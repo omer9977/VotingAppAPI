@@ -72,9 +72,15 @@ namespace VotingAPI.WebAPI.Controllers
 
 
         [HttpPatch("{electionId}/finish")]
-        public async Task<IActionResult> FinishElection([FromRoute] int electionId)
+        public async Task<IActionResult> FinishElectionAsync([FromRoute] int electionId)
         {
             var response = await _electionService.FinishElectionAsync(electionId);
+            return Ok(response);
+        }
+        [HttpPatch("{electionId}/re-election")]
+        public async Task<IActionResult> StartReElectionAsync([FromRoute] int electionId, [FromBody] StartReElectionRequest updateDepartmentElectionRequest)
+        {
+            var response = await _electionService.StartReElectionAsync(electionId, updateDepartmentElectionRequest.EndDate);//todo bura çok garip olmuş çünkü UpdateDepartmentElectionRequest bunun sadece bir değeri gönderiliyor servise
             return Ok(response);
         }
     }

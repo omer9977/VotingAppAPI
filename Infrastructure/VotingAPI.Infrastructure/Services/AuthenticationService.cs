@@ -105,12 +105,14 @@ namespace VotingAPI.Infrastructure.Services
             var student = await _studentService.GetStudentByUserNameAsync(loginUserRequest.UserName);
 
             TokenResponse tokenResponse = new();
+            var userDb = await _userReadRepo.GetSingleAsync(x => x.UserName == user.UserName);
+            string? userRole = userDb?.UserRole.ToString();
             if (user.PasswordHash == loginUserRequest.Password)
             {
                 //List<string> userRole = (List<string>)await _userManager.GetRolesAsync(user);
                 var claims = new List<Claim>()
                     {
-                        new Claim("role", UserRole.Student.ToString()),
+                        new Claim("role", !string.IsNullOrEmpty(userRole) ? userRole : UserRole.Student.ToString()),
                     };
                 tokenResponse = _tokenService.CreateAccessToken(claims: claims, minute: 1000);
                 //await UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.ExpirationDate, 5);//todo access token 5
@@ -120,7 +122,6 @@ namespace VotingAPI.Infrastructure.Services
                 //};
             }
             var department = _departmentService.GetDepartmentsWhere(u => u.Name == user.Department).Result.FirstOrDefault(); //todo burayı hallet sonra
-            var userDb = await _userReadRepo.GetSingleAsync(x => x.UserName == user.UserName);
             if (student != null)
             {
                 userDb.RefreshToken = tokenResponse.RefreshToken;

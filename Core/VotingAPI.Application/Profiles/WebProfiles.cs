@@ -68,7 +68,7 @@ namespace VotingAPI.Application.Profiles
             CreateMap<Election, GetDepartmentElectionResponse>();
             CreateMap<Candidate, CandidateDto>();
 
-            CreateMap<AddAnnouncementRequest, Announcement>();
+            CreateMap<AddAnnouncementRequest, Announcement>().ReverseMap();
             CreateMap<Announcement, GetAnnouncementResponse>();
             //CreateMap<VotingPeriod, GetVotingPeriodResponse>()
             //    .ForMember(x => x.ElectionTypeName, y => y.MapFrom(z => z.ElectionType.TypeName));

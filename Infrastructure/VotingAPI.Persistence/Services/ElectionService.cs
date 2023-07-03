@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions;
+using VotingAPI.Application.Dto.Request.Announcement;
 using VotingAPI.Application.Dto.Request.Election;
 using VotingAPI.Application.Dto.Response.Candidate;
 using VotingAPI.Application.Dto.Response.Election;
@@ -24,6 +25,11 @@ namespace VotingAPI.Persistence.Services
         private readonly ICandidateReadRepo _candidateReadRepo;
         private readonly IUserReadRepo _userReadRepo;
         private readonly IVoteReadRepo _voteReadRepo;
+        private readonly IVoteWriteRepo _voteWriteRepo;
+        //private readonly IAnnouncementWriteRepo _announcementWriteRepo;
+        private readonly IAnnouncementService _announcementService;
+
+
         public ElectionService(
             IElectionWriteRepo electionWriteRepo,
             IElectionReadRepo electionReadRepo,
@@ -31,7 +37,9 @@ namespace VotingAPI.Persistence.Services
             IDepartmentService departmentService,
             ICandidateReadRepo candidateReadRepo,
             IUserReadRepo userReadRepo,
-            IVoteReadRepo voteReadRepo
+            IVoteReadRepo voteReadRepo,
+            IVoteWriteRepo voteWriteRepo,
+            IAnnouncementService announcementService
             )
         {
             _electionReadRepo = electionReadRepo;
@@ -41,11 +49,15 @@ namespace VotingAPI.Persistence.Services
             _candidateReadRepo = candidateReadRepo;
             _userReadRepo = userReadRepo;
             _voteReadRepo = voteReadRepo;
+            _voteWriteRepo = voteWriteRepo;
+            _announcementService = announcementService;
         }
         public async Task<bool> CreateDepartmentElectionAsync(CreateDepartmentElectionRequest createDepartmentElectionRequest)
         {
             var election = _mapper.Map<Election>(createDepartmentElectionRequest);
             await _electionWriteRepo.AddAsync(election);
+            var announcement = new AddAnnouncementRequest() { Name = createDepartmentElectionRequest.Name, Description = $"This election started in {createDepartmentElectionRequest.StartDate}", CreatedBy = "Admin" };
+            await _announcementService.CreateAnnouncementAsync(announcement);
             return await _electionWriteRepo.SaveChangesAsync() > 0;
         }
 
@@ -63,7 +75,7 @@ namespace VotingAPI.Persistence.Services
             response.ForEach(election =>
             {
                 var department = departments.FirstOrDefault(x => x.Id == election.DepartmentId)?.Name;
-                
+
                 getDepartmentElectionResponse.Add(new GetDepartmentElectionResponse()
                 {
                     Id = election.Id,
@@ -192,6 +204,27 @@ namespace VotingAPI.Persistence.Services
             election.ElectionCount++;
             election.IsFinished = true;
             return await _electionWriteRepo.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> StartReElectionAsync(int electionId, DateTime endDate)
+        {
+            var election = await _electionReadRepo.GetByIdAsync(electionId);
+            election.EndDate = endDate;
+            election.ElectionCount += 1;
+            try
+            {
+            await _electionWriteRepo.SaveChangesAsync();
+
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            var votes = await _voteReadRepo.GetWhere(x => x.ElectionId == electionId).ToListAsync();
+            _voteWriteRepo.RemoveRange(votes);
+            await _voteWriteRepo.SaveChangesAsync();
+            return true;
         }
     }
 }
