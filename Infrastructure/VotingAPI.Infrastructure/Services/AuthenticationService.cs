@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VotingAPI.Application.Abstractions;
 using VotingAPI.Application.Abstractions.Token;
+using VotingAPI.Application.Dto.Request.Candidate;
 using VotingAPI.Application.Dto.Request.Student;
 using VotingAPI.Application.Dto.Request.User;
 using VotingAPI.Application.Dto.Response.User;
@@ -107,12 +108,14 @@ namespace VotingAPI.Infrastructure.Services
             TokenResponse tokenResponse = new();
             var userDb = await _userReadRepo.GetSingleAsync(x => x.UserName == user.UserName);
             string? userRole = userDb?.UserRole.ToString();
+            var eDevletStatus = user.EdevletStatus;
             if (user.PasswordHash == loginUserRequest.Password)
             {
                 //List<string> userRole = (List<string>)await _userManager.GetRolesAsync(user);
                 var claims = new List<Claim>()
                     {
                         new Claim("role", !string.IsNullOrEmpty(userRole) ? userRole : UserRole.Student.ToString()),
+                        new Claim("isApproved", eDevletStatus ? ApproveStatus.Approved.ToString() : ApproveStatus.Rejected.ToString() )
                     };
                 tokenResponse = _tokenService.CreateAccessToken(claims: claims, minute: 1000);
                 //await UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.ExpirationDate, 5);//todo access token 5

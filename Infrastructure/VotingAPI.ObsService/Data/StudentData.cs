@@ -28,7 +28,7 @@ namespace VotingAPI.ObsService.Data
     ""Faculty"": ""Engineering"",
     ""Department"": ""Mechanical Engineering"",
     ""Year"": 3,
-    ""EdevletStatus"": false,
+    ""EdevletStatus"": true,
     ""Email"": ""fakhrijafarov@std.iyte.edu.tr""
 
 
