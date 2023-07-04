@@ -103,6 +103,11 @@ namespace VotingAPI.Persistence.Services
             if (election == null)
                 throw new DataNotFoundException("There are no elections you can apply");
 
+            if (DateTime.UtcNow > election.StartDate && DateTime.UtcNow < election.EndDate)
+            {
+                throw new DataNotFoundException("Election started already!!!");
+            }
+
             var claims = new List<Claim>()
             {
                 new Claim("role", UserRole.Candidate.ToString()),
