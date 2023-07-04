@@ -153,7 +153,7 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<GetCandidateListResponse> GetCandidateListAsync()
         {
-            var candidates = _candidateReadRepo.GetAll();
+            var candidates = _candidateReadRepo.GetWhere(x => x.ApproveStatus == ApproveStatus.Approved);
             var candidatesDto = _mapper.Map<List<CandidateDto>>(candidates);
             var response = await candidatesDto.ToGetCandidateListResponseAsync(_userReadRepo);
             //await Task.WhenAll(response);
