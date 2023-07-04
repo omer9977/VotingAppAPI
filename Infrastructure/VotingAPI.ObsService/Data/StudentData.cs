@@ -16,7 +16,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Karadeniz"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Mechanical Engineering"",
-    ""Year"": 1,
+    ""Year"": 2,
     ""EdevletStatus"": true,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
   },
@@ -27,7 +27,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""İnce"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Mechanical Engineering"",
-    ""Year"": 4,
+    ""Year"": 3,
     ""EdevletStatus"": false,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -40,7 +40,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Anadol"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Computer Engineering"",
-    ""Year"": 1,
+    ""Year"": 3,
     ""EdevletStatus"": true,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -115,7 +115,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""İnce"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Mechanical Engineering"",
-    ""Year"": 4,
+    ""Year"": 2,
     ""EdevletStatus"": false,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -128,7 +128,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Aydoğan"",
     ""Faculty"": ""Science"",
     ""Department"": ""Physics"",
-    ""Year"": 4,
+    ""Year"": 3,
     ""EdevletStatus"": true,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -154,7 +154,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Yılmaz"",
     ""Faculty"": ""Science"",
     ""Department"": ""Fotonics"",
-    ""Year"": 4,
+    ""Year"": 3,
     ""EdevletStatus"": false,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -167,7 +167,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Özer"",
     ""Faculty"": ""Science"",
     ""Department"": ""Chemistry"",
-    ""Year"": 4,
+    ""Year"": 2,
     ""EdevletStatus"": true,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -180,7 +180,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Aydoğan"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Electrical Engineering"",
-    ""Year"": 1,
+    ""Year"": 2,
     ""EdevletStatus"": false,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -193,7 +193,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Erdoğan"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Mechanical Engineering"",
-    ""Year"": 1,
+    ""Year"": 2,
     ""EdevletStatus"": false,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -219,7 +219,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Özer"",
     ""Faculty"": ""Architecture"",
     ""Department"": ""Architecture"",
-    ""Year"": 1,
+    ""Year"": 3,
     ""EdevletStatus"": false,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -232,7 +232,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Kılıç"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Computer Engineering"",
-    ""Year"": 2,
+    ""Year"": 3,
     ""EdevletStatus"": true,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -245,7 +245,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Erdoğan"",
     ""Faculty"": ""Science"",
     ""Department"": ""Chemistry"",
-    ""Year"": 1,
+    ""Year"": 2,
     ""EdevletStatus"": false,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -284,7 +284,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Aydoğan"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Electronics"",
-    ""Year"": 1,
+    ""Year"": 3,
     ""EdevletStatus"": true,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -297,7 +297,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Kılıç"",
     ""Faculty"": ""Science"",
     ""Department"": ""Physics"",
-    ""Year"": 4,
+    ""Year"": 2,
     ""EdevletStatus"": true,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -310,7 +310,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Erdoğan"",
     ""Faculty"": ""Architecture"",
     ""Department"": ""Mechanical Engineering"",
-    ""Year"": 4,
+    ""Year"": 2,
     ""EdevletStatus"": true,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -323,7 +323,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Özer"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Computer Engineering"",
-    ""Year"": 1,
+    ""Year"": 3,
     ""EdevletStatus"": true,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -349,7 +349,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Yılmaz"",
     ""Faculty"": ""Architecture"",
     ""Department"": ""Architecture"",
-    ""Year"": 4,
+    ""Year"": 3,
     ""EdevletStatus"": true,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -362,7 +362,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Yılmaz"",
     ""Faculty"": ""Engineering"",
     ""Department"": ""Mechanical Engineering"",
-    ""Year"": 1,
+    ""Year"": 3,
     ""EdevletStatus"": true,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 
@@ -388,7 +388,7 @@ namespace VotingAPI.ObsService.Data
     ""LastName"": ""Anadol"",
     ""Faculty"": ""Science"",
     ""Department"": ""Fotonics"",
-    ""Year"": 1,
+    ""Year"": 2,
     ""EdevletStatus"": true,
     ""Email"": ""omeryilmaz@std.iyte.edu.tr""
 

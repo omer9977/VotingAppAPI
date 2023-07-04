@@ -189,6 +189,8 @@ namespace VotingAPI.Persistence.Services
             election.StartDate = updateDepartmentElectionRequest.StartDate;
             election.Name = updateDepartmentElectionRequest.Name;
             _electionWriteRepo.Update(election);
+            var announcement = new AddAnnouncementRequest() { Name = $"{updateDepartmentElectionRequest.Name} updated", Description = $"This election updated for start date {updateDepartmentElectionRequest.StartDate} and end date {updateDepartmentElectionRequest.EndDate}", CreatedBy = "Admin" };
+            await _announcementService.CreateAnnouncementAsync(announcement);
             return await _electionWriteRepo.SaveChangesAsync() > 0;
         }
 
@@ -224,6 +226,8 @@ namespace VotingAPI.Persistence.Services
             var votes = await _voteReadRepo.GetWhere(x => x.ElectionId == electionId).ToListAsync();
             _voteWriteRepo.RemoveRange(votes);
             await _voteWriteRepo.SaveChangesAsync();
+            var announcement = new AddAnnouncementRequest() { Name = election.Name, Description = $"Election {election.Name} postponed to {endDate.Year}-{endDate.Month}-{endDate.Day}", CreatedBy = "Admin" };
+            await _announcementService.CreateAnnouncementAsync(announcement);
             return true;
         }
     }
