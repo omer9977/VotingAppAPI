@@ -120,7 +120,7 @@ namespace VotingAPI.Persistence.Services
 
         public async Task<List<GetCandidateResponse>> GetCandidatesByElectionIdAsync(int electionId)
         {
-            var candidates = await _candidateReadRepo.GetWhere(c => c.ElectionId == electionId).ToListAsync();
+            var candidates = await _candidateReadRepo.GetWhere(c => c.ElectionId == electionId && c.ApproveStatus == ApproveStatus.Approved).ToListAsync();
             var candidatesResponse = new List<GetCandidateResponse>();
 
             HashSet<int> userIds = new HashSet<int>(candidates.Select(s => s.UserId));
