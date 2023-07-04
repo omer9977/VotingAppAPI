@@ -153,7 +153,7 @@ namespace VotingAPI.ObsService.Data
     ""Name"": ""Emily"",
     ""LastName"": ""Yılmaz"",
     ""Faculty"": ""Science"",
-    ""Department"": ""Fotonics"",
+    ""Department"": ""Mechanical Engineering"",
     ""Year"": 3,
     ""EdevletStatus"": false,
     ""Email"": ""fakhrijafarov@std.iyte.edu.tr""
@@ -205,7 +205,7 @@ namespace VotingAPI.ObsService.Data
     ""Name"": ""Sarah"",
     ""LastName"": ""Erdoğan"",
     ""Faculty"": ""Science"",
-    ""Department"": ""Fotonics"",
+    ""Department"": ""Mechanical Engineering"",
     ""Year"": 3,
     ""EdevletStatus"": true,
     ""Email"": ""fakhrijafarov@std.iyte.edu.tr""
@@ -387,7 +387,7 @@ namespace VotingAPI.ObsService.Data
     ""Name"": ""Burak"",
     ""LastName"": ""Anadol"",
     ""Faculty"": ""Science"",
-    ""Department"": ""Fotonics"",
+    ""Department"": ""Mechanical Engineering"",
     ""Year"": 2,
     ""EdevletStatus"": true,
     ""Email"": ""fakhrijafarov@std.iyte.edu.tr""
